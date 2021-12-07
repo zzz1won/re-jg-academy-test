@@ -168,7 +168,7 @@ function fn_checkForm(){
 			                        <th class="required_need">종목</th>
 			                        <td colspan="3">
 			                            <select name="judgeKind" id="judgeKind" class="wd_120">
-			                            	<option value="">전  체</option>
+			                            	<option value="">전 체</option>
 			                            	<c:forEach var="judgeKindList" items="${judgeKindList}" varStatus="status">
 			                                	<option value="<c:out value="${judgeKindList.code}"/>" <c:if test="${judgeKindList.code eq judgeInfo.judgeKind}">selected="selected"</c:if>><c:out value="${judgeKindList.codeName}"/></option>
 			                                </c:forEach>
