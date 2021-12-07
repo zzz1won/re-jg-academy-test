@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+.required_need:after {
+    content:" *";
+    color: red;
+  }
+  
+.table-write.wrap{
+	color: blue;
+	font-weight: 600;
+}

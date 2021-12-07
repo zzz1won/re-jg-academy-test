@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Generator" content="EditPlus®">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <title>수료증</title>
+    <link rel="stylesheet" href="css/print.css"><!-- basic css -->
+</head>
+<body>
+    <div class="book">
+        <div class="btn-wrap">
+            <button type="button" id="print" onclick="window.print()"/ class="btn2 btn-blue">인쇄하기</button>
+            <button type="button" id="btn_save" class="btn2 btn-gray">저장하기</button>
+        </div>
+        <div class="page">
+            <div class="subpage" id="content">
+                <div class="num_publish">발급번호: 제 2020-100호</div>
+                <div class="name_subject">
+                    <ul>
+                        <li>종 &nbsp; &nbsp; 목: 농구</li>
+                        <li>성 &nbsp; &nbsp; 명: 홍길동</li>
+                        <li>과 정 명 : 2020년 6차 장애인스포츠 심판아카데미</li>
+                        <li>수료기간: 2020.10.03~2020.10.15</li>
+                    </ul>
+                </div>
+                <div class="date_publish">2020년 10월 25일</div>
+                <div class="company_wrap">
+                    <div class="name_company">주식회사 ABC에듀ABC에듀<span class="img_stamp">
+                        <img src="images/img_stamp.png" alt="" width="60" height="60">
+                    </span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#btn_print').click(function() {
+            window.print();
+        });
+    </script>
+</body>
+</html>

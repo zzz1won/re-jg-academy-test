@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.disable.jugd.academy.mapper.CommonMapper">
+	<select id="selectCommonCode" parameterType="Map" resultType="CodeVO">
+	<![CDATA[
+		/* selectCommonCode */
+		SELECT
+				  common_code_no
+				, group_code
+				, group_code_name
+				, code
+				, code_name
+				, etc_info
+				, reg_id
+				, reg_date
+				, display_order
+		FROM
+				COMMON_CODE
+		WHERE
+				group_code = #{groupCode}
+	]]>
+		<if test="codeList != null and codeList != ''">
+		AND
+				code IN
+		<foreach collection="codeList" item="code" open="(" close=")" separator=",">
+			#{code}
+		</foreach>
+		</if>
+	</select>
+</mapper>

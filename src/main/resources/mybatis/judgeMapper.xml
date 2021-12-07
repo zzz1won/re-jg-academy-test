@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.disable.jugd.academy.mapper.JudgeMapper">
+	<select id="selectJudgeInfo" parameterType="JudgeVO" resultType="JudgeVO">
+		/* selectJudgeInfo */
+		SELECT
+			      judge_no
+			    , judge_name
+			    , judge_kind
+			    , judge_memo
+			    , phone_number
+			    , reg_date
+			    , mod_date
+		FROM
+				JUDGE_INFO
+		WHERE
+				judge_no = #{judgeNo}		
+		<if test="eduStatus != null and eduStatus != ''">
+		AND
+				judge_name = #{judgeName}
+		</if>		
+		<if test="eduStatus != null and eduStatus != ''">
+		AND
+				judge_kind = #{judgeKind}
+		</if>		
+	</select>
+	
+	<select id="selectJudgeMemberList" parameterType="Map" resultType="JudgeVO">
+	<![CDATA[
+		/* selectJudgeMemberList */
+		SELECT
+			    judge_no
+			    , judge_name
+			    , judge_kind
+			    , phone_number
+			    , judge_memo
+			    , mod_date
+		FROM
+				JUDGE_INFO
+	]]>
+	</select>
+	
+	<select id="selectJudgeMemberListCnt" parameterType="Map" resultType="Integer">
+	SELECT
+			    COUNT(*)
+		FROM
+				JUDGE_INFO
+	</select>
+	
+	<update id="updateJudgeInfo" parameterType="JudgeVO">
+	<![CDATA[
+		/* updateJudgeInfo */
+		UPDATE
+				JUDGE_INFO
+		SET
+				  judge_name = #{judgeName}
+				, phone_number = #{phoneNumber}
+				, judge_kind = #{judgeKind}
+				, judge_memo = #{judgeMemo}
+				, mod_date = NOW()
+				, mod_id = #{modId}
+		WHERE
+				judge_no = #{judgeNo}
+	]]>
+	</update>
+	
+</mapper>

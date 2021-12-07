@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.disable.jugd.academy.mapper.EduMapper">
+	<select id="selectJudgeEduCalendar" parameterType="Map" resultType="EduVO">
+	<![CDATA[
+		/* selectJudgeEduCalendar 교육 스케쥴 불러오기 */
+		 SELECT 
+		 		  A.ac_edu_schedule_no
+				, A.ac_edu_id
+				, A.ac_edu_seq
+				, A.ac_edu_start_date
+				, A.ac_edu_end_date
+				, A.ac_edu_title AS title
+				, DATE_FORMAT(STR_TO_DATE(A.ac_edu_start_date ,'%Y%m%d%H%i'),'%Y-%m-%dT%H:%i') AS start
+				, DATE_FORMAT(STR_TO_DATE(A.ac_edu_end_date ,'%Y%m%d%H%i'),'%Y-%m-%dT%H:%i') AS end
+				, A.ac_edu_place as description
+				, A.ac_edu_contents
+				, A.ac_apply_start_date
+				, A.ac_apply_end_date
+				, A.ac_apply_limit_count
+				, A.ac_edu_institute
+				, A.reg_date
+				, A.reg_id
+				, A.mod_date
+				, A.mod_id
+		FROM
+				AC_EDU_SCHEDULE A
+		WHERE	1=1
+				AND STR_TO_DATE(A.ac_edu_start_date ,'%Y%m%d%H%i') >= STR_TO_DATE(#{start} ,'%Y-%m-%d')
+				AND STR_TO_DATE(A.ac_edu_end_date ,'%Y%m%d%H%i') <= STR_TO_DATE(#{end} ,'%Y-%m-%d')
+		ORDER BY A.ac_edu_start_date
+		]]>
+	</select>
+	
+	<select id="selectHolidayList" parameterType="Map" resultType="EduVO">
+	<![CDATA[
+		/* selectHolidayList 휴일 불러오기 */
+		 SELECT 
+		 		 A.date_name AS title
+				, DATE_FORMAT(STR_TO_DATE(A.loc_date ,'%Y%m%d'),'%Y-%m-%d') AS start
+				, DATE_FORMAT(STR_TO_DATE(A.loc_date ,'%Y%m%d'),'%Y-%m-%d') AS end
+		FROM
+				CALENDAR_INFO A
+		WHERE	1=1
+				AND A.year >= #{start} 
+				AND A.year <= #{end}
+		]]>
+	</select>
+	
+	<!-- 교육 일정 및 신청 목록(심판) -->
+	<select id="selectJudgeEduList" parameterType="Map" resultType="EduVO">
+	<![CDATA[
+		/* selectJudgeEduList */
+		SELECT
+				  @ROWNUM := @ROWNUM - 1 AS ROWNUM
+				, D.*
+		FROM(
+				SELECT
+						  C.*
+						, (CASE WHEN C.ac_edu_end_date < DATE_FORMAT(NOW(), '%Y%m%d')
+								THEN '04'
+								WHEN C.ac_apply_end_date < DATE_FORMAT(NOW(), '%Y%m%d')
+								THEN '03'
+								WHEN C.ac_apply_limit_count = ac_apply_count
+								THEN '03'
+								WHEN C.ac_apply_start_date > DATE_FORMAT(NOW(), '%Y%m%d')
+								THEN '01'
+								ELSE '02' END) AS ac_edu_status		/* 01: 대기중, 02: 신청중, 03: 인원마감, 04: 종료 */
+				FROM(
+						SELECT
+								  A.ac_edu_schedule_no
+								, A.ac_edu_id
+								, A.ac_edu_seq
+								, A.ac_edu_title
+								, CASE WHEN length(A.ac_edu_title) < 36
+									   THEN A.ac_edu_title
+									   ELSE RPAD(SUBSTRING(A.ac_edu_title, 1, 12), 16, '*') END AS ac_edu_title_mask
+								, A.ac_edu_start_date
+								, A.ac_edu_end_date
+								, A.ac_edu_place
+								, A.ac_edu_contents
+								, A.ac_apply_start_date
+								, A.ac_apply_end_date
+								, A.ac_apply_limit_count
+								, (SELECT
+											COUNT(*)
+								   FROM 
+											EDU_APPLY_INFO B
+								   WHERE
+								   			A.ac_edu_id = B.ac_edu_id) AS ac_apply_count
+								, (SELECT
+											CASE WHEN COUNT(*) > 0
+												 THEN 'Y'
+												 ELSE 'N' END
+								   FROM 
+											EDU_APPLY_INFO B
+								   WHERE
+								   			A.ac_edu_id = B.ac_edu_id
+								   AND
+								   			B.judge_no = #{judgeNo}) AS ac_apply_yn
+								, A.ac_edu_institute
+								, A.reg_date
+								, A.reg_id
+								, A.mod_date
+								, A.mod_id
+						FROM
+								AC_EDU_SCHEDULE A
+						WHERE
+								YEAR(A.ac_edu_start_date) = #{year}
+					) C
+			) D, (SELECT @ROWNUM := #{eduListCnt} + 1) NUM
+			
+			ORDER BY
+				D.ac_edu_start_date DESC
+		]]>
+	</select>
+	
+	<!-- 교육 일정 및 신청 목록 개수(심판) -->
+	<select id="selectJudgeEduListCnt" parameterType="Map" resultType="Integer">
+	<![CDATA[
+		/* selectJudgeEduListCnt */
+		SELECT
+				COUNT(*)
+		FROM
+				AC_EDU_SCHEDULE A
+		WHERE
+				YEAR(ac_edu_start_date) = #{year}
+	]]>
+	</select>
+	
+	<!-- 교육 상세정보 -->
+	<select id="selectEduInfo" parameterType="EduVO" resultType="EduVO">
+	<![CDATA[
+		/* selectEduInfo */
+		SELECT
+				  A.ac_edu_schedule_no
+				, A.ac_edu_id
+				, A.ac_edu_seq
+				, A.ac_edu_title
+				, A.ac_edu_start_date
+				, A.ac_edu_end_date
+				, A.ac_edu_place
+				, A.ac_edu_contents
+				, A.ac_apply_start_date
+				, A.ac_apply_end_date
+				, A.ac_apply_limit_count
+				, A.ac_edu_institute
+				, A.ac_edu_url
+				, A.reg_date
+				, A.reg_id
+				, A.mod_date
+				, A.mod_id
+		FROM
+				AC_EDU_SCHEDULE A
+		WHERE
+				A.ac_edu_schedule_no = #{acEduScheduleNo}
+	]]>
+	</select>
+	
+	<!-- 교육 일정 관리 목록(관리자) -->
+	<select id="selectAdminEduList" parameterType="Map" resultType="EduVO">
+	<![CDATA[
+		/* selectAdminEduList */
+		SELECT
+				  @ROWNUM := @ROWNUM - 1 AS ROWNUM
+				, D.*
+		FROM(
+				SELECT
+						  C.*
+						, (CASE WHEN C.ac_edu_end_date < DATE_FORMAT(NOW(), '%Y%m%d')
+								THEN '04'
+								WHEN C.ac_apply_end_date < DATE_FORMAT(NOW(), '%Y%m%d')
+								THEN '03'
+								WHEN C.ac_apply_limit_count = ac_apply_count
+								THEN '03'
+								WHEN C.ac_apply_start_date > DATE_FORMAT(NOW(), '%Y%m%d')
+								THEN '01'
+								ELSE '02' END) AS ac_edu_status		/* 01: 대기중, 02: 신청중, 03: 인원마감, 04: 종료 */
+				FROM(
+						SELECT
+								  A.ac_edu_schedule_no
+								, A.ac_edu_id
+								, A.ac_edu_seq
+								, A.ac_edu_title
+								, CASE WHEN length(A.ac_edu_title) < 36
+									   THEN A.ac_edu_title
+									   ELSE RPAD(SUBSTRING(A.ac_edu_title, 1, 12), 16, '*') END AS ac_edu_title_mask
+								, A.ac_edu_start_date
+								, A.ac_edu_end_date
+								, A.ac_edu_place
+								, A.ac_edu_contents
+								, A.ac_apply_start_date
+								, A.ac_apply_end_date
+								, A.ac_apply_limit_count
+								, (SELECT
+											COUNT(*)
+								   FROM 
+											EDU_APPLY_INFO B
+								   WHERE
+								   			A.ac_edu_id = B.ac_edu_id) AS ac_apply_count
+								, A.ac_edu_institute
+								, A.reg_date
+								, A.reg_id
+								, A.mod_date
+								, A.mod_id
+						FROM
+								AC_EDU_SCHEDULE A
+						WHERE
+								YEAR(A.ac_edu_start_date) = #{year}
+					) C
+			) D, (SELECT @ROWNUM := #{eduListCnt} + 1) NUM
+		]]>
+		
+		<if test="eduStatus != null and eduStatus != ''">
+		<![CDATA[
+		WHERE
+				D.ac_edu_status = #{eduStatus}
+		]]>
+		</if>
+		
+		<![CDATA[
+		ORDER BY
+				D.ac_edu_start_date DESC
+		]]>
+	</select>
+	
+	<!-- 교육 일정 관리 목록 개수(관리자) -->
+	<select id="selectAdminEduListCnt" parameterType="Map" resultType="Integer">
+	<![CDATA[
+		/* selectAdminEduListCnt */
+		SELECT
+				COUNT(*)
+		FROM(
+				SELECT
+						(CASE WHEN A.ac_edu_end_date < DATE_FORMAT(NOW(), '%Y%m%d')
+							  THEN '04'
+							  WHEN A.ac_apply_end_date < DATE_FORMAT(NOW(), '%Y%m%d')
+							  THEN '03'
+							  WHEN A.ac_apply_limit_count = (SELECT
+																	COUNT(*)
+														     FROM 
+																	EDU_APPLY_INFO B
+														     WHERE
+														   			A.ac_edu_id = B.ac_edu_id)
+							  THEN '03'
+							  WHEN A.ac_apply_start_date > DATE_FORMAT(NOW(), '%Y%m%d')
+							  THEN '01'
+							  ELSE '02' END) AS ac_edu_status		/* 01: 대기중, 02: 신청중, 03: 인원마감, 04: 종료 */
+				FROM
+						AC_EDU_SCHEDULE A
+				WHERE
+						YEAR(ac_edu_start_date) = #{year}
+			) B
+	]]>
+		<if test="eduStatus != null and eduStatus != ''">
+		<![CDATA[
+		WHERE
+				B.ac_edu_status = #{eduStatus}
+		]]>
+		</if>
+	</select>
+	
+	<!-- 해당하는 교육일정에 대한 상세 정보 -->
+	<select id="selectEduScheduleInfo" parameterType="String" resultType="EduVO">
+	<![CDATA[
+		/* selectEduScheduleInfo */
+		SELECT
+				  ac_edu_schedule_no
+				, ac_edu_id
+				, ac_edu_seq
+				, ac_edu_title
+				, ac_edu_start_date
+				, ac_edu_end_date
+				, ac_edu_place
+				, ac_edu_contents
+				, ac_apply_start_date
+				, ac_apply_end_date
+				, ac_apply_limit_count
+				, ac_edu_institute
+				, reg_date
+				, reg_id
+				, mod_date
+				, mod_id
+		FROM
+				AC_EDU_SCHEDULE
+		WHERE
+				ac_edu_id = #{acEduId}
+	]]>
+	</select>
+	
+	<!-- edu sequence -->
+	<select id="selectEduSeq" resultType="Integer">
+	<![CDATA[
+		/* selectEduSeq */
+		SELECT
+				IFNULL(MAX(ac_edu_seq),0) + 1
+		FROM
+				AC_EDU_SCHEDULE
+	]]>
+	</select>
+	
+	<!-- edu id 중복확인 -->
+	<select id="checkDupEduId" parameterType="String" resultType="Integer">
+	<![CDATA[
+		SELECT
+				COUNT(*)
+		FROM
+				AC_EDU_SCHEDULE
+		WHERE
+				ac_edu_id = #{acEduId}
+	]]>
+	</select>
+	
+	<!-- 교육일정 등록 -->
+	<insert id="insertEduSchedule" parameterType="EduVO">
+	<![CDATA[
+		/* insertEduSchedule */
+		INSERT INTO AC_EDU_SCHEDULE(
+				  ac_edu_id
+				, ac_edu_seq
+				, ac_edu_title
+				, ac_edu_start_date
+				, ac_edu_end_date
+				, ac_edu_place
+				, ac_edu_contents
+				, ac_apply_start_date
+				, ac_apply_end_date
+				, ac_apply_limit_count
+				, ac_edu_institute
+				, reg_date
+				, reg_id
+				, ac_edu_url
+		) VALUES(
+				  #{acEduId}
+				, #{acEduSeq}
+				, #{acEduTitle}
+				, #{acEduStartDate}
+				, #{acEduEndDate}
+				, #{acEduPlace}
+				, #{acEduContents}
+				, #{acApplyStartDate}
+				, #{acApplyEndDate}
+				, #{acApplyLimitCount}
+				, #{acEduInstitute}
+				, NOW()
+				, #{regId}
+				, #{acEduUrl}
+		)
+	]]>
+	</insert>
+	
+	<!-- 교육일정 수정 -->
+	<update id="updateEduSchedule" parameterType="EduVO">
+	<![CDATA[
+		/* updateEduSchedule */
+		UPDATE
+				AC_EDU_SCHEDULE
+		SET
+				  ac_edu_title = #{acEduTitle}
+				, ac_edu_start_date = #{acEduStartDate}
+				, ac_edu_end_date = #{acEduEndDate}
+				, ac_edu_place = #{acEduPlace}
+				, ac_edu_contents = #{acEduContents}
+				, ac_apply_start_date = #{acApplyStartDate}
+				, ac_apply_end_date = #{acApplyEndDate}
+				, ac_apply_limit_count = #{acApplyLimitCount}
+				, ac_edu_institute = #{acEduInstitute}
+				, ac_edu_url = #{acEduUrl}
+				, mod_date = NOW()
+				, mod_id = #{modId}
+		WHERE
+				ac_edu_schedule_no = #{acEduScheduleNo}
+	]]>
+	</update>
+	
+	<!-- edu_no값으로 edu_id값 가져오기 -->
+	<select id="selectEduIdByEduScheduleNo" parameterType="EduVO" resultType="EduVO">
+	<![CDATA[
+		/* selectEduIdByEduScheduleNo */
+		SELECT
+				ac_edu_id
+		FROM
+				AC_EDU_SCHEDULE
+		WHERE
+				ac_edu_schedule_no IN
+	]]>
+		<foreach collection="acEduNoArr" item="acEduNo" open="(" close=")" separator=",">
+			#{acEduNo}
+		</foreach>
+	</select>
+	
+	<!-- 교육일정 삭제 -->
+	<delete id="deleteEduSchedule" parameterType="EduVO">
+	<![CDATA[
+		/* deleteEduSchedule */
+		DELETE FROM
+				AC_EDU_SCHEDULE
+		WHERE
+				ac_edu_schedule_no IN
+	]]>
+		<foreach collection="acEduNoArr" item="acEduNo" open="(" close=")" separator=",">
+			#{acEduNo}
+		</foreach>
+	</delete>
+	
+	<!-- 교육과정명 목록 -->
+	<select id="selectEduTitleListByYear" parameterType="Map" resultType="EduVO">
+	<![CDATA[
+		/* selectEduTitleListByYear */
+		SELECT
+				  ac_edu_schedule_no
+				, ac_edu_id
+				, ac_edu_title
+		FROM
+				AC_EDU_SCHEDULE
+		WHERE
+				YEAR(ac_edu_start_date) = #{year}
+	
+		ORDER BY
+				ac_edu_title
+	]]>
+	</select>
+	
+</mapper>
