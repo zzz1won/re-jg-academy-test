@@ -96,10 +96,9 @@ function fn_apply(paramEduNo, paramEduId){
             <div class="sub-tit-wrap">
                 <div class="sub-tit-container">
                     <!-- tab: 2개-->
-                    <div class="tab-wrap tab3">
+                    <div class="tab-wrap tab2">
                         <a href="javascript:fn_scheduleList();" class="tablinks active">수강신청</a>
                         <a href="javascript:fn_applyList();" class="tablinks">수강내역</a>
-                        <a href="javascript:fn_calendar();" class="tablinks">달력</a>
                     </div>
                     <!-- //tab -->
                 </div>

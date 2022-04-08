@@ -48,7 +48,6 @@ function fn_updatePage(judgeNo){
                         <a href="javascript:fn_scheduleList();" class="tablinks">교육 일정 관리</a>
                         <a href="javascript:fn_applyList();" class="tablinks">신청 관리</a>
                         <a href="javascript:fn_certList();" class="tablinks"> 수료 관리</a>
-                        <a href="javascript:fn_judgeMemberList();" class="tablinks active">심판 관리</a>
                     </div>
                     <!-- //menu -->
                 </div>
@@ -94,9 +93,7 @@ function fn_updatePage(judgeNo){
                 </div>
                 <!-- btn area-->
                 <div class="btn-wrap">
-                    <button type="button" id="btn_register" class="btn2 btn-blue">신규과정 등록</button>
-                    <button type="button" id="btn_delete" class="btn2 btn-gray">삭제</button>
-                    <button type="button" id="btn_excel" class="btn2">엑셀 저장</button>
+                    <button type="button" id="btn_vue" class="btn2">vue화면으로 이동</button>
                 </div>
                 <!-- //btn area -->
             </div>
@@ -169,12 +166,9 @@ function fn_updatePage(judgeNo){
             }
         });
         
-        $('#btn-search').click(function(){
-        	$('#searchForm').attr("method", "post");
-        	$('#searchForm').attr("action", "<c:out value='${pageContext.request.contextPath}/edu/admin/schedule'/>");
-        	$('#searchForm').submit();
+        $('#btn_vue').click(function(){
+        	location.href = "<c:out value='${pageContext.request.contextPath}/judge/admin/judgeMemberListVue'/>";
         });
-        
     });
     </script>
 </body>

@@ -75,6 +75,42 @@ public class JudgeController {
 	}
 	
 	/**
+	 * 심판 vue 목록 화면
+	 * @param model
+     * @return
+     * @throws Exception
+	 */
+	@RequestMapping("admin/judgeMemberListVue")
+	public String judgeMemberListVue(HttpServletRequest request, Model model, SearchVO search) throws Exception{
+		System.out.println("@#@#@#@#@# admin/judgeMemberListVue @#@#@#");
+		
+		return "admin/judge/judgeInfoVue";
+	}
+	
+	/**
+	 * 심판 vue 목록 조회
+	 */
+	@RequestMapping("admin/selectJudgeMemberList")
+	@ResponseBody
+	public Map<String, Object> selectJudgeMemberList(@RequestBody JudgeVO judgeInfo, HttpServletRequest request) {
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		HttpSession session = request.getSession();
+		AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
+		
+		paramMap.put("groupCode", Constants.JUDGE_KIND); // 심판종목
+		
+		resultMap.put("adminInfo", adminInfo);
+		resultMap.put("judgeKindList", commonService.selectCommonCode(paramMap));
+		resultMap.put("resultCnt", judgeService.selectJudgeMemberListCnt(paramMap));
+		resultMap.put("result", judgeService.selectJudgeMemberList(paramMap));
+		
+		return resultMap;
+	}
+	
+	/**
 	 * 심판 수정 화면 이동
 	 * @param eduInfo
 	 * @param request
@@ -106,7 +142,7 @@ public class JudgeController {
 	}
 	
 	/**
-	 * 교육과정 수정
+	 * 심판 정보 수정
 	 * @param eduInfo
 	 * @param request
      * @return resultMap
@@ -114,7 +150,7 @@ public class JudgeController {
 	 */
 	@RequestMapping("admin/update")
 	@ResponseBody
-	public Map<String, Object> updateEduSchedule(@RequestBody JudgeVO judgeInfo, HttpServletRequest request) {
+	public Map<String, Object> updateJudgeInfo(@RequestBody JudgeVO judgeInfo, HttpServletRequest request) {
 		Map<String, Object> resultMap = new HashMap<>();
 		int result = 0;
 		
