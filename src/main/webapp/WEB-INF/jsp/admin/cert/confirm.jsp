@@ -182,10 +182,12 @@ function fn_view_cert(certNo){
             <div class="sub-tit-wrap">
                 <div class="sub-tit-container">
                     <!-- menu: 3개-->
-                    <div class="tab-wrap tab3">
+                    <div class="tab-wrap tab4">
                         <a href="javascript:fn_scheduleList();" class="tablinks">교육 일정 관리</a>
                         <a href="javascript:fn_applyList();" class="tablinks">신청 관리</a>
                         <a href="javascript:fn_certList();" class="tablinks active"> 수료 관리</a>
+                        <%-- 220408 4개로 추가--%>
+                        <a href="javascript:fn_codeList();" class="tablinks"> 코드 관리</a>
                     </div>
                     <!-- //menu -->
                 </div>
@@ -208,7 +210,9 @@ function fn_view_cert(certNo){
 	                            <select name="applyState" id="applyState" class="wd_120">
 	                            	<option value="">전 체</option>
 	                            	<c:forEach var="applyState" items="${applyStateList}" varStatus="status">
-	                                	<option value="<c:out value="${applyState.code}"/>" <c:if test="${applyState.code eq search.applyState}">selected="selected"</c:if>><c:out value="${applyState.codeName}"/></option>
+	                                	<option value="<c:out value="${applyState.code}"/>"
+                                                <c:if test="${applyState.code eq search.applyState}">selected="selected"</c:if>>
+                                            <c:out value="${applyState.codeName}"/></option>
 	                                </c:forEach>
 	                            </select>
 	                        </li>

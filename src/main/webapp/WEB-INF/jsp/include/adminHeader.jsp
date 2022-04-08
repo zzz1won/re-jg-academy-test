@@ -78,8 +78,13 @@ function fn_certList(){
 	location.href="<c:out value='${pageContext.request.contextPath}/cert/admin/confirm'/>";
 }
 
-<%-- 심판 관리 화면으로 이동 --%>
-function fn_judgeMemberList(){
-	location.href="<c:out value='${pageContext.request.contextPath}/judge/admin/judgeMemberList'/>";
+<%-- 220408 코드 관리 화면으로 이동--%>
+function fn_codeList(){
+    location.href="<c:out value='${pageContext.request.contextPath}/code/admin/confirm'/>";
+    //살아있남?
 }
+<%-- 심판 관리 화면으로 이동 --%>
+/*function fn_judgeMemberList(){
+	location.href="<c:out value='${pageContext.request.contextPath}/judge/admin/judgeMemberList'/>";
+}*/
 </script>

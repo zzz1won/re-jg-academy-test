@@ -20,4 +20,6 @@ public final class Constants {
 	
 	/** 교육과정 상태 */
 	public static final String EDU_STATUS	= "100003";		// 01: 대기중, 02: 신청중, 03: 인원마감, 04: 종료
+
+
 }
