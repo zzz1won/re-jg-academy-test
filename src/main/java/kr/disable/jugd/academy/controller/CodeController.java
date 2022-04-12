@@ -1,9 +1,6 @@
 package kr.disable.jugd.academy.controller;
 
-import kr.disable.jugd.academy.domain.AdminVO;
-import kr.disable.jugd.academy.domain.CodeVO;
-import kr.disable.jugd.academy.domain.EduVO;
-import kr.disable.jugd.academy.domain.SearchVO;
+import kr.disable.jugd.academy.domain.*;
 import kr.disable.jugd.academy.service.*;
 import kr.disable.jugd.academy.utils.Constants;
 import org.slf4j.Logger;
@@ -11,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -47,71 +46,149 @@ public class CodeController {
 
     /**
      * 코드관리하는 컨트롤러
+     *
      * @param model //CertController.java - certAdminConfirm 참고!
      * @return
-     * @throws Exception //왜 쓸까?
+     * @throws Exception
      */
 
     @RequestMapping("admin/confirm")
-    public String codeAdminConfirm (HttpServletRequest request, Model model, SearchVO search) throws Exception {
+    public String codeAdminConfirm(HttpServletRequest request, Model model, SearchVO search) throws Exception {
         //HttpServletRequest :
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
         //Admin 로그인 정보를 유지하기위해 사용.
 
         Map<String, Object> paramMap = new HashMap<>();
-        //왜 List<CodeVO>를 두번이나 하는가?
-        List<CodeVO> applyStatusList = null; //code_name
-        List<CodeVO> judgeKindList = null; //code_name
+        List<CodeVO> codeList = null;
+        List<CodeVO> searchList = null; //검색용추가
+        int codeListCnt = 0;
 
-        //List<CodeVO> groupCode = null; //group_code_name
+        /*if(search.getYear() == null || "".equals(search.getYear())){
+            search.setYear(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime())); //날짜 셋팅하는 문법
+        }*/
+        //삭제해도 괜찮은 듯...
+        String[] groupCodeNameList = {Constants.GROUP_CODE_APPLY_STATE, Constants.GROUP_CODE_EDU_STATE, Constants.GROUP_CODE_JUDGE_KIND};
 
-        List<EduVO> eduTitleList = null; //종목?
-        List<AdminVO> adminList = null;
-        int codeListCnt = 0; //
-
-        if (search.getYear() == null || "".equals(search.getYear())) {
-            search.setYear(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()));
-        } //연도 null이면 지금 연도로 설정하나보다.
-
-        String[] groupCode = {Constants.JUDGE_KIND, Constants.APPLY_STATE, Constants.EDU_STATUS};
-        String[] codeList = {Constants.APPLY_STATE_APPLY_COMP, Constants.APPLY_STATE_CERT_COMP, Constants.APPLY_STATE_CERT_NOT};
-        //다른 코드들은 우짜지?
-
-        //map에 데이터 삽입
-        paramMap.put("year", search.getYear());
-        paramMap.put("applyState", search.getApplyState());
-        paramMap.put("judgeNo", search.getJudgeNo());
+        paramMap.put("codeListCheck", search.getCodeListCheck());
+        paramMap.put("codeName", search.getCodeName());
+        paramMap.put("regDate", search.getRegDate()); //reg_date 등록일
 
         try {
-            //paramMap.put("groupCode", Constants.JUDGE_KIND); //심판종목코드
-            judgeKindList = commonService.selectCommonCode(paramMap);
-            //paramMap.put("groupCode", Constants.APPLY_STATE); //신청진행상태
-            //paramMap.put("groupCode", Constants.EDU_STATUS); //교육과정상태
-
-            paramMap.put("codeList", codeList); //02,03,05
-            eduTitleList = eduService.selectEduTitleListByYear(paramMap); //교육과정목록(셀렉박스라구여?)
-            applyStatusList = commonService.selectCommonCode(paramMap); //수료상태(셀렉박스라구여!?!?)
-
-            paramMap.put("codeListCnt", codeListCnt);
-            //codeList = codeService.selectCodeList(paramMap);
-            adminList = adminService.selectAdminList(); //list라서 paramMap을 안넣나
+            //codeListCnt = codeService.selectCodeListCnt(paramMap); //
+            paramMap.put("groupCodeNameList", groupCodeNameList);
+            codeList = commonService.selectToCommonCode(paramMap); //표준
         } catch (Exception e) {
             logger.debug(e.getMessage());
         }
-
-        model.addAttribute("adminInfo", adminInfo);
-        model.addAttribute("adminList", adminList);
-        model.addAttribute("search", search);
-
-        //model.addAttribute("codeList", codeList);
-        model.addAttribute("groupCode", groupCode);
         model.addAttribute("codeListCnt", codeListCnt);
-        model.addAttribute("eduTitleList", eduTitleList);
-        model.addAttribute("applyStatusList", applyStatusList);
-        model.addAttribute("judgeKindList", judgeKindList);
+        model.addAttribute("adminInfo", adminInfo);
+        model.addAttribute("codeList", codeList);
 
         return "admin/code/confirm";
     }
 
+    /**
+     * 코드 삭제
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("admin/delete")
+    @ResponseBody
+    public Map<String, Object> deleteCode(@RequestBody CodeVO code) throws Exception {
+        Map<String, Object> resultMap = new HashMap<>();
+        List<CodeVO> codeNoList = null;
+        /*ApplyVO apply = new ApplyVO(); //관련내용 삭제할거야!*/
+        String codeNoArr = "";
+        int result = 0;
+        //코드를 삭제하면 해당 코드와 관련된 자료도 모두 삭제를 해야 맞잖어?
+        //하지만 일단 코드만 삭제한다! 안되넹
+
+        code.setCodeNoArr(code.getCodeNo().split(","));
+
+        try {
+            codeNoList = codeService.selectCodeNo(code);
+            for (CodeVO codeNo : codeNoList) {
+                //code에서 no값을 가져온다.
+                codeNoArr += codeNo.getCommonCodeNo() + ",";
+            }
+
+            result = codeService.deleteCode(code);
+            resultMap.put("result", result);
+        } catch (Exception e) {
+            logger.debug(e.getMessage());
+        }
+
+        return resultMap;
+    }
+
+    /**
+     * 코드 신규등록 화면 호출
+     *
+     * @param request
+     * @return String
+     * @throws Exception
+     */
+
+    @RequestMapping("admin/registerPage")
+    public String codeRegisterPage(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
+
+        model.addAttribute("adminInfo", adminInfo);
+        return "admin/code/register";
+    }
+
+    /**
+     * 코드 신규등록 처리
+     *
+     * @param
+     * @param
+     * @return resultMap
+     */
+    @RequestMapping("admin/register")
+    @ResponseBody
+    public Map<String, Object> insertCode(@RequestBody CodeVO codeVO, HttpServletRequest request) {
+        Map<String, Object> resultMap = new HashMap<>();
+        int nullChk = 0;
+        int result = 0;
+        HttpSession session = request.getSession();
+        AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
+        //굳이?
+        codeVO.setRegId(adminInfo.getAdminId());
+        try {
+            //insert
+            result = codeService.insertCode(codeVO);
+            resultMap.put("result", result);
+        } catch (Exception e) {
+            logger.debug(e.getMessage());
+        }
+        return resultMap;
+    }
+
+    /** 코드 상세보기 페이지
+     * @param codeVO
+     * @return request
+     * @throws Exception
+     * */
+
+    @RequestMapping("admin/detail")
+    public String detailPage (HttpServletRequest request, Model model, CodeVO codeVO) {
+        HttpSession session = request.getSession();
+        AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
+
+        try {
+            codeVO = codeService.selectDetailCode(codeVO);
+        }
+        catch (Exception e){
+            logger.debug(e.getMessage());
+        }
+
+        model.addAttribute("codeVO", codeVO);
+        model.addAttribute("adminInfo",adminInfo);
+        return "admin/code/detail";
+    }
 }
+

@@ -128,4 +128,8 @@ function fn_detail(eduNo){
 		}
 	});
 }
+
+
+
+
 </script>

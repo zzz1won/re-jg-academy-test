@@ -36,7 +36,7 @@
             <%-- 신청확정 --%>
             $.ajax({
                 type: "post",
-                url: "<c:out value='${pageContext.request.contextPath}/apply/admin/approve'/>",
+                url: "<c:out value='${pageContext.request.contextPath}/code/admin/approve'/>",
                 data: JSON.stringify(applyNoArr),
                 dataType: "json",
                 contentType: "application/json;charset=UTF-8",
@@ -70,7 +70,7 @@
             <%-- 확정취소 --%>
             $.ajax({
                 type: "post",
-                url: "<c:out value='${pageContext.request.contextPath}/apply/cancel/confirm'/>",
+                url: "<c:out value='${pageContext.request.contextPath}/code/cancel/confirm'/>",
                 data: JSON.stringify(applyNoArr),
                 dataType: "json",
                 contentType: "application/json;charset=UTF-8",
@@ -105,7 +105,7 @@
             <%-- 신청취소 --%>
             $.ajax({
                 type: "post",
-                url: "<c:out value='${pageContext.request.contextPath}/apply/cancel/apply'/>",
+                url: "<c:out value='${pageContext.request.contextPath}/code/cancel/apply'/>",
                 data: JSON.stringify(applyNoArr),
                 dataType: "json",
                 contentType: "application/json;charset=UTF-8",
@@ -127,9 +127,55 @@
             $('#pop_excel_confirm').bPopup().close();
 
             $('#applyExcelForm').attr("method", "post");
-            $('#applyExcelForm').attr("action", "<c:out value='${pageContext.request.contextPath}/apply/admin/excel'/>");
+            $('#applyExcelForm').attr("action", "<c:out value='${pageContext.request.contextPath}/code/admin/excel'/>");
             $('#applyExcelForm').submit();
         });
+
+        <%-- 코드 삭제 --%>
+        $("#btn_delete_confirm").click(function () {
+            $('#pop_delete_confirm').bPopup().close();
+
+            var codeNoArr = "";
+            $("input[name=chk]:checked").each(function () {
+                var codeNo = $(this).val();
+                codeNoArr += codeNo + ",";
+            });
+
+            codeNoArr = {
+                "codeNo": codeNoArr
+            };
+
+            console.log(codeNoArr) //로그는 찍힌당.
+
+            $.ajax({
+                type: "post",
+                url: "<c:out value='${pageContext.request.contextPath}/code/admin/delete'/>",
+                data: JSON.stringify(codeNoArr),
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                success: function (data) {
+                    if (data.result > 0) {
+                        $('#pop_delete_success').bPopup();
+                    } else {
+                        $('#pop_delete_fail').bPopup();
+                    }
+
+                },
+                error: function () {
+                    alert("fail ajax !!!");
+                }
+            });
+        });
+
+        <%-- 상세화면 이동 --%>
+        function fn_detailPage(commonCodeNo) {
+            $('#commonCodeNo').val(commonCodeNo);
+            $('#detailView').attr("method", "post");
+            $('#detailView').attr("action", "<c:out value='${pageContext.request.contextPath}/code/admin/detail'/>");
+            $('#detailView').submit();
+            console.log(commonCodeNo);
+        }
+
     });
 </script>
 
@@ -160,19 +206,19 @@
                 <form id="searchForm" name="searchForm">
                     <ul class="filter-row">
                         <li>
-                            <label for="eduStatus">상태</label>
-                            <select name="eduStatus" id="eduStatus" class="wd_140">
-                                <option value=""> 전체</option>
-                                <c:forEach var="eduStatus" items="${eduStatusList}" varStatus="status">
-                                    <option value="<c:out value="${eduStatus.code}"/>"
-                                            <c:if test="${eduStatus.code eq search.eduStatus}">selected="selected"</c:if>>
-                                        <c:out value="${eduStatus.codeName}"/></option>
-                                </c:forEach>
+                            <label for="codeListCheck">분 류</label>
+                            <select name="codeListCheck" id="codeListCheck" class="wd_120">
+                                <option value="00">전체</option>
+                                <option value="01">그룹코드명</option>
+                                <option value="02">코드명</option>
+                                <%--<c:forEach var="codeListCheck" items="${codeList}" varStatus="status">
+                                </c:forEach>--%>
+                                <%-- 검색부분 체크할 것 --%>
                             </select>
                         </li>
                         <li>
-                            <input type="text" id="judgeNo" name="judgeNo" class="input-text" style="width:140px"
-                                   value="<c:out value="${search.judgeNo}"/>" placeholder="검색어 입력"/>
+                            <input type="text" id="codeName" name="codeName" class="input-text" style="width:140px"
+                                   value="<c:out value="${search.codeName}"/>">
                         </li>
                         <li>
                             <button type="button" id="btn_search" class="btn2 btn-search">
@@ -203,56 +249,40 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <%--<c:forEach var="jd" items="${judgeKindList}" varStatus="status">--%>
-                    <tr>
-                        <td>
-                        체크박스
-                        </td>
-                        <td>
-                            No
-                        </td>
-                        <td>
-                            코드명
-                        </td>
-                        <td>
-                            코드값
-                        </td>
-                        <td>
-                            순서
-                        </td>
-                        <td>
-                            그룹코드명
-                        </td>
-                        <td>
-                            그룹코드값
-                        </td>
-                        <td>
-                            등록일
-                        </td>
-                        <td>
-                            비고
-                        </td>
-                    </tr>
-                    <%--</c:forEach>--%>
-                    <%--
+                    <c:forEach var="code" items="${codeList}" varStatus="status">
                         <tr>
-                            <td>
-                                <input type="checkbox" id="chk${jd.applyState}">
+                            <td><input type="checkbox" id="chk${code.commonCodeNo}" name="chk"
+                                       value="<c:out value="${code.commonCodeNo}"/>"></td>
+                            <td><c:out value="${code.commonCodeNo}"></c:out></td>
+                            <td style="width: 210px;"><c:out value="${code.codeName}"></c:out></td>
+                            <td><c:out value="${code.code}"></c:out></td>
+                            <td><c:out value="${code.displayOrder}"></c:out></td>
+                            <td><c:out value="${code.groupCodeName}"></c:out></td>
+                            <td><c:out value="${code.groupCode}"></c:out></td>
+                            <td><fmt:formatDate value="${code.regDate}" pattern="yyyy/MM/dd"/></td>
+                            <td><c:choose>
+                                <c:when test="${code.etcInfo eq null}">
+                                    -
+                                </c:when>
+                                <c:when test="${empty code.etcInfo}">
+                                    -
+                                </c:when>
+                                <c:otherwise>
+                                    <c:out value="${code.etcInfo}"></c:out>
+                                </c:otherwise>
+                            </c:choose>
                             </td>
-                            <td>
-                                <c:out value="${jd.code}"/>
-                            </td>
-
+                            <td><c:out value="${code.commonCodeNo}"></c:out></td>
                         </tr>
-                    --%>
+                    </c:forEach>
                     </tbody>
                 </table>
                 <!-- //table -->
             </div>
             <!-- btn area-->
             <div class="btn-wrap">
-                <button type="button" id="btn_confirm 으아아" class="btn2 btn-blue">😊신규코드 등록</button>
-                <button type="button" id="btn_cancel_confirm 으아아" class="btn2 btn-blue">삭제</button>
+                <button type="button" id="btn_register" class="btn2 btn-blue">신규코드 등록</button>
+                <button type="button" id="btn_delete" class="btn2 btn-gray">삭제</button>
             </div>
             <!-- //btn area -->
         </div>
@@ -265,9 +295,42 @@
 </div>
 <!-- //wrapper -->
 
-<!-- popup 01 -->
-<div class="modal" id="pop_detail" style="width: 900px;"></div>
+<!-- popup 01-->
+<div class="modal no_close" id="pop_delete_confirm">
+    <div class="popup-content">
+        <p class="pop-text">선택한 과정을 삭제하시겠습니까?</p>
+        <div class="btn-wrap">
+            <button type="button" id="btn_delete_confirm" class="btn2 btn-blue">삭제</button>
+            <button type="button" class="btn2 b-close">닫기</button>
+        </div>
+    </div>
+</div>
 <!-- //popup 01-->
+<!-- popup 02-->
+<div class="modal no_close" id="pop_delete_success">
+    <div class="popup-content">
+        <p class="pop-text">정상적으로 처리되었습니다.</p>
+        <div class="btn-wrap">
+            <button type="button" id="btn_delete_success" class="btn2 btn-blue">확인</button>
+        </div>
+    </div>
+</div>
+<!-- //popup 02-->
+<!-- popup 03-->
+<div class="modal no_close" id="pop_delete_fail">
+    <div class="popup-content">
+        <p class="pop-text">정상적으로 처리하지 못했습니다.<br>관리자에게 문의해주시기 바랍니다.</p>
+        <div class="btn-wrap">
+            <button type="button" id="btn_delete_fail" class="btn2 btn-blue">확인</button>
+        </div>
+    </div>
+</div>
+<!-- //popup 03-->
+
+<!-- popup 04-->
+<div class="modal" id="pop_detail" style="width: 900px;"></div>
+<!-- //popup 04-->
+
 
 <!-- popup 02-1 -->
 <div class="modal no_close" id="pop_approve_confirm">
@@ -371,24 +434,9 @@
 </div>
 <!-- //popup 04-3 -->
 
-<!-- popup 06-->
-<div class="modal no_close" id="pop_excel_confirm">
-    <div class="popup-content">
-        <p class="pop-text">엑셀 파일로 저장하시겠습니까?</p>
-        <div class="btn-wrap">
-            <button type="button" id="btn_excel_confirm" class="btn2 btn-blue">확인</button>
-            <button type="button" class="btn2 b-close">닫기</button>
-        </div>
-    </div>
-</div>
-<!-- //popup 06-->
-
-<%-- 엑셀 저장하기 위한 파라미터 --%>
-<form id="applyExcelForm" method="post">
-    <input type="hidden" id="excelYear" name="excelYear" value="<c:out value="${search.year}"/>">
-    <input type="hidden" id="excelEduTitle" name="excelEduTitle" value="<c:out value="${search.eduTitle}"/>">
-    <input type="hidden" id="excelApplyState" name="excelApplyState" value="<c:out value="${search.applyState}"/>">
-    <input type="hidden" id="excelJudgeNo" name="excelJudgeNo" value="<c:out value="${search.judgeNo}"/>">
+<%-- 상세화면으로 가기 위한 파라미터 --%>
+<form id="detailView" method="post">
+    <input type="hidden" id="commonCodeNo" name="commonCodeNo">
 </form>
 
 <script>
@@ -420,8 +468,8 @@
                 {
                     targets: [2],
                     render: function (data, type, row, meta) {
-                        if (type === 'display') {
-                            data = '<a href="javascript:fn_detail(' + row[11] + ');">' + data + '</a>';
+                        if (type === 'display') { //detail.jsp 열어야함.
+                            data = '<a href="javascript:fn_detailPage(' + row[9] + ');">' + data + '</a>';
                         }
                         return data;
                     }
@@ -431,13 +479,9 @@
                     orderable: false,
                     searchable: false,
                     className: 'dt-body-center',
-                    /* render: function(data, type, full, meta) {
-                        return '<input type="checkbox" name="id[]" value="' +
-                            $('<div/>').text(data).html() + '">';
-                    } */
                 },
                 {
-                    targets: [11],
+                    targets: [9],
                     visible: false
                 }
             ],
@@ -477,199 +521,49 @@
     });
 </script>
 
+<%-- 팝업 및 버튼, 검색 관련 --%>
 <script type="text/javascript">
     $(document).ready(function () {
-        <%-- 검색 --%>
-        $('#btn_search').click(function () {
-            $('#searchForm').attr("method", "post");
-            $('#searchForm').attr("action", "<c:out value='${pageContext.request.contextPath}/apply/admin/confirm'/>");
-            $('#searchForm').submit();
-        });
-
-        <%-- 신청확정 처리하시겠습니까? --%>
-        $('#btn_confirm').click(function () {
+        <%-- 코드 삭제 확인 팝업 --%>
+        $('#btn_delete').click(function () {
             <%-- 체크한 값이 있는지 확인 --%>
             if ($("input[name=chk]:checked").length < 1) {
-                alert("신청확정할 데이터를 선택해주세요.");
-                return false;
-
-            } else {
-                var applyNoArr = "";
-                $("input[name=chk]:checked").each(function () {
-                    var applyNo = $(this).val();
-                    applyNoArr += applyNo + ",";
-                });
-
-                applyNoArr = {
-                    "applyNo": applyNoArr,
-                    "state": "02"    <%-- 신청확정 --%>
-                };
-
-                <%--
-                    신청확정을 위해 현재 신청확인 값만 있는지 확인
-                    * 선택한 값에서 신청확정(02)값이 있을 경우, 신청확정을 못하도록 설정
-                --%>
-                $.ajax({
-                    type: "post",
-                    url: "<c:out value='${pageContext.request.contextPath}/apply/count/state'/>",
-                    data: JSON.stringify(applyNoArr),
-                    dataType: "json",
-                    contentType: "application/json;charset=UTF-8",
-                    success: function (data) {
-                        if (data.result > 0) {
-                            <%-- 선택한 값에 신청확정 값이 존재하므로 stop --%>
-                            alert("선택한 값에 신청확정 값이 있습니다.\n다시 한 번 선택해주세요.");
-                            return false;
-
-                        } else {
-                            $('#pop_approve_confirm').bPopup({
-                                speed: 450,
-                            });
-                        }
-                    },
-                    error: function () {
-                        alert("fail ajax !!!");
-                    }
-                });
-            }
-        });
-
-        <%-- 신청확정 성공 --%>
-        $("#btn_approve_success").click(function () {
-            $('#pop_approve_success').bPopup().close();
-            location.href = "<c:out value='${pageContext.request.contextPath}/apply/admin/confirm'/>";
-        });
-        <%-- 신청확정 실패 --%>
-        $("#btn_approve_fail").click(function () {
-            $('#pop_approve_fail').bPopup().close();
-        });
-
-        <%-- 확정취소 처리하시겠습니까? --%>
-        $('#btn_cancel_confirm').click(function () {
-            <%-- 체크한 값이 있는지 확인 --%>
-            if ($("input[name=chk]:checked").length < 1) {
-                alert("확정취소할 데이터를 선택해주세요.");
-                return false;
-            } else {
-                var applyNoArr = "";
-                $("input[name=chk]:checked").each(function () {
-                    var applyNo = $(this).val();
-                    applyNoArr += applyNo + ",";
-                });
-
-                applyNoArr = {
-                    "applyNo": applyNoArr,
-                    "state": "01"    <%-- 신청 --%>
-                };
-
-                <%--
-                    확정취소를 위해 현재 신청확정 값만 있는지 확인
-                    * 선택한 값에서 신청(01)값이 있을 경우, 확정취소를 못하도록 설정
-                --%>
-                $.ajax({
-                    type: "post",
-                    url: "<c:out value='${pageContext.request.contextPath}/apply/count/state'/>",
-                    data: JSON.stringify(applyNoArr),
-                    dataType: "json",
-                    contentType: "application/json;charset=UTF-8",
-                    success: function (data) {
-                        if (data.result > 0) {
-                            <%-- 선택한 값에 신청 값이 존재하므로 stop --%>
-                            alert("선택한 값에 신청 값이 있습니다. \n다시 한 번 선택해주세요.");
-                            return false;
-                        } else {
-                            $('#pop_cancel_confirm').bPopup({
-                                speed: 450,
-                            });
-                        }
-                    },
-                    error: function () {
-                        alert("fail ajax !!!");
-                    }
-                });
-            }
-        });
-        <%-- 확정취소 성공 --%>
-        $("#btn_cancel_confirm_success").click(function () {
-            $('#pop_cancel_confirm_success').bPopup().close();
-            location.href = "<c:out value='${pageContext.request.contextPath}/apply/admin/confirm'/>";
-        });
-        <%-- 확정취소 실패 --%>
-        $("#btn_cancel_confirm_fail").click(function () {
-            $('#pop_cancel_confirm_fail').bPopup().close();
-        });
-
-        <%-- 신청취소 처리하시겠습니까? --%>
-        $('#btn_cancel_apply').click(function () {
-            <%-- 체크한 값이 있는지 확인 --%>
-            if ($("input[name=chk]:checked").length < 1) {
-                alert("확정취소할 데이터를 선택해주세요.");
-                return false;
-            } else {
-                var applyNoArr = "";
-                $("input[name=chk]:checked").each(function () {
-                    var applyNo = $(this).val();
-                    applyNoArr += applyNo + ",";
-                });
-
-                applyNoArr = {
-                    "applyNo": applyNoArr,
-                    "state": "02"    <%-- 신청확정 --%>
-                };
-
-                <%--
-                    신청취소를 위해 현재 신청중인 값만 있는지 확인
-                    * 선택한 값에서 신청확정(02)값이 있을 경우, 신청취소를 못하도록 설정
-                --%>
-                $.ajax({
-                    type: "post",
-                    url: "<c:out value='${pageContext.request.contextPath}/apply/count/state'/>",
-                    data: JSON.stringify(applyNoArr),
-                    dataType: "json",
-                    contentType: "application/json;charset=UTF-8",
-                    success: function (data) {
-                        if (data.result > 0) {
-                            <%-- 선택한 값에 신청확정 값이 존재하므로 stop --%>
-                            alert("선택한 값에 신청확정 값이 있습니다. \n다시 한 번 선택해주세요.");
-                            return false;
-
-                        } else {
-                            $('#pop_cancel_apply').bPopup({
-                                speed: 450,
-                            });
-                        }
-                    },
-                    error: function () {
-                        alert("fail ajax !!!");
-                    }
-                });
-            }
-        });
-        <%-- 신청취소 성공 --%>
-        $("#btn_cancel_apply_success").click(function () {
-            $('#pop_cancel_apply_success').bPopup().close();
-            location.href = "<c:out value='${pageContext.request.contextPath}/apply/admin/confirm'/>";
-        });
-        <%-- 신청취소 실패 --%>
-        $("#btn_cancel_apply_fail").click(function () {
-            $('#pop_cancel_apply_fail').bPopup().close();
-        });
-
-        <%-- 엑셀 저장 확인 팝업 --%>
-        $('#btn_excel').click(function () {
-            var applyListCnt = '<c:out value="${applyListCnt}"/>';
-            if (applyListCnt < 1) {
-                alert("데이터가 없어 엑셀 파일로 다운받으실 수 없습니다.");
+                alert("삭제할 코드를 선택해주세요.");
+                console.log("코드선택을 안함")
                 return false;
             }
-
-            $('#pop_excel_confirm').bPopup({
+            $('#pop_delete_confirm').bPopup({
                 speed: 450,
                 // transition: 'slideDown'
             });
         });
-    });
 
+        <%-- 신규 코드과정 등록화면으로 이동 --%>
+        $('#btn_register').click(function () {
+            location.href = "<c:out value='${pageContext.request.contextPath}/code/admin/registerPage'/>";
+        });
+
+        <%-- 삭제 성공 --%>
+        $("#btn_delete_success").click(function () {
+            $('#pop_delete_success').bPopup().close();
+            location.href = "<c:out value='${pageContext.request.contextPath}/code/admin/confirm'/>";
+            console.log("삭제성공")
+        });
+        <%-- 삭제 실패 --%>
+        $("#btn_delete_fail").click(function () {
+            $('#pop_delete_fail').bPopup().close();
+            console.log("삭제실패")
+        });
+
+        <%-- 검색 --%>
+        $('#btn_search').click(function () {
+            $('#searchForm').attr("method", "post");
+            $('#searchForm').attr("action", "<c:out value='${pageContext.request.contextPath}/code/admin/confirm'/>");
+            $('#searchForm').submit();
+            console.log("검색!")
+        });
+    });
 </script>
+<%-- 팝업 및 버튼, 검색 관련 --%>
 </body>
 </html>

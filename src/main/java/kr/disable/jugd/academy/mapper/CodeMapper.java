@@ -12,4 +12,18 @@ import java.util.Map;
 @Repository
 public interface CodeMapper {
 
+    /** 코드관리 목록 */
+    public List<CodeVO> selectCommonCode(Map<String, Object> paramMap);
+
+    /** 코드 삭제 */
+    public Integer deleteCode(CodeVO code);
+
+    /** 코드No 값 찾기 */
+    public List<CodeVO> selectCodeNo(CodeVO code);
+
+    /** 신규 코드 추가 */
+    public Integer insertCode(CodeVO codeVO);
+
+    /** 코드 상세확인 */
+    public CodeVO selectDetailCode(CodeVO codeVO);
 }

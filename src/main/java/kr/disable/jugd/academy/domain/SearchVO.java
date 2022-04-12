@@ -40,6 +40,12 @@ public class SearchVO {
     private String start;
     private String end;
     
+	
+	/** code 관리용 **/
+	private String groupCodeName; //그룹코드명
+	private String codeName; //코드명
+	private String codeListCheck; //검색용
+	
 	/**
 	 * @return the start
 	 */
@@ -177,5 +183,15 @@ public class SearchVO {
 	}
 	public void setAcEduTitleMask(String acEduTitleMask) {
 		this.acEduTitleMask = acEduTitleMask;
+	}
+
+	/** 0411 추가 **/
+	public String getGroupCodeName() { return groupCodeName;	}
+	public void setGroupCodeName(String groupCodeName) { this.groupCodeName = groupCodeName; }
+	public String getCodeName() { return codeName;	}
+	public void setCodeName(String codeName) { this.codeName = codeName; }
+
+	public String getCodeListCheck() {		return codeListCheck;	}
+	public void setCodeListCheck(String codeListCheck) {  this.codeListCheck = codeListCheck;
 	}
 }

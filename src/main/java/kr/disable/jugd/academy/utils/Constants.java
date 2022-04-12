@@ -21,5 +21,10 @@ public final class Constants {
 	/** 교육과정 상태 */
 	public static final String EDU_STATUS	= "100003";		// 01: 대기중, 02: 신청중, 03: 인원마감, 04: 종료
 
+	//0411 추가해보았어요
+	/** 그룹코드명 */
+	public static final String GROUP_CODE_APPLY_STATE = "신청진행상태";
+	public static final String GROUP_CODE_EDU_STATE = "교육과정상태";
+	public static final String GROUP_CODE_JUDGE_KIND = "심판종목구분";
 
 }
