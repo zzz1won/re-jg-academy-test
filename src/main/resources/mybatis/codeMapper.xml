@@ -78,18 +78,29 @@
         </insert>
 
     <select id="selectDetailCode" parameterType="CodeVO" resultType="CodeVO">
-        SELECT
-        group_code_name
-        , group_code
-        , code_name
-        , code
-        , display_order
-        , etc_info
-        FROM
-        COMMON_CODE
-        WHERE
-              common_code_no =
-        #{common_code_no}
+        SELECT common_code_no
+             , group_code_name
+             , group_code
+             , code_name
+             , code
+             , display_order
+             , etc_info
+        FROM COMMON_CODE
+        WHERE common_code_no = #{commonCodeNo}
     </select>
 
+    <update id="updateCode" parameterType="CodeVO">
+    <![CDATA[
+        UPDATE
+            COMMON_CODE
+        SET group_code_name = #{groupCodeName}
+          , group_code      = #{groupCode}
+          , code_name       = #{codeName}
+          , code            = #{code}
+          , display_order   = #{displayOrder}
+          , etc_info        = #{etcInfo}
+        WHERE
+            common_code_no = #{commonCodeNo}
+        ]]>
+    </update>
 </mapper>

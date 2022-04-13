@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -97,7 +98,7 @@ public class CodeController {
      */
     @RequestMapping("admin/delete")
     @ResponseBody
-    public Map<String, Object> deleteCode(@RequestBody CodeVO code) throws Exception {
+    public Map<String, Object> deleteCode(@RequestBody CodeVO codeVO) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
         List<CodeVO> codeNoList = null;
         /*ApplyVO apply = new ApplyVO(); //관련내용 삭제할거야!*/
@@ -106,16 +107,16 @@ public class CodeController {
         //코드를 삭제하면 해당 코드와 관련된 자료도 모두 삭제를 해야 맞잖어?
         //하지만 일단 코드만 삭제한다! 안되넹
 
-        code.setCodeNoArr(code.getCodeNo().split(","));
+        codeVO.setCodeNoArr(codeVO.getCodeNo().split(","));
 
         try {
-            codeNoList = codeService.selectCodeNo(code);
+            codeNoList = codeService.selectCodeNo(codeVO);
             for (CodeVO codeNo : codeNoList) {
                 //code에서 no값을 가져온다.
                 codeNoArr += codeNo.getCommonCodeNo() + ",";
             }
 
-            result = codeService.deleteCode(code);
+            result = codeService.deleteCode(codeVO);
             resultMap.put("result", result);
         } catch (Exception e) {
             logger.debug(e.getMessage());
@@ -188,7 +189,54 @@ public class CodeController {
 
         model.addAttribute("codeVO", codeVO);
         model.addAttribute("adminInfo",adminInfo);
+        System.out.println("-----------------selected:"+codeVO);
         return "admin/code/detail";
+    }
+
+    /** 코드 수정요청 페이지 아...!
+     * @param
+     * @return
+     * @throws Exception
+     * */
+    @RequestMapping("admin/updatePage")
+    public String codeUpdatePage(HttpServletRequest request, Model model, CodeVO codeVO){
+        HttpSession session = request.getSession();
+        AdminVO adminInfo = (AdminVO)session.getAttribute("ADMIN");
+        try {
+        codeVO = codeService.selectDetailCode(codeVO);
+        }
+        catch (Exception e){
+            logger.debug(e.getMessage());
+        }
+
+        model.addAttribute("codeVO", codeVO);
+        return "admin/code/update";
+    }
+
+
+    /** 코드 수정처리
+     * @param
+     * @return
+     * @throws Exception
+     * */
+
+    @RequestMapping("admin/update")
+    @ResponseBody
+    public Map<String, Object> codeUpdate(@RequestBody CodeVO codeVO, HttpServletRequest request){
+        Map<String,Object> resultMap = new HashMap<>();
+        int result = 0;
+
+        HttpSession session = request.getSession();
+        AdminVO adminInfo = (AdminVO)session.getAttribute("ADMIN");
+
+        try{
+            result = codeService.updateCode(codeVO);
+            resultMap.put("result", result);
+        }
+        catch (Exception e){
+            logger.debug(e.getMessage());
+        }
+        return resultMap;
     }
 }
 

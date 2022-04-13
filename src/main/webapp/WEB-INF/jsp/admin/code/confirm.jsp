@@ -166,17 +166,16 @@
                 }
             });
         });
-
-        <%-- 상세화면 이동 --%>
-        function fn_detailPage(commonCodeNo) {
-            $('#commonCodeNo').val(commonCodeNo);
-            $('#detailView').attr("method", "post");
-            $('#detailView').attr("action", "<c:out value='${pageContext.request.contextPath}/code/admin/detail'/>");
-            $('#detailView').submit();
-            console.log(commonCodeNo);
-        }
-
     });
+
+    <%-- 상세화면 이동 --%>
+    function fn_detailPage(codeNo) {
+        $('#commonCodeNo').val(codeNo);
+        $('#detailView').attr("method", "post");
+        $('#detailView').attr("action", "<c:out value='${pageContext.request.contextPath}/code/admin/detail'/>");
+        $('#detailView').submit();
+        console.log(commonCodeNo);
+    }
 </script>
 
 <body>

@@ -26,4 +26,7 @@ public interface CodeMapper {
 
     /** 코드 상세확인 */
     public CodeVO selectDetailCode(CodeVO codeVO);
+
+    /** 코드 수정처리 */
+    public Integer updateCode(CodeVO codeVO);
 }

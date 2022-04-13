@@ -33,6 +33,11 @@ public class CodeService {
         return codeMapper.selectDetailCode(codeVO);
     }
 
+    /** code 수정처리 ㅠ */
+    public Integer updateCode(CodeVO codeVO) {
+        return codeMapper.updateCode(codeVO);
+    }
+
 
     /*public Integer selectCodeListCnt(Map<String, Object> paramMap) {
         return codeMapper.selectCodeListCnt(paramMap);

@@ -199,16 +199,6 @@
                                 <input type="text" id="etcInfo" name="etcInfo" class="input-text" style="width: 100%;" placeholder="비고">
                             </td>
                         </tr>
-                        <%-- <tr>
-                            <th>파일등록</th>
-                            <td colspan="3">
-                                <div class="file-box">
-                                <input type="text" class="fileName input-text" readonly="readonly">
-                                <label for="upload-name" class="btn btn-file">파일추가</label>
-                                <input type="file" id="upload-name" class="upload-name">
-                              </div>
-                            </td>
-                        </tr> --%>
                         </tbody>
                     </table>
                     <!-- //table -->
