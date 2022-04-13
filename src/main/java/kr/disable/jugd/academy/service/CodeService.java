@@ -38,6 +38,21 @@ public class CodeService {
         return codeMapper.updateCode(codeVO);
     }
 
+    /** codeList 출력용 */
+    public List<CodeVO> selectCode(Map<String, Object> paramMap) {
+        return codeMapper.selectCode(paramMap);
+    }
+
+    /** code useState n으로 변경 */
+    /*public List<CodeVO> insertUseState(CodeVO codeVO) {
+        return codeMapper.updateCodeState(codeVo);
+    }*/
+
+    /** code useState n으로 변경 */
+    public Integer updateCodeUseState(CodeVO codeVO) {
+        return codeMapper.updateCodeUseState(codeVO);
+    }
+
 
     /*public Integer selectCodeListCnt(Map<String, Object> paramMap) {
         return codeMapper.selectCodeListCnt(paramMap);

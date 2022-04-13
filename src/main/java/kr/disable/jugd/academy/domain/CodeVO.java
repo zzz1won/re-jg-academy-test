@@ -13,6 +13,8 @@ public class CodeVO extends SearchVO {
 	private String codeNo;
 	/** codeNoArr 코드삭제시 필요(eduNo참고) */
 	private String[] codeNoArr;
+	/** code use status 코드 사용 여부 체크 */
+	private String useState;
 
 	
 	public Integer getCommonCodeNo() {
@@ -63,4 +65,14 @@ public class CodeVO extends SearchVO {
 	public void setCodeNo(String codeNo) {	this.codeNo = codeNo;	}
 	public String[] getCodeNoArr() {	return codeNoArr;	}
 	public void setCodeNoArr(String[] codeNoArr) {		this.codeNoArr = codeNoArr;	}
+
+	/* 0413 코드사용상황 추가*/
+
+	public String getUseState() {
+		return useState;
+	}
+
+	public void setUseState(String useState) {
+		this.useState = useState;
+	}
 }

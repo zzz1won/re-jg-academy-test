@@ -29,4 +29,10 @@ public interface CodeMapper {
 
     /** 코드 수정처리 */
     public Integer updateCode(CodeVO codeVO);
+
+    /** 코드 출력*/
+    public List<CodeVO> selectCode(Map<String, Object> paramMap);
+
+    /** 0413 code useState y -> n*/
+    public Integer updateCodeUseState(CodeVO codeVO);
 }

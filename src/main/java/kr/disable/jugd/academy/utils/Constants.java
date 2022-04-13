@@ -27,4 +27,11 @@ public final class Constants {
 	public static final String GROUP_CODE_EDU_STATE = "교육과정상태";
 	public static final String GROUP_CODE_JUDGE_KIND = "심판종목구분";
 
+	//0413 code useState용
+	/** 코드 사용 상태 기본값 Y*/
+	public static final String CODE_USE_STATE = "Y";
+
+	/** 코드 사용 상태 코드값 변경시 N으로 */
+	public static final String CODE_USE_STATE_N = "N";
+
 }

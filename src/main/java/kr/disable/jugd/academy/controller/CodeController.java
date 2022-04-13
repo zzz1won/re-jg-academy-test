@@ -55,36 +55,32 @@ public class CodeController {
 
     @RequestMapping("admin/confirm")
     public String codeAdminConfirm(HttpServletRequest request, Model model, SearchVO search) throws Exception {
-        //HttpServletRequest :
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
         //Admin 로그인 정보를 유지하기위해 사용.
 
         Map<String, Object> paramMap = new HashMap<>();
         List<CodeVO> codeList = null;
-        List<CodeVO> searchList = null; //검색용추가
-        int codeListCnt = 0;
+        List<SearchVO> searchList = null;
+        /* codeState 정리용 */
+        /*List<CodeVO> codeStateList = null;*/
 
-        /*if(search.getYear() == null || "".equals(search.getYear())){
-            search.setYear(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime())); //날짜 셋팅하는 문법
-        }*/
-        //삭제해도 괜찮은 듯...
-        String[] groupCodeNameList = {Constants.GROUP_CODE_APPLY_STATE, Constants.GROUP_CODE_EDU_STATE, Constants.GROUP_CODE_JUDGE_KIND};
+        paramMap.put("codeName",search.getCodeName()); //검색이 안돼서 추가
+        /*검색이 안돼서 추가*/
+        paramMap.put("codeListCheck", search.getCodeListCheck()); //검색 체크는 이 아이 ^^;
 
-        paramMap.put("codeListCheck", search.getCodeListCheck());
-        paramMap.put("codeName", search.getCodeName());
-        paramMap.put("regDate", search.getRegDate()); //reg_date 등록일
-
+        String[] codeStateList = {Constants.CODE_USE_STATE, Constants.CODE_USE_STATE_N};
         try {
-            //codeListCnt = codeService.selectCodeListCnt(paramMap); //
-            paramMap.put("groupCodeNameList", groupCodeNameList);
-            codeList = commonService.selectToCommonCode(paramMap); //표준
+            /*codeList = commonService.selectToCommonCode(paramMap); //표준*/
+            codeList = codeService.selectCode(paramMap);
+            paramMap.put("codeStateList",codeStateList);
+            /*codeStateList = codeService.selectCode(paramMap);*/
         } catch (Exception e) {
             logger.debug(e.getMessage());
         }
-        model.addAttribute("codeListCnt", codeListCnt);
         model.addAttribute("adminInfo", adminInfo);
         model.addAttribute("codeList", codeList);
+        model.addAttribute("codeStateList",codeStateList);
 
         return "admin/code/confirm";
     }
@@ -121,7 +117,6 @@ public class CodeController {
         } catch (Exception e) {
             logger.debug(e.getMessage());
         }
-
         return resultMap;
     }
 
@@ -134,7 +129,7 @@ public class CodeController {
      */
 
     @RequestMapping("admin/registerPage")
-    public String codeRegisterPage(HttpServletRequest request, Model model) {
+    public String codeRegisterPage(HttpServletRequest request, Model model) throws Exception {
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
 
@@ -151,7 +146,7 @@ public class CodeController {
      */
     @RequestMapping("admin/register")
     @ResponseBody
-    public Map<String, Object> insertCode(@RequestBody CodeVO codeVO, HttpServletRequest request) {
+    public Map<String, Object> insertCode(@RequestBody CodeVO codeVO, HttpServletRequest request) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
         int nullChk = 0;
         int result = 0;
@@ -176,7 +171,7 @@ public class CodeController {
      * */
 
     @RequestMapping("admin/detail")
-    public String detailPage (HttpServletRequest request, Model model, CodeVO codeVO) {
+    public String detailPage (HttpServletRequest request, Model model, CodeVO codeVO) throws Exception {
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
 
@@ -199,7 +194,7 @@ public class CodeController {
      * @throws Exception
      * */
     @RequestMapping("admin/updatePage")
-    public String codeUpdatePage(HttpServletRequest request, Model model, CodeVO codeVO){
+    public String codeUpdatePage(HttpServletRequest request, Model model, CodeVO codeVO) throws Exception {
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO)session.getAttribute("ADMIN");
         try {
@@ -222,7 +217,7 @@ public class CodeController {
 
     @RequestMapping("admin/update")
     @ResponseBody
-    public Map<String, Object> codeUpdate(@RequestBody CodeVO codeVO, HttpServletRequest request){
+    public Map<String, Object> codeUpdate(@RequestBody CodeVO codeVO, HttpServletRequest request) throws Exception {
         Map<String,Object> resultMap = new HashMap<>();
         int result = 0;
 
@@ -238,5 +233,39 @@ public class CodeController {
         }
         return resultMap;
     }
+
+    /** 코드를 삭제하지않고 사용여부 체크를 하는 기능.
+     * 취소처리
+     * @param
+     * @return
+     * @throws Exception
+     * */
+    @RequestMapping("admin/stateChkN")
+    @ResponseBody
+    public Map<String,Object> useStateChkN (HttpServletRequest request, @RequestBody CodeVO codeVO) throws Exception {
+        Map<String,Object> resultMap = new HashMap<>();
+        int result = 0;
+        /*로그인정보*/
+        HttpSession session = request.getSession();
+        /*AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");*/
+
+        codeVO.setUseState(Constants.CODE_USE_STATE_N);
+        /*codeVO.setCodeNoArr(codeVO.getCodeNo().split(","));*/
+
+        try{
+            //취소처리. 신청->수료 넘어가는 기능은 없기때문에 변경만 하는 걸로!
+            /*codeList = codeService.insertUseState(codeVO);*/
+            result = codeService.updateCodeUseState(codeVO);
+            /*resultMap.put("result"+result);*/
+        }
+        catch (Exception e){
+            logger.debug(e.getMessage());
+        }
+        resultMap.put("result", result);
+
+        return resultMap;
+
+    }
+
 }
 

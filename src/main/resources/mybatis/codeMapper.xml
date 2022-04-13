@@ -14,6 +14,7 @@
         , group_code
         , reg_date
         , etc_info
+        , use_status
         FROM
         COMMON_CODE
         WHERE 1=1
@@ -102,5 +103,41 @@
         WHERE
             common_code_no = #{commonCodeNo}
         ]]>
+    </update>
+
+    <select id="selectCode" parameterType="Map" resultType="CodeVO">
+        SELECT common_code_no
+        , group_code_name
+        , group_code
+        , code_name
+        , code
+        , display_order
+        , reg_date
+        , etc_info
+        , use_state
+        FROM
+        COMMON_CODE
+        WHERE 1=1
+
+        <if test="codeListCheck == '00'">
+            and group_code_name LIKE CONCAT('%',#{codeName},'%') OR code_name LIKE CONCAT('%',#{codeName},'%')
+        </if>
+        <if test="codeListCheck == '01'">
+            and group_code_name LIKE CONCAT('%',#{codeName},'%')
+        </if>
+        <if test="codeListCheck == '02'">
+            and code_name LIKE CONCAT('%',#{codeName},'%')
+        </if>
+        ORDER BY common_code_no DESC, group_code DESC, display_order ASC
+    </select>
+
+    <update id="updateCodeUseState" parameterType="CodeVO">
+        UPDATE COMMON_CODE
+        SET use_state = #{useState}
+        WHERE
+        common_code_no IN
+        <foreach collection="codeNoArr" item="codeNo" open="(" close=")" separator=",">
+        #{codeNo}
+        </foreach>
     </update>
 </mapper>

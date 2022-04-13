@@ -59,6 +59,20 @@ public class IndexController {
 			return "judge/index";
 		}
 	}
+
+	/** 220413 심판등록 화면출력
+	 * @param
+	 * @retyrn String
+	 * @throws Exception
+	 * */
+	@RequestMapping("/judge/hello")
+	public String joinForm(HttpServletRequest request, Model model, JudgeVO judgeVO){
+		HttpSession session = request.getSession();
+		/*model.addAttribute("judgeList",judgeVO);*/
+		return "judge/join/join";
+	}
+
+
 	
 	/**
      * 로그인화면 (관리자용)
@@ -77,4 +91,35 @@ public class IndexController {
 			return "admin/index";
 		}
 	}
+
+
+
+	/** 220413 심판등록 요청 하는중!
+	 * @param
+	 * @retyrn ResultMap
+	 * @throws Exception
+	 * */
+	/*@RequestMapping("judge/join")
+	@ResponseBody
+	public Map<String,Object> join(HttpServletRequest request, Model model, JudgeVO judgeVO){
+		HttpSession session = request.getSession();
+
+		Map<String, Object> resultMap = new HashMap<>();
+		List<JudgeVO> judgeKindList = null;
+		List<JudgeVO> judgeList = null;
+
+		resultMap.put("judgeNo", judgeVO.getJudgeNo());
+		resultMap.put("judgeName", judgeVO.getJudgeName());
+
+		try{
+
+		}
+		catch (Exception e){
+			logger.debug(e.getMessage());
+		}
+		model.addAttribute("judgeKindList",judgeKindList); //종목체크용
+		model.addAttribute("judgeList",judgeList);
+		return resultMap;
+	}*/
+
 }

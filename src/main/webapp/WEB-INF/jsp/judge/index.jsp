@@ -54,6 +54,7 @@ $(function(){
                 </div>
                 <div class="inp-group">
                     <button type="button" id="btn_login" class="btn2 btn-login">입장하기</button>
+                    <button type="button" id="btn_join" class="btn2 btn-login">심판신규등록</button>
                 </div>
             </form>
             <div id="login-footer">
@@ -99,6 +100,11 @@ $(function(){
 <!-- custom js -->
 <script type="text/javascript">
     $(document).ready(function () {
+        <%-- 심판등록 버튼 클릭--%>
+        $('#btn_join').click(function(){
+            location.href="<c:out value='${pageContext.request.contextPath}/judge/hello'/>";
+        });
+
         //로그인 셀렉트메뉴
         $('.login_select').niceSelect();
 
@@ -118,9 +124,9 @@ $(function(){
         $("#btn_fail_login").click(function(){
             $('#pop_fail_login').bPopup().close();
         });
-        $("#judgeKind").val('100001')
-        $("#judgeNo").val('0033')
-        $("#judgeName").val('정예슬')
+/*        $("#judgeKind").val('100001')*/
+/*        $("#judgeNo").val('0033')*/
+        /*$("#judgeName").val('정예슬')*/
         
     });
 
@@ -134,7 +140,8 @@ $(function(){
             });
     		return false;
     	}
-    	
+
+    	var judgeKind = $('#judgeKind').val();
     	var judgeNo = $('#judgeNo').val();
     	var judgeName = $('#judgeName').val();
     	
@@ -164,6 +171,11 @@ $(function(){
     	var regExp = RegExp(/^[가-힣a-zA-Z]{2,10}$/);
     	return regExp.test(judgeName);
     }
+
+    <%-- 그룹코드명 포커스 --%>
+    $("#btn_judgeKind").click(function(){
+        $('#judgeKind').focus();
+    });
 </script>
 
 </body>

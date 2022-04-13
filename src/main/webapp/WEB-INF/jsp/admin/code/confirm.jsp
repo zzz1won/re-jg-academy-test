@@ -54,8 +54,8 @@
         });
 
         <%-- 확정취소 --%>
-        $("#btn_pop_cancel_confirm").click(function () {
-            $('#pop_cancel_confirm').bPopup().close();
+        $("#btn_pop_change_code_state").click(function () {
+            $('#pop_change_code_state').bPopup().close();
 
             var applyNoArr = "";
             $("input[name=chk]:checked").each(function () {
@@ -70,15 +70,15 @@
             <%-- 확정취소 --%>
             $.ajax({
                 type: "post",
-                url: "<c:out value='${pageContext.request.contextPath}/code/cancel/confirm'/>",
+                url: "<c:out value='${pageContext.request.contextPath}/code/admin/stateChkN'/>",
                 data: JSON.stringify(applyNoArr),
                 dataType: "json",
                 contentType: "application/json;charset=UTF-8",
                 success: function (data) {
                     if (data.result > 0) {
-                        $('#pop_cancel_confirm_success').bPopup();
+                        $('#pop_change_code_state_success').bPopup();
                     } else {
-                        $('#pop_cancel_confirm_fail').bPopup();
+                        $('#pop_change_code_state_fail').bPopup();
                     }
                 },
                 error: function () {
@@ -88,8 +88,8 @@
         });
 
         <%-- 신청취소 --%>
-        $("#btn_pop_cancel_apply").click(function () {
-            $('#pop_cancel_apply').bPopup().close();
+        $("#btn_change_code_state").click(function () {
+            $('#pop_change_code_state').bPopup().close();
 
             var applyNoArr = "";
             $("input[name=chk]:checked").each(function () {
@@ -169,6 +169,7 @@
     });
 
     <%-- 상세화면 이동 --%>
+
     function fn_detailPage(codeNo) {
         $('#commonCodeNo').val(codeNo);
         $('#detailView').attr("method", "post");
@@ -245,6 +246,7 @@
                         <th>그룹코드값</th>
                         <th>등록일</th>
                         <th>비고</th>
+                        <th>사용여부</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -271,7 +273,9 @@
                                 </c:otherwise>
                             </c:choose>
                             </td>
-                            <td><c:out value="${code.commonCodeNo}"></c:out></td>
+                            <td><c:out value="${code.useState}"/></td>
+                            <td><c:out value="${code.commonCodeNo}"/></td>
+
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -281,6 +285,7 @@
             <!-- btn area-->
             <div class="btn-wrap">
                 <button type="button" id="btn_register" class="btn2 btn-blue">신규코드 등록</button>
+                <button type="button" id="btn_change_code_state" class="btn2 btn-blue">코드상태변경</button>
                 <button type="button" id="btn_delete" class="btn2 btn-gray">삭제</button>
             </div>
             <!-- //btn area -->
@@ -330,47 +335,12 @@
 <div class="modal" id="pop_detail" style="width: 900px;"></div>
 <!-- //popup 04-->
 
-
-<!-- popup 02-1 -->
-<div class="modal no_close" id="pop_approve_confirm">
+<!-- popup 03-1 --><%-- codeState == N --%>
+<div class="modal no_close" id="pop_change_code_state">
     <div class="popup-content">
-        <p class="pop-text">신청확정 처리 하시겠습니까?</p>
+        <p class="pop-text">코드 상태를 N으로 변경하시겠습니까?</p>
         <div class="btn-wrap">
-            <button type="button" id="btn_approve_confirm" class="btn2 btn-blue">확정</button>
-            <button type="button" class="btn2 b-close">닫기</button>
-        </div>
-    </div>
-</div>
-<!-- //popup 02-1 -->
-
-<!-- popup 02-2 -->
-<div class="modal no_close" id="pop_approve_success">
-    <div class="popup-content">
-        <p class="pop-text">정상적으로 처리되었습니다.</p>
-        <div class="btn-wrap">
-            <button type="button" id="btn_approve_success" class="btn2 btn-blue">확인</button>
-        </div>
-    </div>
-</div>
-<!-- //popup 02-2 -->
-
-<!-- popup 02-3 -->
-<div class="modal no_close" id="pop_approve_fail">
-    <div class="popup-content">
-        <p class="pop-text">정상적으로 처리하지 못했습니다. <br>관리자에게 문의해주세요.</p>
-        <div class="btn-wrap">
-            <button type="button" id="btn_approve_fail" class="btn2 btn-blue">확인</button>
-        </div>
-    </div>
-</div>
-<!-- //popup 02-3 -->
-
-<!-- popup 03-1 -->
-<div class="modal no_close" id="pop_cancel_confirm">
-    <div class="popup-content">
-        <p class="pop-text">확정취소 처리 하시겠습니까?</p>
-        <div class="btn-wrap">
-            <button type="button" id="btn_pop_cancel_confirm" class="btn2 btn-blue">확인</button>
+            <button type="button" id="btn_pop_change_code_state" class="btn2 btn-blue">확인</button>
             <button type="button" class="btn2 b-close">닫기</button>
         </div>
     </div>
@@ -378,60 +348,27 @@
 <!-- //popup 03-1-->
 
 <!-- popup 03-2 -->
-<div class="modal no_close" id="pop_cancel_confirm_success">
+<div class="modal no_close" id="pop_change_code_state_success">
     <div class="popup-content">
         <p class="pop-text">정상적으로 처리되었습니다.</p>
         <div class="btn-wrap">
-            <button type="button" id="btn_cancel_confirm_success" class="btn2 btn-blue">확인</button>
+            <button type="button" id="btn_change_code_state_success" class="btn2 btn-blue">확인</button>
         </div>
     </div>
 </div>
 <!-- //popup 03-2 -->
 
 <!-- popup 03-3 -->
-<div class="modal no_close" id="pop_cancel_confirm_fail">
+<div class="modal no_close" id="pop_change_code_state_fail">
     <div class="popup-content">
         <p class="pop-text">정상적으로 처리하지 못했습니다. <br>관리자에게 문의해주세요.</p>
         <div class="btn-wrap">
-            <button type="button" id="btn_cancel_confirm_fail" class="btn2 btn-blue">확인</button>
+            <button type="button" id="btn_change_code_state_fail" class="btn2 btn-blue">확인</button>
         </div>
     </div>
 </div>
 <!-- //popup 03-3 -->
 
-<!-- popup 04-1 -->
-<div class="modal no_close" id="pop_cancel_apply">
-    <div class="popup-content">
-        <p class="pop-text">신청취소 처리 하시겠습니까?</p>
-        <div class="btn-wrap">
-            <button type="button" id="btn_pop_cancel_apply" class="btn2 btn-blue">확인</button>
-            <button type="button" class="btn2 b-close">닫기</button>
-        </div>
-    </div>
-</div>
-<!-- //popup 04-1-->
-
-<!-- popup 04-2 -->
-<div class="modal no_close" id="pop_cancel_apply_success">
-    <div class="popup-content">
-        <p class="pop-text">정상적으로 처리되었습니다.</p>
-        <div class="btn-wrap">
-            <button type="button" id="btn_cancel_apply_success" class="btn2 btn-blue">확인</button>
-        </div>
-    </div>
-</div>
-<!-- //popup 04-2 -->
-
-<!-- popup 04-3 -->
-<div class="modal no_close" id="pop_cancel_apply_fail">
-    <div class="popup-content">
-        <p class="pop-text">정상적으로 처리하지 못했습니다. <br>관리자에게 문의해주세요.</p>
-        <div class="btn-wrap">
-            <button type="button" id="btn_cancel_apply_fail" class="btn2 btn-blue">확인</button>
-        </div>
-    </div>
-</div>
-<!-- //popup 04-3 -->
 
 <%-- 상세화면으로 가기 위한 파라미터 --%>
 <form id="detailView" method="post">
@@ -468,7 +405,7 @@
                     targets: [2],
                     render: function (data, type, row, meta) {
                         if (type === 'display') { //detail.jsp 열어야함.
-                            data = '<a href="javascript:fn_detailPage(' + row[9] + ');">' + data + '</a>';
+                            data = '<a href="javascript:fn_detailPage(' + row[10] + ');">' + data + '</a>';
                         }
                         return data;
                     }
@@ -480,7 +417,7 @@
                     className: 'dt-body-center',
                 },
                 {
-                    targets: [9],
+                    targets: [10],
                     visible: false
                 }
             ],
@@ -519,6 +456,66 @@
         });
     });
 </script>
+
+<%-- 코드상태변경 관련 --%>
+<script>
+    <%-- 확정취소 처리하시겠습니까? --%>
+    $('#btn_change_code_state').click(function () {
+        <%-- 체크한 값이 있는지 확인 --%>
+        if ($("input[name=chk]:checked").length < 1) {
+            alert("확정취소할 데이터를 선택해주세요.");
+            return false;
+        } else {
+            var applyNoArr = "";
+            $("input[name=chk]:checked").each(function () {
+                var applyNo = $(this).val();
+                applyNoArr += applyNo + ",";
+            });
+
+            applyNoArr = {
+                "applyNo": applyNoArr,
+                "state": "01"    <%-- 신청 --%>
+            };
+
+            <%--
+                확정취소를 위해 현재 신청확정 값만 있는지 확인
+                * 선택한 값에서 신청(01)값이 있을 경우, 확정취소를 못하도록 설정
+            --%>
+            $.ajax({
+                type: "post",
+                url: "<c:out value='${pageContext.request.contextPath}/apply/count/state'/>",
+                data: JSON.stringify(applyNoArr),
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                success: function (data) {
+                    if (data.result > 0) {
+                        <%-- 선택한 값에 신청 값이 존재하므로 stop --%>
+                        alert("선택한 값에 신청 값이 있습니다. \n다시 한 번 선택해주세요.");
+                        return false;
+                    } else {
+                        $('#pop_change_code_state').bPopup({
+                            speed: 450,
+                        });
+                    }
+                },
+                error: function () {
+                    alert("fail ajax !!!");
+                }
+            });
+        }
+    });
+    <%-- 확정취소 성공 --%>
+    $("#btn_change_code_state_success").click(function () {
+        $('#pop_change_code_state_success').bPopup().close();
+        location.href = "<c:out value='${pageContext.request.contextPath}/apply/admin/confirm'/>";
+    });
+    <%-- 확정취소 실패 --%>
+    $("#btn_change_code_state_fail").click(function () {
+        $('#pop_change_code_state_fail').bPopup().close();
+    });
+</script>
+<%-- 코드상태변경 관련 --%>
+
 
 <%-- 팝업 및 버튼, 검색 관련 --%>
 <script type="text/javascript">
