@@ -48,9 +48,14 @@ public class CodeService {
         return codeMapper.updateCodeState(codeVo);
     }*/
 
-    /** code useState n으로 변경 */
+    /** code useState N으로 변경 */
     public Integer updateCodeUseState(CodeVO codeVO) {
         return codeMapper.updateCodeUseState(codeVO);
+    }
+
+    /** code useState Y로 변경*/
+    public int updateCodeUseStateY(CodeVO codeVO) {
+        return codeMapper.updateCodeUseStateY(codeVO);
     }
 
 

@@ -23,21 +23,21 @@
         $("#btn_approve_confirm").click(function () {
             $('#pop_approve_confirm').bPopup().close();
 
-            var applyNoArr = "";
+            var codeNoArr = "";
             $("input[name=chk]:checked").each(function () {
-                var applyNo = $(this).val();
-                applyNoArr += applyNo + ",";
+                var codeNo = $(this).val();
+                codeNoArr += codeNo + ",";
             });
 
-            applyNoArr = {
-                "applyNo": applyNoArr
+            codeNoArr = {
+                "codeNo": codeNoArr
             };
 
             <%-- 신청확정 --%>
             $.ajax({
                 type: "post",
                 url: "<c:out value='${pageContext.request.contextPath}/code/admin/approve'/>",
-                data: JSON.stringify(applyNoArr),
+                data: JSON.stringify(codeNoArr),
                 dataType: "json",
                 contentType: "application/json;charset=UTF-8",
                 success: function (data) {
@@ -48,30 +48,31 @@
                     }
                 },
                 error: function () {
-                    alert("fail ajax !!!");
+                    alert("y로 변경에서 fail ajax !!!");
                 }
             });
         });
 
-        <%-- 확정취소 --%>
-        $("#btn_pop_change_code_state").click(function () {
+        <%-- 0413 코드변경(N) --%>
+        $("#btn_change_code_state").click(function () {
             $('#pop_change_code_state').bPopup().close();
 
-            var applyNoArr = "";
+            var codeNoArr = "";
             $("input[name=chk]:checked").each(function () {
-                var applyNo = $(this).val();
-                applyNoArr += applyNo + ",";
+                var codeNo = $(this).val();
+                codeNoArr += codeNo + ",";
             });
 
-            applyNoArr = {
-                "applyNo": applyNoArr
+            codeNoArr = {
+                "codeNo": codeNoArr,
+                "useState": "N"    <%-- 코드 미사용 --%>
             };
 
-            <%-- 확정취소 --%>
+            <%-- 코드변경(N) --%>
             $.ajax({
                 type: "post",
                 url: "<c:out value='${pageContext.request.contextPath}/code/admin/stateChkN'/>",
-                data: JSON.stringify(applyNoArr),
+                data: JSON.stringify(codeNoArr),
                 dataType: "json",
                 contentType: "application/json;charset=UTF-8",
                 success: function (data) {
@@ -82,53 +83,9 @@
                     }
                 },
                 error: function () {
-                    alert("fail ajax !!!");
+                    alert("코드변경(N) fail ajax ㅠㅠ !!!");
                 }
             });
-        });
-
-        <%-- 신청취소 --%>
-        $("#btn_change_code_state").click(function () {
-            $('#pop_change_code_state').bPopup().close();
-
-            var applyNoArr = "";
-            $("input[name=chk]:checked").each(function () {
-                var applyNo = $(this).val();
-                applyNoArr += applyNo + ",";
-            });
-
-            applyNoArr = {
-                "applyNo": applyNoArr,
-                "state": "02"    <%-- 신청확정 --%>
-            };
-
-            <%-- 신청취소 --%>
-            $.ajax({
-                type: "post",
-                url: "<c:out value='${pageContext.request.contextPath}/code/cancel/apply'/>",
-                data: JSON.stringify(applyNoArr),
-                dataType: "json",
-                contentType: "application/json;charset=UTF-8",
-                success: function (data) {
-                    if (data.result > 0) {
-                        $('#pop_cancel_apply_success').bPopup();
-                    } else {
-                        $('#pop_cancel_apply_fail').bPopup();
-                    }
-                },
-                error: function () {
-                    alert("fail ajax !!!");
-                }
-            });
-        });
-
-        <%-- 엑셀 저장 --%>
-        $("#btn_excel_confirm").click(function () {
-            $('#pop_excel_confirm').bPopup().close();
-
-            $('#applyExcelForm').attr("method", "post");
-            $('#applyExcelForm').attr("action", "<c:out value='${pageContext.request.contextPath}/code/admin/excel'/>");
-            $('#applyExcelForm').submit();
         });
 
         <%-- 코드 삭제 --%>
@@ -189,7 +146,7 @@
     <div id="container">
         <div class="sub-tit-wrap">
             <div class="sub-tit-container">
-                <!-- menu: 3개-->
+                <%--menu: 3개--%>
                 <div class="tab-wrap tab4">
                     <a href="javascript:fn_scheduleList();" class="tablinks">교육 일정 관리</a>
                     <a href="javascript:fn_applyList();" class="tablinks">신청 관리</a>
@@ -197,7 +154,7 @@
                     <%-- 220408 4개로 추가--%>
                     <a href="javascript:fn_codeList();" class="tablinks active"> 코드 관리</a>
                 </div>
-                <!-- //menu -->
+                <%-- menu --%>
             </div>
         </div>
         <!-- search area -->
@@ -459,38 +416,46 @@
 
 <%-- 코드상태변경 관련 --%>
 <script>
-    <%-- 확정취소 처리하시겠습니까? --%>
+    <%-- 코드변경(N) 처리하시겠습니까? --%>
     $('#btn_change_code_state').click(function () {
         <%-- 체크한 값이 있는지 확인 --%>
         if ($("input[name=chk]:checked").length < 1) {
-            alert("확정취소할 데이터를 선택해주세요.");
+            alert("상태를 변경할 데이터를 선택해주세요.");
             return false;
         } else {
-            var applyNoArr = "";
+            var codeNoArr = "";
             $("input[name=chk]:checked").each(function () {
-                var applyNo = $(this).val();
-                applyNoArr += applyNo + ",";
+                var codeNo = $(this).val();
+                codeNoArr += codeNo + ",";
             });
 
-            applyNoArr = {
-                "applyNo": applyNoArr,
-                "state": "01"    <%-- 신청 --%>
+            codeNoArr = {
+                "codeNo": codeNoArr,
+                /*"useState": "Ngsdaaf"*/    <%-- 코드 미사용 --%>
             };
 
-            <%--
+            <%-- 기존
                 확정취소를 위해 현재 신청확정 값만 있는지 확인
                 * 선택한 값에서 신청(01)값이 있을 경우, 확정취소를 못하도록 설정
             --%>
-            $.ajax({
+            <%-- 지원추가, 코드사용 y/n--%>
+                <%--코드미사용 처리를 위해 현재 코드를 사용중인지 확인
+                * 선택한 값에서 신청(01)값이 있을 경우, 코드미사용 처리를 못하도록 설정
+                오... 그러면 다른테이블과 엮여야하는데, 일단 keep.
+                1. 일단 코드만 y/n 무조건 바뀌게 설정.
+                2. 실행 된다면 현재 사용중인지 확인하는 절차를 추가로 설정.--%>
+
+            /* 아 이게 아니었다! 이미 useState = N 이면 뜨는 창! */
+            /*$.ajax({
                 type: "post",
                 url: "<c:out value='${pageContext.request.contextPath}/apply/count/state'/>",
-                data: JSON.stringify(applyNoArr),
+                data: JSON.stringify(codeNoArr),
                 dataType: "json",
                 contentType: "application/json;charset=UTF-8",
                 success: function (data) {
                     if (data.result > 0) {
-                        <%-- 선택한 값에 신청 값이 존재하므로 stop --%>
-                        alert("선택한 값에 신청 값이 있습니다. \n다시 한 번 선택해주세요.");
+                        <%-- 선택한 값에 N 값이 존재하므로 stop --%>
+                        alert("선택한 값에 N 값이 있습니다. \n다시 한 번 선택해주세요.");
                         return false;
                     } else {
                         $('#pop_change_code_state').bPopup({
@@ -499,17 +464,17 @@
                     }
                 },
                 error: function () {
-                    alert("fail ajax !!!");
+                    alert("fail ajax ㅠㅠ 하단에이작스 !!!");
                 }
-            });
+            });*/
         }
     });
-    <%-- 확정취소 성공 --%>
+    <%-- 코드변경(N) 성공 --%>
     $("#btn_change_code_state_success").click(function () {
         $('#pop_change_code_state_success').bPopup().close();
-        location.href = "<c:out value='${pageContext.request.contextPath}/apply/admin/confirm'/>";
+        location.href = "<c:out value='${pageContext.request.contextPath}/code/admin/confirm'/>";
     });
-    <%-- 확정취소 실패 --%>
+    <%-- 코드변경(N) 실패 --%>
     $("#btn_change_code_state_fail").click(function () {
         $('#pop_change_code_state_fail').bPopup().close();
     });

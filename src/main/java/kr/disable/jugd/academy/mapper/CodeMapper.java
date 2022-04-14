@@ -33,6 +33,9 @@ public interface CodeMapper {
     /** 코드 출력*/
     public List<CodeVO> selectCode(Map<String, Object> paramMap);
 
-    /** 0413 code useState y -> n*/
+    /** 0413 codeUseState y -> n*/
     public Integer updateCodeUseState(CodeVO codeVO);
+
+    /** 0414 codeUseState n-> y*/
+    public Integer updateCodeUseStateY(CodeVO codeVO);
 }

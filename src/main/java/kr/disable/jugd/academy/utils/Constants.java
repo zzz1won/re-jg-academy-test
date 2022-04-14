@@ -29,9 +29,9 @@ public final class Constants {
 
 	//0413 code useState용
 	/** 코드 사용 상태 기본값 Y*/
-	public static final String CODE_USE_STATE = "Y";
+	public static final String CODE_USE_STATE = "Y"; //코드 사용
 
 	/** 코드 사용 상태 코드값 변경시 N으로 */
-	public static final String CODE_USE_STATE_N = "N";
+	public static final String CODE_USE_STATE_N = "N"; //코드 미사용
 
 }
