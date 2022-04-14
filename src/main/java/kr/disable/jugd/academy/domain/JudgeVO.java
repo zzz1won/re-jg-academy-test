@@ -1,5 +1,7 @@
 package kr.disable.jugd.academy.domain;
 
+import java.util.Date;
+
 public class JudgeVO extends SearchVO {
 
 	private String  judgeNo;
@@ -7,6 +9,11 @@ public class JudgeVO extends SearchVO {
 	private String  judgeKind;
 	private String  phoneNumber;
 	private String  judgeMemo;
+	/**0414 추가*/
+	private String judgeEtc; //비고
+	private String judgeState; //사용여부
+	private Date regDate; //등록일
+
 	
 	public String getJudgeNo() {
 		return judgeNo;
@@ -37,5 +44,14 @@ public class JudgeVO extends SearchVO {
 	}
 	public void setJudgeMemo(String judgeMemo) {
 		this.judgeMemo = judgeMemo;
+	}
+
+	public String getJudgeEtc() {	return judgeEtc;	}
+	public void setJudgeEtc(String judgeEtc) {	this.judgeEtc = judgeEtc;	}
+	public String getJudgeState() {		return judgeState;	}
+	public void setJudgeState(String judgeState) {		this.judgeState = judgeState;	}
+
+	public Date getRegDate() {		return regDate;	}
+	public void setRegDate(Date regDate) {		this.regDate = regDate;
 	}
 }

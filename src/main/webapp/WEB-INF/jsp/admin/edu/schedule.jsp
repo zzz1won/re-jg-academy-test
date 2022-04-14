@@ -85,12 +85,14 @@ function fn_updatePage(eduNo){
             <div class="sub-tit-wrap">
                 <div class="sub-tit-container">
                     <!-- menu: 3개-->
-                    <div class="tab-wrap tab4">
+                    <div class="tab-wrap tab5">
                         <a href="javascript:fn_scheduleList();" class="tablinks active">교육 일정 관리</a>
                         <a href="javascript:fn_applyList();" class="tablinks">신청 관리</a>
                         <a href="javascript:fn_certList();" class="tablinks"> 수료 관리</a>
                         <%-- 220408 4개로 추가--%>
                         <a href="javascript:fn_codeList();" class="tablinks"> 코드 관리</a>
+                        <%-- 220408 5개로 추가--%>
+                        <a href="javascript:fn_judgeList();" class="tablinks"> 심판 관리</a>
                     </div>
                     <!-- //menu -->
                 </div>

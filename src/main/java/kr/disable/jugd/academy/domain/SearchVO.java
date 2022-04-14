@@ -5,10 +5,10 @@ import java.util.Date;
 public class SearchVO {
 
 	private Date   regDate;		// 등록일시
-	private String regId;		// 등록자 
+	private String regId;		// 등록자
 	private Date   modDate;		// 수정일시
 	private String modId;		// 수정자
-	
+
     /** 년도 */
     private String  year;
     /** 교육과정 상태 */
@@ -25,27 +25,30 @@ public class SearchVO {
     private String  judgeNo;
     /** 신청상태(01: 신청, 02: 신청확정, 03: 수료확정, 04: 신청취소, 05: 미수료 */
     private String  applyState;
-    
+
     /** Excel param */
     private String  excelYear;
     private String  excelEduStatus;
     private String  excelEduTitle;
     private String  excelJudgeNo;
     private String  excelApplyState;
-    
+
     /** update param */
     private String updateYear;
     private String updateEduStatus;
-    
+
     private String start;
     private String end;
-    
-	
+
 	/** code 관리용 **/
 	private String groupCodeName; //그룹코드명
 	private String codeName; //코드명
 	private String codeListCheck; //검색용
-	
+
+	/** judge 관리용 */
+	private String searchArea; //검색칸
+	private String searchChkValue; //검색기준
+
 	/**
 	 * @return the start
 	 */
@@ -194,4 +197,13 @@ public class SearchVO {
 	public String getCodeListCheck() {		return codeListCheck;	}
 	public void setCodeListCheck(String codeListCheck) {  this.codeListCheck = codeListCheck;
 	}
+
+	/** 0414 심판 검색용 추가*/
+	public String getSearchArea() {		return searchArea;	}
+	public void setSearchArea(String searchArea) { 		this.searchArea = searchArea;	}
+
+	public String getSearchChkValue() {		return searchChkValue;}
+	public void setSearchChkValue(String searchChkValue) {		this.searchChkValue = searchChkValue;	}
+
+
 }

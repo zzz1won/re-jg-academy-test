@@ -65,5 +65,47 @@
 				judge_no = #{judgeNo}
 	]]>
 	</update>
-	
+
+	<!--0414 추가-->
+	<select id="selectJudgeList" parameterType="Map" resultType="JudgeVO">
+		SELECT judge_no,
+			   judge_name,
+			   judge_kind,
+			   judge_state,
+			   judge_ect,
+			   reg_date
+		FROM
+			JUDGE_INFO
+		ORDER BY reg_date DESC, judge_name ASC
+	</select>
+
+	<select id="selectDetailJudge" parameterType="JudgeVO" resultType="judgeVO">
+		SELECT J.judge_no,
+			   J.judge_name,
+			   J.judge_kind,
+			   J.judge_state,
+			   J.judge_ect,
+			   J.reg_date,
+		       C.code_name,
+		       C.code
+		FROM
+		     JUDGE_INFO J, COMMON_CODE C
+        WHERE
+        	J.judge_kind = C.code
+	</select>
+
+	<update id="updateJudgeData" parameterType="JudgeVO">
+		UPDATE
+		    JUDGE_INFO J
+		SET
+		    J.judge_no = #{judgeNo},
+			J.judge_name = #{judgeName},
+			J.judge_kind = #{judgeKind},
+			J.judge_state =
+		    	CASE WHEN judge_state = 'Y' then 'N',
+		    	    WHEN judge_state = 'N' then 'Y' END,
+			J.judge_ect = #{judgeEct},
+			J.reg_date = #{regDate}
+		WHERE judge_no = #{judge_no}
+	</update>
 </mapper>

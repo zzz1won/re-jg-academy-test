@@ -37,10 +37,27 @@ public class JudgeService {
 	}
 
 	/**
-	 * @param eduInfo
+	 * @param //eduInfo
 	 * @return
 	 */
 	public Integer updateJudgeInfo(JudgeVO judgeInfo) {
 		return judgeMapper.updateJudgeInfo(judgeInfo);
 	}
+
+	/** 화면에 judge 내용 띄우기
+	 * @param paramMap
+	 * @return
+	 * */
+    public List<JudgeVO> selectJudgeList(Map<String, Object> paramMap) {
+		return judgeMapper.selectJudgeList(paramMap);
+    }
+
+    public JudgeVO selectDetailJudge(JudgeVO judgeVO) {
+		return judgeMapper.selectDetailJudge(judgeVO);
+    }
+
+	/**judge 심판 수정*/
+    public Integer updateJudgeData(JudgeVO judgeVO) {
+		return judgeMapper.updateJudgeData(judgeVO);
+    }
 }

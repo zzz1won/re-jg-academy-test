@@ -127,12 +127,12 @@
 
     <%-- 상세화면 이동 --%>
 
-    function fn_detailPage(codeNo) {
-        $('#commonCodeNo').val(codeNo);
+    function fn_detailPage(judgeNo) {
+        $('#judgeNo').val(judgeNo);
         $('#detailView').attr("method", "post");
-        $('#detailView').attr("action", "<c:out value='${pageContext.request.contextPath}/code/admin/detail'/>");
+        $('#detailView').attr("action", "<c:out value='${pageContext.request.contextPath}/judge/admin/detail'/>");
         $('#detailView').submit();
-        console.log(commonCodeNo);
+        console.log(judgeNo);
     }
 </script>
 
@@ -152,9 +152,9 @@
                     <a href="javascript:fn_applyList();" class="tablinks">신청 관리</a>
                     <a href="javascript:fn_certList();" class="tablinks"> 수료 관리</a>
                     <%-- 220408 4개로 추가--%>
-                    <a href="javascript:fn_codeList();" class="tablinks active"> 코드 관리</a>
+                    <a href="javascript:fn_codeList();" class="tablinks"> 코드 관리</a>
                     <%-- 220408 5개로 추가--%>
-                    <a href="javascript:fn_judgeList();" class="tablinks"> 심판 관리</a>
+                    <a href="javascript:fn_judgeList();" class="tablinks active"> 심판 관리</a>
                 </div>
                 <%-- menu --%>
             </div>
@@ -165,18 +165,19 @@
                 <form id="searchForm" name="searchForm">
                     <ul class="filter-row">
                         <li>
-                            <label for="codeListCheck">분 류</label>
-                            <select name="codeListCheck" id="codeListCheck" class="wd_120">
-                                <option value="00">전체</option>
-                                <option value="01">그룹코드명</option>
-                                <option value="02">코드명</option>
-                                <%--<c:forEach var="codeListCheck" items="${codeList}" varStatus="status">
-                                </c:forEach>--%>
+                            <label for="searchChkValue">종목</label>
+                            <select name="searchChkValue" id="searchChkValue" class="wd_120">
+                                <option value="">종목</option>
+                                <c:forEach var="search" items="${searchList}" varStatus="status">
+                                    ;;
+                                </c:forEach>
+                                <%--<option value="01">그룹코드명</option>
+                                <option value="02">코드명</option>--%>
                                 <%-- 검색부분 체크할 것 --%>
                             </select>
                         </li>
                         <li>
-                            <input type="text" id="codeName" name="codeName" class="input-text" style="width:140px"
+                            <input type="text" id="searchArea" name="searchArea" class="input-text" style="width:140px"
                                    value="<c:out value="${search.codeName}"/>">
                         </li>
                         <li>
@@ -198,43 +199,45 @@
                     <tr>
                         <th><input name="select_all" value="1" id="select-all" type="checkbox"/></th>
                         <th>No</th>
-                        <th style="width: 210px;">코드명</th>
-                        <th>코드값</th>
-                        <th>순서</th>
-                        <th>그룹코드명</th>
-                        <th>그룹코드값</th>
+                        <th style="width: 210px;">이름</th>
+                        <th>심판번호</th>
+                        <th>심판종목</th>
+                        <th>사용여부</th>
                         <th>등록일</th>
                         <th>비고</th>
-                        <th>사용여부</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="code" items="${codeList}" varStatus="status">
+                    <c:forEach var="judge" items="${judgeList}" varStatus="status">
                         <tr>
-                            <td><input type="checkbox" id="chk${code.commonCodeNo}" name="chk"
-                                       value="<c:out value="${code.commonCodeNo}"/>"></td>
-                            <td><c:out value="${code.commonCodeNo}"></c:out></td>
-                            <td style="width: 210px;"><c:out value="${code.codeName}"></c:out></td>
-                            <td><c:out value="${code.code}"></c:out></td>
-                            <td><c:out value="${code.displayOrder}"></c:out></td>
-                            <td><c:out value="${code.groupCodeName}"></c:out></td>
-                            <td><c:out value="${code.groupCode}"></c:out></td>
-                            <td><fmt:formatDate value="${code.regDate}" pattern="yyyy/MM/dd"/></td>
-                            <td><c:choose>
-                                <c:when test="${code.etcInfo eq null}">
+                            <td><input type="checkbox" id="chk${judge.judgeNo}" name="chk"
+                                       value="<c:out value="${judge.judgeNo}"/>"></td>
+                            <td><c:out value="${judge.judgeNo}"></c:out></td>
+                            <td style="width: 210px;"><c:out value="${judge.judgeName}"></c:out></td>
+                            <td><c:out value="${judge.judgeKind}"></c:out></td>
+
+                            <td><%--judgeCon-confirm에서 judgeKindList 내용들 추가 --%>
+                                <c:forEach var="kind" items="${judgeKindList}" varStatus="status">
+                                <c:if test="${kind.code eq judge.judgeKind}">
+                                    <c:out value="${kind.codeName}"/>
+                                </c:if>
+                                </c:forEach>
+                            </td>
+
+                            <td><c:out value="${judge.judgeState}"></c:out></td>
+                            <td><fmt:formatDate value="${judge.regDate}" pattern="yyyy-MM-dd"/></td>
+                            <td colspan="3"><c:choose>
+                                <c:when test="${judge.judgeEtc eq null}">
                                     -
                                 </c:when>
-                                <c:when test="${empty code.etcInfo}">
+                                <c:when test="${empty judge.judgeEtc}">
                                     -
                                 </c:when>
                                 <c:otherwise>
-                                    <c:out value="${code.etcInfo}"></c:out>
+                                    <c:out value="${judge.judgeEtc}"></c:out>
                                 </c:otherwise>
                             </c:choose>
                             </td>
-                            <td><c:out value="${code.useState}"/></td>
-                            <td><c:out value="${code.commonCodeNo}"/></td>
-
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -243,9 +246,9 @@
             </div>
             <!-- btn area-->
             <div class="btn-wrap">
-                <button type="button" id="btn_register" class="btn2 btn-blue">신규코드 등록</button>
-                <button type="button" id="btn_change_code_state" class="btn2 btn-blue">코드상태변경</button>
-                <button type="button" id="btn_delete" class="btn2 btn-gray">삭제</button>
+                <button type="button" id="btn_register" class="btn2 btn-blue">111</button>
+                <button type="button" id="btn_change_code_state" class="btn2 btn-blue">222</button>
+                <button type="button" id="btn_delete" class="btn2 btn-gray">333</button>
             </div>
             <!-- //btn area -->
         </div>
@@ -329,9 +332,9 @@
 <!-- //popup 03-3 -->
 
 
-<%-- 상세화면으로 가기 위한 파라미터 --%>
+ <%--상세화면으로 가기 위한 파라미터 --%>
 <form id="detailView" method="post">
-    <input type="hidden" id="commonCodeNo" name="commonCodeNo">
+    <input type="hidden" id="judgeNo" name="judgeNo">
 </form>
 
 <script>
@@ -347,7 +350,7 @@
             "info": false,
 
             "language": {
-                "emptyTable": "수강 신청 대상이 없습니다.",
+                "emptyTable": "심판이 없습니다 ㅎㅎ",
                 "paginate": {
                     "first": "<<",
                     "last": ">>",
@@ -359,12 +362,12 @@
             //정렬, 링크
             "columnDefs": [
                 {className: "dt-body-left", "targets": [2]},
-                {className: "dt-body-right", "targets": [5, 6]},
+                /*{className: "dt-body-right", "targets": [5, 6]}, 우측정렬*/
                 {
                     targets: [2],
                     render: function (data, type, row, meta) {
                         if (type === 'display') { //detail.jsp 열어야함.
-                            data = '<a href="javascript:fn_detailPage(' + row[10] + ');">' + data + '</a>';
+                            data = '<a href="javascript:fn_detailPage(' + row[1] + ');">' + data + '</a>';
                         }
                         return data;
                     }
@@ -375,10 +378,6 @@
                     searchable: false,
                     className: 'dt-body-center',
                 },
-                {
-                    targets: [10],
-                    visible: false
-                }
             ],
             order: [1, 'asc'],
 
@@ -435,46 +434,12 @@
                 "codeNo": codeNoArr,
                 /*"useState": "Ngsdaaf"*/    <%-- 코드 미사용 --%>
             };
-
-            <%-- 기존
-                확정취소를 위해 현재 신청확정 값만 있는지 확인
-                * 선택한 값에서 신청(01)값이 있을 경우, 확정취소를 못하도록 설정
-            --%>
-            <%-- 지원추가, 코드사용 y/n--%>
-                <%--코드미사용 처리를 위해 현재 코드를 사용중인지 확인
-                * 선택한 값에서 신청(01)값이 있을 경우, 코드미사용 처리를 못하도록 설정
-                오... 그러면 다른테이블과 엮여야하는데, 일단 keep.
-                1. 일단 코드만 y/n 무조건 바뀌게 설정.
-                2. 실행 된다면 현재 사용중인지 확인하는 절차를 추가로 설정.--%>
-
-            /* 아 이게 아니었다! 이미 useState = N 이면 뜨는 창! */
-            /*$.ajax({
-                type: "post",
-                url: "<c:out value='${pageContext.request.contextPath}/apply/count/state'/>",
-                data: JSON.stringify(codeNoArr),
-                dataType: "json",
-                contentType: "application/json;charset=UTF-8",
-                success: function (data) {
-                    if (data.result > 0) {
-                        <%-- 선택한 값에 N 값이 존재하므로 stop --%>
-                        alert("선택한 값에 N 값이 있습니다. \n다시 한 번 선택해주세요.");
-                        return false;
-                    } else {
-                        $('#pop_change_code_state').bPopup({
-                            speed: 450,
-                        });
-                    }
-                },
-                error: function () {
-                    alert("fail ajax ㅠㅠ 하단에이작스 !!!");
-                }
-            });*/
         }
     });
     <%-- 코드변경(N) 성공 --%>
     $("#btn_change_code_state_success").click(function () {
         $('#pop_change_code_state_success').bPopup().close();
-        location.href = "<c:out value='${pageContext.request.contextPath}/code/admin/confirm'/>";
+        location.href = "<c:out value='${pageContext.request.contextPath}/judge/admin/confirm'/>";
     });
     <%-- 코드변경(N) 실패 --%>
     $("#btn_change_code_state_fail").click(function () {
@@ -503,13 +468,13 @@
 
         <%-- 신규 코드과정 등록화면으로 이동 --%>
         $('#btn_register').click(function () {
-            location.href = "<c:out value='${pageContext.request.contextPath}/code/admin/registerPage'/>";
+            location.href = "<c:out value='${pageContext.request.contextPath}/judge/admin/registerPage'/>";
         });
 
         <%-- 삭제 성공 --%>
         $("#btn_delete_success").click(function () {
             $('#pop_delete_success').bPopup().close();
-            location.href = "<c:out value='${pageContext.request.contextPath}/code/admin/confirm'/>";
+            location.href = "<c:out value='${pageContext.request.contextPath}/judge/admin/confirm'/>";
             console.log("삭제성공")
         });
         <%-- 삭제 실패 --%>
@@ -521,7 +486,7 @@
         <%-- 검색 --%>
         $('#btn_search').click(function () {
             $('#searchForm').attr("method", "post");
-            $('#searchForm').attr("action", "<c:out value='${pageContext.request.contextPath}/code/admin/confirm'/>");
+            $('#searchForm').attr("action", "<c:out value='${pageContext.request.contextPath}/judge/admin/confirm'/>");
             $('#searchForm').submit();
             console.log("검색!")
         });

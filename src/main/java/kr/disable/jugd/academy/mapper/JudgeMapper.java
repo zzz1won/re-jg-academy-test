@@ -32,4 +32,13 @@ public interface JudgeMapper {
 	 * @return
 	 */
 	public Integer updateJudgeInfo(JudgeVO judgeInfo);
+
+	/** 심판정보 */
+	public List<JudgeVO> selectJudgeList(Map<String, Object> paramMap);
+
+	/** 심판정보출력-수정할것 */
+	public JudgeVO selectDetailJudge(JudgeVO judgeVO);
+
+	/** 심판정보수정용!*/
+	public Integer updateJudgeData(JudgeVO judgeVO);
 }

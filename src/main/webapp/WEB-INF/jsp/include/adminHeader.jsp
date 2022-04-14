@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+         pageEncoding="UTF-8" %>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-    
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <script src="${pageContext.request.contextPath}/resources/js/admin-ui.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery.modal.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/modal-box.js"></script>
@@ -44,47 +44,54 @@
 <%-- //로그아웃 팝업 --%>
 
 <script type="text/javascript">
-$(function(){
-	//bPopup 사용
-    $('#btn_pop_logout').click(function(){
-        $('#pop_logout').bPopup({
-            speed: 450,
-            // transition: 'slideDown'
+    $(function () {
+        //bPopup 사용
+        $('#btn_pop_logout').click(function () {
+            $('#pop_logout').bPopup({
+                speed: 450,
+                // transition: 'slideDown'
+            });
+        });
+        $("#btn_confirm_logout").click(function () { //확인
+            $('#pop_logout').bPopup().close();
+            location.href = "<c:out value='${pageContext.request.contextPath}/admin/logout'/>";
         });
     });
-    $("#btn_confirm_logout").click(function(){ //확인
-        $('#pop_logout').bPopup().close();
-        location.href = "<c:out value='${pageContext.request.contextPath}/admin/logout'/>";
-    });
-});
 
-<%-- 관리자 화면(교육 일정 관리) --%>
-function fn_adminPage(){
-	location.href = "<c:out value='${pageContext.request.contextPath}/edu/admin/schedule'/>";
-}
+    <%-- 관리자 화면(교육 일정 관리) --%>
 
-<%-- 교육 일정 관리 화면으로 이동 --%>
-function fn_scheduleList(){
-	location.href="<c:out value='${pageContext.request.contextPath}/edu/admin/schedule'/>";
-}
+    function fn_adminPage() {
+        location.href = "<c:out value='${pageContext.request.contextPath}/edu/admin/schedule'/>";
+    }
 
-<%-- 신청 관리 화면으로 이동 --%>
-function fn_applyList(){
-	location.href="<c:out value='${pageContext.request.contextPath}/apply/admin/confirm'/>";
-}
+    <%-- 교육 일정 관리 화면으로 이동 --%>
 
-<%-- 수료 관리 화면으로 이동 --%>
-function fn_certList(){
-	location.href="<c:out value='${pageContext.request.contextPath}/cert/admin/confirm'/>";
-}
+    function fn_scheduleList() {
+        location.href = "<c:out value='${pageContext.request.contextPath}/edu/admin/schedule'/>";
+    }
 
-<%-- 220408 코드 관리 화면으로 이동--%>
-function fn_codeList(){
-    location.href="<c:out value='${pageContext.request.contextPath}/code/admin/confirm'/>";
-    //살아있남?
-}
-<%-- 심판 관리 화면으로 이동 --%>
-/*function fn_judgeMemberList(){
-	location.href="<c:out value='${pageContext.request.contextPath}/judge/admin/judgeMemberList'/>";
-}*/
+    <%-- 신청 관리 화면으로 이동 --%>
+
+    function fn_applyList() {
+        location.href = "<c:out value='${pageContext.request.contextPath}/apply/admin/confirm'/>";
+    }
+
+    <%-- 수료 관리 화면으로 이동 --%>
+
+    function fn_certList() {
+        location.href = "<c:out value='${pageContext.request.contextPath}/cert/admin/confirm'/>";
+    }
+
+    <%-- 220408 코드 관리 화면으로 이동--%>
+
+    function fn_codeList() {
+        location.href = "<c:out value='${pageContext.request.contextPath}/code/admin/confirm'/>";
+        //살아있남?
+    }
+
+    <%-- 심판 관리 화면으로 이동 --%>
+
+    function fn_judgeList() {
+        location.href = "<c:out value='${pageContext.request.contextPath}/judge/admin/judgeList'/>";
+    }
 </script>

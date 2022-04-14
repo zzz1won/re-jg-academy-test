@@ -193,7 +193,7 @@ public class CodeController {
      * @return
      * @throws Exception
      * */
-    @RequestMapping("admin/updatePage")
+    /*@RequestMapping("admin/updatePage")
     public String codeUpdatePage(HttpServletRequest request, Model model, CodeVO codeVO) throws Exception {
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO)session.getAttribute("ADMIN");
@@ -206,7 +206,7 @@ public class CodeController {
 
         model.addAttribute("codeVO", codeVO);
         return "admin/code/update";
-    }
+    }*/
 
 
     /** 코드 수정처리
@@ -266,29 +266,6 @@ public class CodeController {
         return resultMap;
     }
 
-    /** 코드 사용상태가 N 일 때 Y로 변경,... 아
-     * 하나의 버튼을 사용하니까 굳이 두개의 기능을 작동시키지않아도 되겠군...
-     * */
-    /*안 씀!*/
-    /*@RequestMapping("admin/stateChkY")
-    @ResponseBody
-    public Map<String,Object> useStateChkY (HttpServletRequest request, @RequestBody CodeVO codeVO) throws Exception {
-        Map<String,Object> resultMap = new HashMap<>();
-        HttpSession session = request.getSession();
-        int result = 0;
-        codeVO.setUseState(Constants.CODE_USE_STATE);
-        codeVO.setCodeNoArr(codeVO.getCodeNo().split(","));
-
-        try {
-            result = codeService.updateCodeUseStateY(codeVO);
-        }
-        catch (Exception e){
-            logger.debug(e.getMessage());
-        }
-
-        resultMap.put("result",result);
-        return resultMap;
-    }*/
 
 
 }

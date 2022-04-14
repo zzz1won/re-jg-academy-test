@@ -262,11 +262,17 @@ button::-moz-focus-inner, [type="button"]::-moz-focus-inner, [type="reset"]::-mo
 .tab-wrap.tab4{
     width: 712.5px;
 }
+.tab-wrap.tab5{
+    width: 712.5px;
+}
 .tab-wrap.tab3 .tablinks{
     width: 33.3%;
 }
 .tab-wrap.tab4 .tablinks{
     width: 25%;
+}
+.tab-wrap.tab5 .tablinks{
+    width: 20%;
 }
 .tablinks:first-child {
     border-radius: 3px 0 0 3px;
