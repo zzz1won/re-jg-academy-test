@@ -59,7 +59,7 @@ public class JudgeController {
 
         paramMap.put("searchArea", searchVO.getSearchArea()); //검색단어
         paramMap.put("searchChkValue",searchVO.getSearchChkValue()); //검색어분류
-
+        paramMap.put("groupCode","100001");
         try{
             judgeList = judgeService.selectJudgeList(paramMap);
             judgeKindList = codeService.selectCode(paramMap);
@@ -81,7 +81,7 @@ public class JudgeController {
         Map<String,Object> paramMap = new HashMap<>();
         List<CodeVO> judgeKindList = null;
         List<JudgeVO> judgeList = null;
-
+        paramMap.put("groupCode","100001");
         try{
             judgeVO = judgeService.selectDetailJudge(judgeVO);
             judgeKindList = codeService.selectCode(paramMap);
@@ -161,4 +161,26 @@ public class JudgeController {
         return resultMap;
     }
 
+    /** 신규 심판 등록*/
+    @RequestMapping("admin/registerPage")
+    public String registerForm (HttpServletRequest request, Model model) throws Exception{
+        HttpSession session = request.getSession();
+        AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
+
+        Map<String,Object> paramMap = new HashMap<>();
+        List<CodeVO> judgeKindList = null; //종목추가용
+        //List<JudgeVO> judgeList = null;
+
+        try{
+            judgeKindList = codeService.selectCode(paramMap);
+            //judgeList = judgeService.selectJudgeList(paramMap);
+        }
+        catch (Exception e){
+            logger.debug(e.getMessage());
+        }
+        model.addAttribute("judgeKindList",judgeKindList);
+        //model.addAttribute("judgeList", judgeList);
+
+        return "admin/judge/register";
+    }
 }

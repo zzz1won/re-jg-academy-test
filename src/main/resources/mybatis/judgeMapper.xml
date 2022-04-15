@@ -94,9 +94,8 @@
 			J.judge_name,
 			J.judge_state,
 			J.judge_etc,
-			C.code_name
+		    J.judge_kind
 		FROM JUDGE_INFO J
-		JOIN COMMON_CODE C ON J.judge_kind = C.code
 		WHERE J.judge_no = #{judgeNo}
 
 	</select>

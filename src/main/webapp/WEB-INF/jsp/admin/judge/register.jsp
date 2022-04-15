@@ -24,7 +24,7 @@
     var check = false;
 
     $(function(){
-        <%-- 심판정보 수정 --%>
+        <%-- 심판정보 등록 --%>
         $("#btn_update").click(function(){
             <%-- 필수입력값 체크 --%>
             check = fn_checkForm();
@@ -37,29 +37,29 @@
             }
         });
 
-        <%-- 수정 버튼 클릭 --%>
-        $('#btn_confirm_update').click(function(){
-            $('#pop_confirm_update').bPopup().close();
-            console.log("수정버튼 클릭")
+        <%-- 등록 버튼 클릭 --%>
+        $('#btn_confirm_register').click(function(){
+            $('#pop_confirm_register').bPopup().close();
+            console.log("신규심판등록 버튼 클릭")
             if(check){
                 <%-- 중복 클릭 방지 --%>
                 if(doubleSubmitCheck()) return;
 
                 $.ajax({
                     type: "post",
-                    url: "<c:out value='${pageContext.request.contextPath}/judge/admin/update'/>",
-                    data: JSON.stringify($('#updateForm').serializeObject()),
+                    url: "<c:out value='${pageContext.request.contextPath}/judge/admin/register'/>",
+                    data: JSON.stringify($('#registerForm').serializeObject()),
                     dataType: "json",
                     contentType: "application/json;charset=UTF-8",
                     success: function(data){
                         if(data.result > 0){
-                            $('#pop_success_update').bPopup();
+                            $('#pop_success_register').bPopup();
                         } else{
-                            $('#pop_fail_update').bPopup();
+                            $('#pop_fail_register').bPopup();
                         }
                     },
                     error: function(){
-                        $('#pop_fail_update').bPopup();
+                        $('#pop_fail_register').bPopup();
                     }
                 });
 
@@ -136,11 +136,11 @@
         </div>
         <!-- table-wrap -->
         <div class="content-wrap">
-            <form id="updateForm" name="updateForm">
+            <form id="registerForm" name="registerForm">
                 <div class="table-write-wrap">
                     <!-- table -->
                     <table>
-                        <caption>코드 수정 테이블</caption>
+                        <caption>코드 등록 테이블</caption>
                         <colgroup>
                             <col width="140px">
                             <col width="">
@@ -150,18 +150,18 @@
                         <tbody>
                         <tr>
                             <%--<th class="required_need">종목</th>--%>
-                            <th>종목</th>
+                            <th class="required_need">종목</th>
                             <td>
                                 <select id="judgeKind" name="judgeKind" class="login_select wide">
+                                    <option value="">종목을 선택하세요</option>
                                     <c:forEach var="judgeKind" items="${judgeKindList}" varStatus="status">
-                                        <option value="<c:out value="${judgeKind.code}"/>" <c:if test="${judgeKind.code eq judgeVO.judgeKind }">selected="selected"</c:if> > <c:out value="${judgeKind.codeName}"/></option>
+                                        <option value="<c:out value="${judgeKind.code}"/>"> <c:out value="${judgeKind.codeName}"/> </option>
                                     </c:forEach>
                                 </select>
                             </td>
 
-                            <th class="required_need">심판번호</th>
-                            <td><input type="text" disabled name="judgeNo" id="judgeNo"
-                                       value="<c:out value="${judgeVO.judgeNo}"/>"></td>
+                            <th>심판번호</th>
+                            <td>자동부여됩니다~</td>
                         </tr>
                         <tr>
                             <th class="required_need">이름</th>
@@ -222,7 +222,7 @@
             </form>
 
             <div class="btn-wrap">
-                <button type="button" id="btn_update" class="btn2 btn-blue">수정</button>
+                <button type="button" id="btn_register" class="btn2 btn-blue">등록</button>
                 <button type="button" id="btn_judge_list" class="btn2 btn-gray">목록</button>
             </div>
             <!-- //btn area -->
@@ -236,31 +236,31 @@
 </div>
 <%--<!-- //wrapper -->--%>
 <!-- popup 01-->
-<div class="modal no_close" id="pop_confirm_update">
+<div class="modal no_close" id="pop_confirm_register">
     <div class="popup-content">
-        <p class="pop-text">해당 심판정보를 수정 하시겠습니까?</p>
+        <p class="pop-text">신규심판정보를 등록 하시겠습니까?</p>
         <div class="btn-wrap">
-            <button type="button" id="btn_confirm_update" class="btn2 btn-blue">수정</button>
+            <button type="button" id="btn_confirm_register" class="btn2 btn-blue">등록</button>
             <button type="button" class="btn2 b-close">닫기</button>
         </div>
     </div>
 </div>
 <!-- //popup 01-->
 <!-- popup 02-->
-<div class="modal no_close" id="pop_success_update">
+<div class="modal no_close" id="pop_success_register">
     <div class="popup-content">
         <p class="pop-text">정상적으로 처리되었습니다.
         <div class="btn-wrap">
-            <button type="button" id="btn_success_update" class="btn2 btn-blue b-close">확인</button>
+            <button type="button" id="btn_success_register" class="btn2 btn-blue b-close">확인</button>
         </div>
     </div>
 </div>
 <!-- //popup 02-->
-<div class="modal no_close" id="pop_fail_update">
+<div class="modal no_close" id="pop_fail_register">
     <div class="popup-content">
         <p class="pop-text">정상적으로 처리되지 않았습니다.<br>관리자에게 문의해주세요.
         <div class="btn-wrap">
-            <button type="button" id="btn_fail_update" class="btn2 btn-blue b-close">확인</button>
+            <button type="button" id="btn_fail_register" class="btn2 btn-blue b-close">확인</button>
         </div>
     </div>
 </div>
@@ -318,16 +318,16 @@
             console.log("목록버튼클릭");
         });
 
-        <%-- 수정 성공 --%>
-        $("#btn_success_update").click(function () {
-            $('#pop_success_update').bPopup().close();
+        <%-- 등록 성공 --%>
+        $("#btn_success_register").click(function () {
+            $('#pop_success_register').bPopup().close();
             location.href = "<c:out value='${pageContext.request.contextPath}/judge/admin/judgeList'/>";
-            console.log("수정성공");
+            console.log("등록성공");
         });
-        <%-- 수정 실패 --%>
-        $("#btn_fail_update").click(function () {
-            $('#pop_fail_update').bPopup().close();
-            console.log("수정실패");
+        <%-- 등록 실패 --%>
+        $("#btn_fail_register").click(function () {
+            $('#pop_fail_register').bPopup().close();
+            console.log("등록실패");
         });
 
         <%-- 종목 포커스 --%>
