@@ -165,16 +165,14 @@
                 <form id="searchForm" name="searchForm">
                     <ul class="filter-row">
                         <li>
-                            <label for="searchChkValue">종목</label>
-                            <select name="searchChkValue" id="searchChkValue" class="wd_120">
-                                <option value="">종목</option>
-                                <c:forEach var="search" items="${searchList}" varStatus="status">
-                                    ;;
-                                </c:forEach>
-                                <%--<option value="01">그룹코드명</option>
-                                <option value="02">코드명</option>--%>
+                            <label for="judgeKindCheck">분 류</label>
+                                <select id="judgeKindCheck" name="judgeKindCheck" class="wd_120">
+                                    <option value="">전체</option>
+                                    <c:forEach var="judgeKind" items="${judgeKindList}" varStatus="status">
+                                        <option value="<c:out value="${judgeKind.code}"/>"> <c:out value="${judgeKind.codeName}"/> </option>
+                                    </c:forEach>
+                                </select>
                                 <%-- 검색부분 체크할 것 --%>
-                            </select>
                         </li>
                         <li>
                             <input type="text" id="searchArea" name="searchArea" class="input-text" style="width:140px"

@@ -170,8 +170,6 @@
                                 <option value="00">전체</option>
                                 <option value="01">그룹코드명</option>
                                 <option value="02">코드명</option>
-                                <%--<c:forEach var="codeListCheck" items="${codeList}" varStatus="status">
-                                </c:forEach>--%>
                                 <%-- 검색부분 체크할 것 --%>
                             </select>
                         </li>

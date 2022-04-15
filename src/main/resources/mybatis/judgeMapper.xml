@@ -67,45 +67,62 @@
 	</update>
 
 	<!--0414 추가-->
+	<!--0415 다시-->
 	<select id="selectJudgeList" parameterType="Map" resultType="JudgeVO">
-		SELECT judge_no,
-			   judge_name,
-			   judge_kind,
-			   judge_state,
-			   judge_ect,
-			   reg_date
-		FROM
-			JUDGE_INFO
-		ORDER BY reg_date DESC, judge_name ASC
+		/*selectJudgeList*/
+		SELECT
+			J.judge_no,
+			J.judge_name,
+			J.judge_kind,
+			J.judge_state,
+			J.judge_etc,
+		    J.reg_date,
+			C.code_name
+		FROM JUDGE_INFO J
+				 JOIN COMMON_CODE C ON J.judge_kind = C.code
+		ORDER by J.reg_date DESC, J.judge_name ASC;
+
 	</select>
 
+
+
+	<!-- 0415 join 다시! -->
 	<select id="selectDetailJudge" parameterType="JudgeVO" resultType="judgeVO">
-		SELECT J.judge_no,
-			   J.judge_name,
-			   J.judge_kind,
-			   J.judge_state,
-			   J.judge_ect,
-			   J.reg_date,
-		       C.code_name,
-		       C.code
-		FROM
-		     JUDGE_INFO J, COMMON_CODE C
-        WHERE
-        	J.judge_kind = C.code
+		/*selectDetailJudge*/
+		SELECT
+			J.judge_no,
+			J.judge_name,
+			J.judge_state,
+			J.judge_etc,
+			C.code_name
+		FROM JUDGE_INFO J
+		JOIN COMMON_CODE C ON J.judge_kind = C.code
+		WHERE J.judge_no = #{judgeNo}
+
 	</select>
+
+
+	<!--굳이 join 할 필요가 ? -->
+	<update id="updateJudgeData1" parameterType="JudgeVO">
+		UPDATE JUDGE_INFO J
+		JOIN COMMON_CODE C ON J.judge_kind = C.code
+		SET J.judge_name = #{judgeName},
+		    J.judge_kind = #{judgeKind},
+		    J.judge_state = #{judgeState},
+		    J.judge_etc = #{judgeEtc},
+		WHERE
+			J.judge_no = #{judgeNo}
+	</update>
 
 	<update id="updateJudgeData" parameterType="JudgeVO">
-		UPDATE
-		    JUDGE_INFO J
-		SET
-		    J.judge_no = #{judgeNo},
-			J.judge_name = #{judgeName},
-			J.judge_kind = #{judgeKind},
-			J.judge_state =
-		    	CASE WHEN judge_state = 'Y' then 'N',
-		    	    WHEN judge_state = 'N' then 'Y' END,
-			J.judge_ect = #{judgeEct},
-			J.reg_date = #{regDate}
-		WHERE judge_no = #{judge_no}
+		UPDATE JUDGE_INFO
+			SET judge_name = #{judgeName},
+				judge_kind = #{judgeKind},
+				judge_etc = #{judgeEtc},
+				judge_state =
+					CASE WHEN judge_state = 'Y' THEN 'N'
+						 WHEN judge_state = 'N' THEN 'Y' END
+		WHERE
+			judge_no = #{judgeNo}
 	</update>
 </mapper>

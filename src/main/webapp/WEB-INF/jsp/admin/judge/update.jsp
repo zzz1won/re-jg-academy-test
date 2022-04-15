@@ -19,16 +19,17 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/se2/js/service/HuskyEZCreator.js"
         charset="utf-8"></script>
 
+<%--잘 보고 진행 할 것, 차근차근...--%>
 <script type="text/javascript">
     var check = false;
 
-    $(function () {
-        <%-- 코드 수정 --%>
-        $("#btn_update").click(function () {
+    $(function(){
+        <%-- 심판정보 수정 --%>
+        $("#btn_update").click(function(){
             <%-- 필수입력값 체크 --%>
             check = fn_checkForm();
             console.log("필수입력값 체크")
-            if (check) {
+            if(check){
                 $('#pop_confirm_update').bPopup({
                     speed: 450,
                     // transition: 'slideDown'
@@ -37,17 +38,12 @@
         });
 
         <%-- 수정 버튼 클릭 --%>
-        $('#btn_confirm_update').click(function () {
+        $('#btn_confirm_update').click(function(){
             $('#pop_confirm_update').bPopup().close();
-            console.log("등록버튼 클릭")
-            if (check) {
+            console.log("수정버튼 클릭")
+            if(check){
                 <%-- 중복 클릭 방지 --%>
-                if (doubleSubmitCheck()) return;
-
-                $('#judgeKind').val(fn_split($('#judgeKind').val()));
-                $('#judgeNo').val(fn_split($('#judgeNo').val()));
-                $('#judgeName').val(fn_split($('#judgeName').val()));
-                $('#judgeState').val(fn_split($('#judgeState').val()));
+                if(doubleSubmitCheck()) return;
 
                 $.ajax({
                     type: "post",
@@ -55,84 +51,69 @@
                     data: JSON.stringify($('#updateForm').serializeObject()),
                     dataType: "json",
                     contentType: "application/json;charset=UTF-8",
-                    success: function (data) {
-                        if (data.result > 0) {
+                    success: function(data){
+                        if(data.result > 0){
                             $('#pop_success_update').bPopup();
-                        } else {
+                        } else{
                             $('#pop_fail_update').bPopup();
                         }
                     },
-                    error: function () {
+                    error: function(){
                         $('#pop_fail_update').bPopup();
                     }
                 });
 
                 doubleSubmitFlag = false;
-            } else {
+            } else{
                 alert("다시 한 번 확인해주시기바랍니다.");
             }
         });
     });
 
     <%-- 필수입력값 체크 --%>
+    function fn_checkForm(){
 
-    function fn_checkForm() {
-        var judgeKind = fn_split($('#judgeKind').val());
-        <%-- 종목값 --%>
-        var judgeNo = fn_split($('#judgeNo').val());
-        <%-- 심판번호 --%>
-        var judgeName = fn_split($('#judgeName').val());
-        <%-- 심판이름 --%>
-        var judgeState = fn_split($('#judgeState').val());
-        <%-- 계정사용여부 --%>
-
-        <%-- 종목값 --%>
-        if ($('#judgeKind').val().length < 1) {
+        <%-- 종목 --%>
+        if($('#judgeKind').val().length < 1){
             $('#pop_check_form_judge_kind').bPopup({
                 speed: 450,
                 // transition: 'slideDown'
             });
-            console.log("judgeKind:" + judgeKind);
-            console.log("judgeName:" + judgeName);
-            console.log("judgeState:" + judgeState);
             return false;
         }
+
         <%-- 심판번호 --%>
-        if ($('#judgeNo').val().length < 1) {
-            $('#pop_check_form_judge_name').bPopup({
+        if($('#judgeNo').val().length < 1){
+            $('#pop_check_form_judge_no').bPopup({
                 speed: 450,
                 // transition: 'slideDown'
             });
-            console.log("judgeKind:" + judgeKind);
-            console.log("judgeName:" + judgeName);
-            console.log("judgeState:" + judgeState);
             return false;
         }
+
         <%-- 심판이름 --%>
-        if ($('#judgeName').val().length < 1) {
+        if($('#judgeName').val().length < 1){
             $('#pop_check_form_judge_name').bPopup({
                 speed: 450,
                 // transition: 'slideDown'
             });
-            console.log("judgeKind:" + judgeKind);
-            console.log("judgeName:" + judgeName);
-            console.log("judgeState:" + judgeState);
             return false;
         }
+
         <%-- 계정사용여부 --%>
-        if ($('#judgeState').val().length < 1) {
+        if($('#judgeState').val().length < 1){
             $('#pop_check_form_judge_state').bPopup({
                 speed: 450,
                 // transition: 'slideDown'
             });
-            console.log("judgeKind:" + judgeKind);
-            console.log("judgeName:" + judgeName);
-            console.log("judgeState:" + judgeState);
             return false;
         }
+
         return true;
     }
 </script>
+
+
 
 <body>
 <!-- wrapper -->
@@ -168,10 +149,14 @@
                         </colgroup>
                         <tbody>
                         <tr>
-                            <th class="required_need">종목</th>
+                            <%--<th class="required_need">종목</th>--%>
+                            <th>종목</th>
                             <td>
-                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                                    <option selected><c:out value="${judgeVO.codeName}"/></option>
+                                <select id="judgeKind" name="judgeKind" class="login_select wide">
+                                    <option value="${judgeVO.judgeKind}"><c:out value="${judgeVO.codeName}"/></option>
+                                    <c:forEach var="judgeKind" items="${judgeKindList}" varStatus="status">
+                                        <option value="<c:out value="${judgeKind.code}"/>"> <c:out value="${judgeKind.codeName}"/> </option>
+                                    </c:forEach>
                                 </select>
                             </td>
 
@@ -208,7 +193,7 @@
                                     </c:otherwise>
                                 </c:choose>
 
-                                <input type="radio" name="judgeState" id="judgeSate"
+                                <input type="radio" name="judgeState" id="judgeState"
                                        value="<c:out value="${judgeVO.judgeState}"/>"></td>
                         </tr>
                         <tr>
@@ -231,6 +216,7 @@
                         </tr>
                         </tbody>
                     </table>
+                    <input type = "hidden" name="judgeNo" value="${judgeVO.judgeNo}">
                     <!-- //table -->
                 </div>
                 <%--<!-- btn area -->--%>
@@ -330,16 +316,19 @@
         <%-- 목록 버튼 클릭--%>
         $('#btn_judge_list').click(function () {
             location.href = "<c:out value='${pageContext.request.contextPath}/judge/admin/judgeList'/>";
+            console.log("목록버튼클릭");
         });
 
         <%-- 수정 성공 --%>
         $("#btn_success_update").click(function () {
             $('#pop_success_update').bPopup().close();
             location.href = "<c:out value='${pageContext.request.contextPath}/judge/admin/judgeList'/>";
+            console.log("수정성공");
         });
         <%-- 수정 실패 --%>
         $("#btn_fail_update").click(function () {
             $('#pop_fail_update').bPopup().close();
+            console.log("수정실패");
         });
 
         <%-- 종목 포커스 --%>

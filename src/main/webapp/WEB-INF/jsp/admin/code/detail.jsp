@@ -74,19 +74,6 @@
         });
     });
 
-    /*뭐여 추가했는데도 안된다니 */
-    <%-- split --%>
-    function fn_split(str){
-        var returnStr = "";
-        var splitStr = str.split('/');
-
-        for(var i in splitStr){
-            returnStr += splitStr[i];
-        }
-
-        return returnStr;
-    }
-
     <%-- 필수입력값 체크 --%>
     function fn_checkForm(){
         var groupCodeName = fn_split($('#groupCodeName').val()); <%-- 그룹코드명 --%>
