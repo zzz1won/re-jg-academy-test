@@ -23,21 +23,21 @@
         $("#btn_approve_confirm").click(function () {
             $('#pop_approve_confirm').bPopup().close();
 
-            var codeNoArr = "";
+            var judgeNoArr = "";
             $("input[name=chk]:checked").each(function () {
-                var codeNo = $(this).val();
-                codeNoArr += codeNo + ",";
+                var judgeNo = $(this).val();
+                judgeNoArr += judgeNo + ",";
             });
 
-            codeNoArr = {
-                "codeNo": codeNoArr
+            judgeNoArr = {
+                "judgeChkNo": judgeNoArr
             };
 
             <%-- 신청확정 --%>
             $.ajax({
                 type: "post",
                 url: "<c:out value='${pageContext.request.contextPath}/code/admin/approve'/>",
-                data: JSON.stringify(codeNoArr),
+                data: JSON.stringify(judgeNoArr),
                 dataType: "json",
                 contentType: "application/json;charset=UTF-8",
                 success: function (data) {
@@ -53,37 +53,37 @@
             });
         });
 
-        <%-- 0413 코드변경(N) --%>
-        $("#btn_change_code_state").click(function () {
-            $('#pop_change_code_state').bPopup().close();
+        <%-- 0415 계정사용 상태변경(Y) --%>
+        $("#btn_change_state_Y").click(function () {
+            $('#pop_change_state_Y').bPopup().close();
 
-            var codeNoArr = "";
+            var judgeNoArr = "";
             $("input[name=chk]:checked").each(function () {
-                var codeNo = $(this).val();
-                codeNoArr += codeNo + ",";
+                var judgeChkNo = $(this).val();
+                judgeNoArr += judgeChkNo + ",";
             });
 
-            codeNoArr = {
-                "codeNo": codeNoArr,
-                "useState": "N"    <%-- 코드 미사용 --%>
+            judgeNoArr = {
+                "judgeChkNo": judgeNoArr,
+                "state": "Y"    <%-- 계정사용 --%>
             };
 
-            <%-- 코드변경(N) --%>
+            <%-- 계정상태 변경(Y) --%>
             $.ajax({
                 type: "post",
-                url: "<c:out value='${pageContext.request.contextPath}/code/admin/stateChkN'/>",
-                data: JSON.stringify(codeNoArr),
+                url: "<c:out value='${pageContext.request.contextPath}/judge/admin/stateChkY'/>",
+                data: JSON.stringify(judgeNoArr),
                 dataType: "json",
                 contentType: "application/json;charset=UTF-8",
                 success: function (data) {
                     if (data.result > 0) {
-                        $('#pop_change_code_state_success').bPopup();
+                        $('#pop_change_state_Y_success').bPopup();
                     } else {
-                        $('#pop_change_code_state_fail').bPopup();
+                        $('#pop_change_state_Y_fail').bPopup();
                     }
                 },
                 error: function () {
-                    alert("코드변경(N) fail ajax ㅠㅠ !!!");
+                    alert("계정상태(Y) fail ajax ㅠㅠ !!!");
                 }
             });
         });
@@ -92,22 +92,22 @@
         $("#btn_delete_confirm").click(function () {
             $('#pop_delete_confirm').bPopup().close();
 
-            var codeNoArr = "";
+            var judgeNoArr = "";
             $("input[name=chk]:checked").each(function () {
-                var codeNo = $(this).val();
-                codeNoArr += codeNo + ",";
+                var judgeNo = $(this).val();
+                judgeNoArr += judgeNo + ",";
             });
 
-            codeNoArr = {
-                "codeNo": codeNoArr
+            judgeNoArr = {
+                "judgeNo": judgeNoArr
             };
 
-            console.log(codeNoArr) //로그는 찍힌당.
+            console.log(judgeNoArr) //로그는 찍힌당.
 
             $.ajax({
                 type: "post",
-                url: "<c:out value='${pageContext.request.contextPath}/code/admin/delete'/>",
-                data: JSON.stringify(codeNoArr),
+                url: "<c:out value='${pageContext.request.contextPath}/judge/admin/delete'/>",
+                data: JSON.stringify(judgeNoArr),
                 dataType: "json",
                 contentType: "application/json;charset=UTF-8",
                 success: function (data) {
@@ -244,9 +244,9 @@
             </div>
             <!-- btn area-->
             <div class="btn-wrap">
-                <button type="button" id="btn_register" class="btn2 btn-blue">111</button>
-                <button type="button" id="btn_change_code_state" class="btn2 btn-blue">222</button>
-                <button type="button" id="btn_delete" class="btn2 btn-gray">333</button>
+                <button type="button" id="btn_register" class="btn2 btn-blue">신규심판등록</button>
+                <button type="button" id="btn_change_state_Y" class="btn2 btn-blue">계정사용</button>
+                <button type="button" id="btn_change_state_N" class="btn2 btn-gray">계정미사용</button>
             </div>
             <!-- //btn area -->
         </div>
@@ -295,12 +295,12 @@
 <div class="modal" id="pop_detail" style="width: 900px;"></div>
 <!-- //popup 04-->
 
-<!-- popup 03-1 --><%-- codeState == N --%>
-<div class="modal no_close" id="pop_change_code_state">
+<!-- popup 03-1 --><%-- judgeState == Y --%>
+<div class="modal no_close" id="pop_change_state_Y">
     <div class="popup-content">
-        <p class="pop-text">코드 상태를 N으로 변경하시겠습니까?</p>
+        <p class="pop-text">계정을 사용하시겠습니까?</p>
         <div class="btn-wrap">
-            <button type="button" id="btn_pop_change_code_state" class="btn2 btn-blue">확인</button>
+            <button type="button" id="btn_pop_change_state_Y" class="btn2 btn-blue">확인</button>
             <button type="button" class="btn2 b-close">닫기</button>
         </div>
     </div>
@@ -308,22 +308,22 @@
 <!-- //popup 03-1-->
 
 <!-- popup 03-2 -->
-<div class="modal no_close" id="pop_change_code_state_success">
+<div class="modal no_close" id="pop_change_state_Y_success">
     <div class="popup-content">
         <p class="pop-text">정상적으로 처리되었습니다.</p>
         <div class="btn-wrap">
-            <button type="button" id="btn_change_code_state_success" class="btn2 btn-blue">확인</button>
+            <button type="button" id="btn_change_state_Y_success" class="btn2 btn-blue">확인</button>
         </div>
     </div>
 </div>
 <!-- //popup 03-2 -->
 
 <!-- popup 03-3 -->
-<div class="modal no_close" id="pop_change_code_state_fail">
+<div class="modal no_close" id="pop_change_state_Y_fail">
     <div class="popup-content">
         <p class="pop-text">정상적으로 처리하지 못했습니다. <br>관리자에게 문의해주세요.</p>
         <div class="btn-wrap">
-            <button type="button" id="btn_change_code_state_fail" class="btn2 btn-blue">확인</button>
+            <button type="button" id="btn_change_state_Y_fail" class="btn2 btn-blue">확인</button>
         </div>
     </div>
 </div>
@@ -413,35 +413,35 @@
     });
 </script>
 
-<%-- 코드상태변경 관련 --%>
+<%-- 계정사용 상태변경 관련 --%>
 <script>
-    <%-- 코드변경(N) 처리하시겠습니까? --%>
+    <%-- 사용(Y) 처리하시겠습니까? --%>
     $('#btn_change_code_state').click(function () {
         <%-- 체크한 값이 있는지 확인 --%>
         if ($("input[name=chk]:checked").length < 1) {
             alert("상태를 변경할 데이터를 선택해주세요.");
             return false;
         } else {
-            var codeNoArr = "";
+            var judgeNoArr = "";
             $("input[name=chk]:checked").each(function () {
-                var codeNo = $(this).val();
-                codeNoArr += codeNo + ",";
+                var judgeChkNo = $(this).val();
+                judgeNoArr += judgeChkNo + ",";
             });
 
-            codeNoArr = {
-                "codeNo": codeNoArr,
+            judgeNoArr = {
+                "judgeChkNo": judgeNoArr,
                 /*"useState": "Ngsdaaf"*/    <%-- 코드 미사용 --%>
             };
         }
     });
-    <%-- 코드변경(N) 성공 --%>
-    $("#btn_change_code_state_success").click(function () {
-        $('#pop_change_code_state_success').bPopup().close();
-        location.href = "<c:out value='${pageContext.request.contextPath}/judge/admin/confirm'/>";
+    <%-- 코드변경(Y) 성공 --%>
+    $("#btn_change_state_Y_success").click(function () {
+        $('#pop_change_state_Y_success').bPopup().close();
+        location.href = "<c:out value='${pageContext.request.contextPath}/judge/admin/judgeList'/>";
     });
-    <%-- 코드변경(N) 실패 --%>
-    $("#btn_change_code_state_fail").click(function () {
-        $('#pop_change_code_state_fail').bPopup().close();
+    <%-- 코드변경(Y) 실패 --%>
+    $("#btn_change_state_Y_fail").click(function () {
+        $('#pop_change_state_Y_fail').bPopup().close();
     });
 </script>
 <%-- 코드상태변경 관련 --%>
@@ -464,7 +464,7 @@
             });
         });
 
-        <%-- 신규 코드과정 등록화면으로 이동 --%>
+        <%-- 신규 심판 등록화면으로 이동? --%>
         $('#btn_register').click(function () {
             location.href = "<c:out value='${pageContext.request.contextPath}/judge/admin/registerPage'/>";
         });
@@ -472,9 +472,10 @@
         <%-- 삭제 성공 --%>
         $("#btn_delete_success").click(function () {
             $('#pop_delete_success').bPopup().close();
-            location.href = "<c:out value='${pageContext.request.contextPath}/judge/admin/confirm'/>";
+            location.href = "<c:out value='${pageContext.request.contextPath}/judge/admin/judgeList'/>";
             console.log("삭제성공")
         });
+
         <%-- 삭제 실패 --%>
         $("#btn_delete_fail").click(function () {
             $('#pop_delete_fail').bPopup().close();
@@ -484,7 +485,7 @@
         <%-- 검색 --%>
         $('#btn_search').click(function () {
             $('#searchForm').attr("method", "post");
-            $('#searchForm').attr("action", "<c:out value='${pageContext.request.contextPath}/judge/admin/confirm'/>");
+            $('#searchForm').attr("action", "<c:out value='${pageContext.request.contextPath}/judge/admin/judgeList'/>");
             $('#searchForm').submit();
             console.log("검색!")
         });

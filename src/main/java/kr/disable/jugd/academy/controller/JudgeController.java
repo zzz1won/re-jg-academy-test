@@ -111,6 +111,52 @@ public class JudgeController {
         catch (Exception e){
             logger.debug(e.getMessage());
         }
+        return resultMap;
+    }
+
+
+    /** 계정 사용(Y)체크 */
+    @RequestMapping("admin/stateChkY")
+    @ResponseBody
+    public Map<String,Object> useStateChkY (HttpServletRequest request, @RequestBody JudgeVO judgeVO) throws Exception {
+        Map<String, Object> resultMap = new HashMap<>();
+        int result = 0;
+        HttpSession session = request.getSession(); //로그인정보...
+
+        judgeVO.setJudgeState("Y"); //Constants를 사용하지않아도 되겠지...
+        judgeVO.setJudgeNoArr(judgeVO.getJudgeChkNo().split(",")); //다중선택시 "," 로 나누겠다.
+        //judgeNo로 했는데 못찾아서 새로이 추가를 해줬다.
+
+        try{
+            result = judgeService.updateJudgeStateY(judgeVO);
+        }
+        catch (Exception e){
+            logger.debug(e.getMessage());
+        }
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
+
+    /** 계정 사용(Y)체크 */
+    @RequestMapping("admin/stateChkN")
+    @ResponseBody
+    public Map<String,Object> useStateChkN (HttpServletRequest request, @RequestBody JudgeVO judgeVO) throws Exception {
+        Map<String, Object> resultMap = new HashMap<>();
+        int result = 0;
+        HttpSession session = request.getSession(); //로그인정보...
+
+        judgeVO.setJudgeState("N");
+        judgeVO.setJudgeNoArr(judgeVO.getJudgeChkNo().split(",")); //다중선택시 "," 로 나누겠다.
+        //judgeNo로 했는데 못찾아서 새로이 추가를 해줬다.
+
+        try{
+            result = judgeService.updateJudgeStateN(judgeVO);
+        }
+        catch (Exception e){
+            logger.debug(e.getMessage());
+        }
+        resultMap.put("result", result);
 
         return resultMap;
     }

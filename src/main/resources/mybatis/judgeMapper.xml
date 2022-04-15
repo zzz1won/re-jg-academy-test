@@ -125,4 +125,27 @@
 		WHERE
 			judge_no = #{judgeNo}
 	</update>
+
+
+	<update id="updateJudgeStateY" parameterType="Map">
+		/*심판 계정상태 수정 updateJudgeStateY */
+		UPDATE JUDGE_INFO
+		SET judge_state = 'Y'
+		WHERE
+		judge_no IN
+		<foreach collection="judgeNoArr" item="judgeChkNo" open="(" close=")" separator=",">
+			#{judgeChkNo}
+		</foreach>
+	</update>
+
+	<update id="updateJudgeStateN" parameterType="Map">
+		/*심판 계정상태 수정 updateJudgeStateN */
+		UPDATE JUDGE_INFO
+		SET judge_state = 'N'
+		WHERE
+		judge_no IN
+		<foreach collection="judgeNoArr" item="judgeChkNo" open="(" close=")" separator=",">
+			#{judgeChkNo}
+		</foreach>
+	</update>
 </mapper>

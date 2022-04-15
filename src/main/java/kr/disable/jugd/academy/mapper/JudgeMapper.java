@@ -41,4 +41,10 @@ public interface JudgeMapper {
 
 	/** 심판정보수정용!*/
 	public Integer updateJudgeData(JudgeVO judgeVO);
+
+	/** 심판 계정 사용여부 Y로 변경*/
+    public Integer updateJudgeStateY(JudgeVO judgeVO);
+
+	/** 심판 계정 사용여부 N으로 변경*/
+	public Integer updateJudgeStateN(JudgeVO judgeVO);
 }

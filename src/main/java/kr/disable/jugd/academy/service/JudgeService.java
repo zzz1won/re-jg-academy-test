@@ -60,4 +60,14 @@ public class JudgeService {
     public Integer updateJudgeData(JudgeVO judgeVO) {
 		return judgeMapper.updateJudgeData(judgeVO);
     }
+
+	/**judge 계정사용여부 judgeList페이지에서 변경 */
+    public Integer updateJudgeStateY(JudgeVO judgeVO) {
+		return judgeMapper.updateJudgeStateY(judgeVO);
+    }
+
+	/**judge 계정사용여부 judgeList페이지에서 변경 */
+	public Integer updateJudgeStateN(JudgeVO judgeVO) {
+		return judgeMapper.updateJudgeStateN(judgeVO);
+	}
 }

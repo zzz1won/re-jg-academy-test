@@ -13,6 +13,9 @@ public class JudgeVO extends SearchVO {
 	private String judgeEtc; //비고
 	private String judgeState; //사용여부
 	private Date regDate; //등록일
+	/**0415 추가, 계정체크 여러개 */
+	private String judgeChkNo;
+	private String[] judgeNoArr;
 
 	
 	public String getJudgeNo() {
@@ -52,6 +55,10 @@ public class JudgeVO extends SearchVO {
 	public void setJudgeState(String judgeState) {		this.judgeState = judgeState;	}
 
 	public Date getRegDate() {		return regDate;	}
-	public void setRegDate(Date regDate) {		this.regDate = regDate;
-	}
+	public void setRegDate(Date regDate) {		this.regDate = regDate;	}
+
+	public String getJudgeChkNo() {		return judgeChkNo;	}
+	public void setJudgeChkNo(String judgeChkNo) {		this.judgeChkNo = judgeChkNo;	}
+	public String[] getJudgeNoArr() {		return judgeNoArr;	}
+	public void setJudgeNoArr(String[] judgeNoArr) {		this.judgeNoArr = judgeNoArr;	}
 }
