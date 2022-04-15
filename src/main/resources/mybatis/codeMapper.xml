@@ -136,7 +136,7 @@
     <update id="updateCodeUseState" parameterType="CodeVO">
         UPDATE COMMON_CODE
         SET use_state =
-            CASE WHEN use_state = 'y' then 'N'
+            CASE WHEN use_state = 'Y' then 'N'
                  WHEN use_state = 'N' then 'Y' END
         WHERE
         common_code_no IN

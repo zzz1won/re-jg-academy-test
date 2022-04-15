@@ -201,8 +201,8 @@
                 <form id="searchForm" name="searchForm">
                     <ul class="filter-row">
                         <li>
-                            <label for="judgeKindCheck">분 류</label>
-                                <select id="judgeKindCheck" name="judgeKindCheck" class="wd_120">
+                            <label for="searchChkValue">분 류</label>
+                                <select id="searchChkValue" name="searchChkValue" class="wd_120">
                                     <option value="">전체</option>
                                     <c:forEach var="judgeKind" items="${judgeKindList}" varStatus="status">
                                         <option value="<c:out value="${judgeKind.code}"/>"> <c:out value="${judgeKind.codeName}"/> </option>
@@ -212,7 +212,7 @@
                         </li>
                         <li>
                             <input type="text" id="searchArea" name="searchArea" class="input-text" style="width:140px"
-                                   value="<c:out value="${search.codeName}"/>">
+                                   placeholder="이름 또는 심판번호" value="<c:out value="${search.codeName}"/>">
                         </li>
                         <li>
                             <button type="button" id="btn_search" class="btn2 btn-search">

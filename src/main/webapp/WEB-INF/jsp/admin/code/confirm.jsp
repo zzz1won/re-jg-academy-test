@@ -433,40 +433,6 @@
                 "codeNo": codeNoArr,
                 /*"useState": "Ngsdaaf"*/    <%-- 코드 미사용 --%>
             };
-
-            <%-- 기존
-                확정취소를 위해 현재 신청확정 값만 있는지 확인
-                * 선택한 값에서 신청(01)값이 있을 경우, 확정취소를 못하도록 설정
-            --%>
-            <%-- 지원추가, 코드사용 y/n--%>
-                <%--코드미사용 처리를 위해 현재 코드를 사용중인지 확인
-                * 선택한 값에서 신청(01)값이 있을 경우, 코드미사용 처리를 못하도록 설정
-                오... 그러면 다른테이블과 엮여야하는데, 일단 keep.
-                1. 일단 코드만 y/n 무조건 바뀌게 설정.
-                2. 실행 된다면 현재 사용중인지 확인하는 절차를 추가로 설정.--%>
-
-            /* 아 이게 아니었다! 이미 useState = N 이면 뜨는 창! */
-            /*$.ajax({
-                type: "post",
-                url: "<c:out value='${pageContext.request.contextPath}/apply/count/state'/>",
-                data: JSON.stringify(codeNoArr),
-                dataType: "json",
-                contentType: "application/json;charset=UTF-8",
-                success: function (data) {
-                    if (data.result > 0) {
-                        <%-- 선택한 값에 N 값이 존재하므로 stop --%>
-                        alert("선택한 값에 N 값이 있습니다. \n다시 한 번 선택해주세요.");
-                        return false;
-                    } else {
-                        $('#pop_change_code_state').bPopup({
-                            speed: 450,
-                        });
-                    }
-                },
-                error: function () {
-                    alert("fail ajax ㅠㅠ 하단에이작스 !!!");
-                }
-            });*/
         }
     });
     <%-- 코드변경(N) 성공 --%>

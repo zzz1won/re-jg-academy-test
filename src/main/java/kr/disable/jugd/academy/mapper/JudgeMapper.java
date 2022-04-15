@@ -47,4 +47,7 @@ public interface JudgeMapper {
 
 	/** 심판 계정 사용여부 N으로 변경*/
 	public Integer updateJudgeStateN(JudgeVO judgeVO);
+
+	/** 심판 신규등록 */
+	public Integer insertJudge(JudgeVO judgeVO);
 }

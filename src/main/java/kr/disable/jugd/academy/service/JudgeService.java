@@ -70,4 +70,9 @@ public class JudgeService {
 	public Integer updateJudgeStateN(JudgeVO judgeVO) {
 		return judgeMapper.updateJudgeStateN(judgeVO);
 	}
+
+	/**judge 심판 신규 등록 */
+	public Integer insertJudge(JudgeVO judgeVO) {
+		return judgeMapper.insertJudge(judgeVO);
+	}
 }

@@ -2,149 +2,161 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.disable.jugd.academy.mapper.JudgeMapper">
-	<select id="selectJudgeInfo" parameterType="JudgeVO" resultType="JudgeVO">
-		/* selectJudgeInfo */
-		SELECT
-			      judge_no
-			    , judge_name
-			    , judge_kind
-		FROM
-				JUDGE_INFO
-		WHERE
-				judge_no = #{judgeNo}		
-		<if test="eduStatus != null and eduStatus != ''">
-		AND
-				judge_name = #{judgeName}
-		</if>		
-		<if test="eduStatus != null and eduStatus != ''">
-		AND
-				judge_kind = #{judgeKind}
-		</if>		
-	</select>
-	
-	<select id="selectJudgeMemberList" parameterType="Map" resultType="JudgeVO">
+    <select id="selectJudgeInfo" parameterType="JudgeVO" resultType="JudgeVO">
+        /* selectJudgeInfo */
+        SELECT
+        judge_no
+        , judge_name
+        , judge_kind
+        FROM
+        JUDGE_INFO
+        WHERE
+        judge_no = #{judgeNo}
+        <if test="eduStatus != null and eduStatus != ''">
+            AND
+            judge_name = #{judgeName}
+        </if>
+        <if test="eduStatus != null and eduStatus != ''">
+            AND
+            judge_kind = #{judgeKind}
+        </if>
+    </select>
+
+    <select id="selectJudgeMemberList" parameterType="Map" resultType="JudgeVO">
 	<![CDATA[
-		/* selectJudgeMemberList */
-		SELECT
-			  @ROWNUM := @ROWNUM - 1 AS ROWNUM
+        /* selectJudgeMemberList */
+        SELECT @ROWNUM := @ROWNUM - 1 AS ROWNUM
 			, D.*
-		FROM(
-				SELECT C.*
-				FROM (
-					SELECT
-					    JUDGE_NO
-					    , JUDGE_NAME
-					    , JUDGE_KIND
-					    , MOD_DATE
-					FROM
-						JUDGE_INFO
-				) C
-			) D, (SELECT @ROWNUM := #{judgeMemberListCnt} + 1) NUM
-		ORDER BY D.judge_no DESC
-	]]>
+        FROM (
+            SELECT C.*
+            FROM (
+            SELECT
+            JUDGE_NO
+                , JUDGE_NAME
+                , JUDGE_KIND
+                , MOD_DATE
+            FROM
+            JUDGE_INFO
+            ) C
+            ) D, (SELECT @ROWNUM := #{judgeMemberListCnt} + 1) NUM
+        ORDER BY D.judge_no DESC
+        ]]>
 	</select>
-	
-	<select id="selectJudgeMemberListCnt" parameterType="Map" resultType="Integer">
-	SELECT
-			    COUNT(*)
-		FROM
-				JUDGE_INFO
-	</select>
-	
-	<update id="updateJudgeInfo" parameterType="JudgeVO">
+
+    <select id="selectJudgeMemberListCnt" parameterType="Map" resultType="Integer">
+        SELECT COUNT(*)
+        FROM JUDGE_INFO
+    </select>
+
+    <update id="updateJudgeInfo" parameterType="JudgeVO">
 	<![CDATA[
-		/* updateJudgeInfo */
-		UPDATE
-				JUDGE_INFO
-		SET
-				  judge_name = #{judgeName}
-				, judge_kind = #{judgeKind}
-				, mod_date = NOW()
-				, mod_id = #{modId}
-		WHERE
-				judge_no = #{judgeNo}
-	]]>
+        /* updateJudgeInfo */
+        UPDATE
+            JUDGE_INFO
+        SET judge_name = #{judgeName}
+          , judge_kind = #{judgeKind}
+          , mod_date   = NOW()
+          , mod_id     = #{modId}
+        WHERE judge_no = #{judgeNo}
+        ]]>
 	</update>
 
-	<!--0414 추가-->
-	<!--0415 다시-->
-	<select id="selectJudgeList" parameterType="Map" resultType="JudgeVO">
-		/*selectJudgeList*/
-		SELECT
-			J.judge_no,
-			J.judge_name,
-			J.judge_kind,
-			J.judge_state,
-			J.judge_etc,
-		    J.reg_date,
-			C.code_name
-		FROM JUDGE_INFO J
-				 JOIN COMMON_CODE C ON J.judge_kind = C.code
-		ORDER by J.reg_date DESC, J.judge_name ASC;
-
-	</select>
-
-
-
-	<!-- 0415 join 다시! -->
-	<select id="selectDetailJudge" parameterType="JudgeVO" resultType="judgeVO">
-		/*selectDetailJudge*/
-		SELECT
-			J.judge_no,
-			J.judge_name,
-			J.judge_state,
-			J.judge_etc,
-		    J.judge_kind
-		FROM JUDGE_INFO J
-		WHERE J.judge_no = #{judgeNo}
-
-	</select>
+    <!--0414 추가-->
+    <!--0415 다시-->
+    <select id="selectJudgeList" parameterType="Map" resultType="JudgeVO">
+        /*selectJudgeList*/
+        SELECT J.judge_no,
+               J.judge_name,
+               J.judge_kind,
+               J.judge_state,
+               J.judge_etc,
+               J.reg_date,
+               C.code_name
+        FROM JUDGE_INFO J
+                 JOIN COMMON_CODE C ON J.judge_kind = C.code
+        WHERE 1=1
+        <if test="searchArea != '' and searchArea != null" > /*전체검색*/
+            AND (J.judge_name LIKE CONCAT('%',#{searchArea},'%') OR J.judge_no LIKE CONCAT('%',#{searchArea},'%'))
+        </if>
+        <if test="searchChkValue != '' and searchChkValue != null" >
+            AND J.judge_kind = #{searchChkValue}
+        </if>
+        ORDER by J.reg_date DESC, J.judge_name ASC;
+    </select>
 
 
-	<!--굳이 join 할 필요가 ? -->
-	<update id="updateJudgeData1" parameterType="JudgeVO">
-		UPDATE JUDGE_INFO J
-		JOIN COMMON_CODE C ON J.judge_kind = C.code
-		SET J.judge_name = #{judgeName},
-		    J.judge_kind = #{judgeKind},
-		    J.judge_state = #{judgeState},
-		    J.judge_etc = #{judgeEtc},
-		WHERE
-			J.judge_no = #{judgeNo}
-	</update>
+    <!-- 0415 join 다시! -->
+    <select id="selectDetailJudge" parameterType="JudgeVO" resultType="judgeVO">
+        /*selectDetailJudge*/
+        SELECT J.judge_no,
+               J.judge_name,
+               J.judge_state,
+               J.judge_etc,
+               J.judge_kind
+        FROM JUDGE_INFO J
+        WHERE J.judge_no = #{judgeNo}
 
-	<update id="updateJudgeData" parameterType="JudgeVO">
-		UPDATE JUDGE_INFO
-			SET judge_name = #{judgeName},
-				judge_kind = #{judgeKind},
-				judge_etc = #{judgeEtc},
-				judge_state =
-					CASE WHEN judge_state = 'Y' THEN 'N'
-						 WHEN judge_state = 'N' THEN 'Y' END
-		WHERE
-			judge_no = #{judgeNo}
-	</update>
+    </select>
 
 
-	<update id="updateJudgeStateY" parameterType="Map">
-		/*심판 계정상태 수정 updateJudgeStateY */
-		UPDATE JUDGE_INFO
-		SET judge_state = 'Y'
-		WHERE
-		judge_no IN
-		<foreach collection="judgeNoArr" item="judgeChkNo" open="(" close=")" separator=",">
-			#{judgeChkNo}
-		</foreach>
-	</update>
+    <!--굳이 join 할 필요가 ? -->
+    <update id="updateJudgeData1" parameterType="JudgeVO">
+        UPDATE JUDGE_INFO J
+            JOIN COMMON_CODE C
+        ON J.judge_kind = C.code
+            SET J.judge_name = #{judgeName},
+                J.judge_kind = #{judgeKind},
+                J.judge_state = #{judgeState},
+                J.judge_etc = #{judgeEtc},
+        WHERE
+            J.judge_no = #{judgeNo}
+    </update>
 
-	<update id="updateJudgeStateN" parameterType="Map">
-		/*심판 계정상태 수정 updateJudgeStateN */
-		UPDATE JUDGE_INFO
-		SET judge_state = 'N'
-		WHERE
-		judge_no IN
-		<foreach collection="judgeNoArr" item="judgeChkNo" open="(" close=")" separator=",">
-			#{judgeChkNo}
-		</foreach>
-	</update>
+    <update id="updateJudgeData" parameterType="JudgeVO">
+        UPDATE JUDGE_INFO
+        SET judge_name  = #{judgeName},
+            judge_kind  = #{judgeKind},
+            judge_etc   = #{judgeEtc},
+            judge_state =
+                CASE
+                    WHEN judge_state = 'Y' THEN 'N'
+                    WHEN judge_state = 'N' THEN 'Y' END
+        WHERE judge_no = #{judgeNo}
+    </update>
+
+
+    <update id="updateJudgeStateY" parameterType="Map">
+        /*심판 계정상태 수정 updateJudgeStateY */
+        UPDATE JUDGE_INFO
+        SET judge_state = 'Y'
+        WHERE
+        judge_no IN
+        <foreach collection="judgeNoArr" item="judgeChkNo" open="(" close=")" separator=",">
+            #{judgeChkNo}
+        </foreach>
+    </update>
+
+    <update id="updateJudgeStateN" parameterType="Map">
+        /*심판 계정상태 수정 updateJudgeStateN */
+        UPDATE JUDGE_INFO
+        SET judge_state = 'N'
+        WHERE
+        judge_no IN
+        <foreach collection="judgeNoArr" item="judgeChkNo" open="(" close=")" separator=",">
+            #{judgeChkNo}
+        </foreach>
+    </update>
+
+    <insert id="insertJudge" parameterType="JudgeVO">
+        INSERT INTO JUDGE_INFO ( judge_name
+                               , judge_kind
+                               , judge_state
+                               , judge_etc
+                               , reg_date)
+        VALUES (#{judgeName},
+                #{judgeKind},
+                #{judgeState},
+                #{judgeEtc},
+                now())
+    </insert>
 </mapper>

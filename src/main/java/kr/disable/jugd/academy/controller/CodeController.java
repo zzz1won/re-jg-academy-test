@@ -62,8 +62,6 @@ public class CodeController {
         Map<String, Object> paramMap = new HashMap<>();
         List<CodeVO> codeList = null;
         List<SearchVO> searchList = null;
-        /* codeState 정리용 */
-        /*List<CodeVO> codeStateList = null;*/
 
         paramMap.put("codeName",search.getCodeName()); //검색이 안돼서 추가
         /*검색이 안돼서 추가*/

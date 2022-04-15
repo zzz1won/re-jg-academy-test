@@ -25,12 +25,12 @@
 
     $(function(){
         <%-- 심판정보 등록 --%>
-        $("#btn_update").click(function(){
+        $("#btn_register").click(function(){
             <%-- 필수입력값 체크 --%>
             check = fn_checkForm();
             console.log("필수입력값 체크")
             if(check){
-                $('#pop_confirm_update').bPopup({
+                $('#pop_confirm_register').bPopup({
                     speed: 450,
                     // transition: 'slideDown'
                 });
@@ -83,13 +83,13 @@
         }
 
         <%-- 심판번호 --%>
-        if($('#judgeNo').val().length < 1){
+        /*if($('#judgeNo').val().length < 1){
             $('#pop_check_form_judge_no').bPopup({
                 speed: 450,
                 // transition: 'slideDown'
             });
             return false;
-        }
+        }*/
 
         <%-- 심판이름 --%>
         if($('#judgeName').val().length < 1){
@@ -149,7 +149,6 @@
                         </colgroup>
                         <tbody>
                         <tr>
-                            <%--<th class="required_need">종목</th>--%>
                             <th class="required_need">종목</th>
                             <td>
                                 <select id="judgeKind" name="judgeKind" class="login_select wide">
@@ -166,56 +165,29 @@
                         <tr>
                             <th class="required_need">이름</th>
                             <td><input type="text" name="judgeName" id="judgeName"
-                                       value="<c:out value="${judgeVO.judgeName}"/>"></td>
+                                       placeholder="이름"></td>
                             <th class="required_need">계정사용여부</th>
                             <td>
-                                <c:choose>
-                                    <c:when test="${judgeVO.judgeState eq 'Y'}">
-                                        <input class="form-check-input" type="radio" name="judgeState" id="exampleRadios1" value="${judgeVO.judgeState}" checked>
-                                        <label class="form-check-label" for="exampleRadios1">
+                                <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="judgeState" id="judgeState" value="Y">
+                                        <label class="form-check-label" for="judgeState">
                                             예
                                         </label>
-                                        <input class="form-check-input" type="radio" name="judgeState" id="exampleRadios2" value="${judgeVO.judgeState}">
-                                        <label class="form-check-label" for="exampleRadios2">
+                                        <input class="form-check-input" type="radio" name="judgeState" value="N">
+                                        <label class="form-check-label" for="judgeState">
                                             아니오
                                         </label>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <input class="form-check-input" type="radio" name="judgeState" id="exampleRadios1" value="${judgeVO.judgeState}">
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            예
-                                        </label>
-                                        <input class="form-check-input" type="radio" name="judgeState" id="exampleRadios2" value="${judgeVO.judgeState}" checked>
-                                        <label class="form-check-label" for="exampleRadios2">
-                                            아니오
-                                        </label>
-                                    </c:otherwise>
-                                </c:choose>
-
-                                <input type="radio" name="judgeState" id="judgeState"
-                                       value="<c:out value="${judgeVO.judgeState}"/>"></td>
+                                </div>
                         </tr>
                         <tr>
                             <th>비고</th>
-                            <td colspan="3"><c:choose>
-                                <c:when test="${judge.judgeEtc eq null}">
-                                    <input type="text" name="judgeEtc" id="judgeEtc"
-                                           placeholder="비고란이 비어있습니다.">
-                                </c:when>
-                                <c:when test="${empty judge.judgeEtc}">
-                                    <input type="text" name="judgeEtc" id="judgeEtc"
-                                           placeholder="비고란이 비어있습니다.">
-                                </c:when>
-                                <c:otherwise>
-                                    <input type="text" name="judgeEtc" id="judgeEtc"
-                                           value="<c:out value="${judge.judgeEtc}"/>">
-                                </c:otherwise>
-                            </c:choose>
+                            <td colspan="3"><input type="text" name="judgeEtc" id="judgeEtc"
+                                           placeholder="내용을 입력해주세요">
                             </td>
                         </tr>
                         </tbody>
                     </table>
-                    <input type = "hidden" name="judgeNo" value="${judgeVO.judgeNo}">
+                    <%--<input type = "hidden" name="judgeNo" value="${judgeVO.judgeNo}">--%>
                     <!-- //table -->
                 </div>
                 <%--<!-- btn area -->--%>

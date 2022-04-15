@@ -161,7 +161,7 @@ public class JudgeController {
         return resultMap;
     }
 
-    /** 신규 심판 등록*/
+    /** 신규 심판 등록 요청 */
     @RequestMapping("admin/registerPage")
     public String registerForm (HttpServletRequest request, Model model) throws Exception{
         HttpSession session = request.getSession();
@@ -182,5 +182,22 @@ public class JudgeController {
         //model.addAttribute("judgeList", judgeList);
 
         return "admin/judge/register";
+    }
+
+    @RequestMapping("admin/register")
+    @ResponseBody
+    public Map<String, Object> insertJudge (@RequestBody JudgeVO judgeVO, HttpServletRequest request) throws Exception{
+        HttpSession session = request.getSession();
+        Map<String, Object> resultMap = new HashMap<>();
+        int result = 0;
+
+        try{
+            result = judgeService.insertJudge(judgeVO);
+            resultMap.put("result",result);
+        }
+        catch (Exception e){
+            logger.debug(e.getMessage());
+        }
+        return resultMap;
     }
 }
