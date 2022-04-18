@@ -44,13 +44,14 @@ public class JudgeController {
         //그럼 검색을 위해 여기서 map을 쓴건가?? 데이터를 꺼내 쓰려고...??
         List<JudgeVO> judgeList = null; //심판
         List<CodeVO> judgeKindList = null; //심판 종목체크용
-        List<SearchVO> searchList = null; //검색용
 
         paramMap.put("searchArea", searchVO.getSearchArea()); //검색단어
         paramMap.put("searchChkValue",searchVO.getSearchChkValue()); //검색어분류
         paramMap.put("groupCode","100001"); //100001이라는 object를 지닌 groupCode를 paramMap에 추가. //현재 groupCode의 값은 100001
         //paramMap.put("groupCode","100002"); //100002이라는 object를 지닌 groupCode를 paramMap에 추가+덮어씌움 //groupCode의 최종값은 100002
         //paramMap.put("groupCode","100003"); //100003이라는 object를 지닌 groupCode를 paramMap에 추가+덮어씌움+덮어씌움 //groupCode의 최종값은 100003
+        //paramMap만 불러오면 데이터가 걸러질테니 굳이 searchVOList를 생성 할 필요가 없다.
+
         try{
             judgeList = judgeService.selectJudgeList(paramMap);
             judgeKindList = codeService.selectCode(paramMap);
@@ -62,7 +63,6 @@ public class JudgeController {
         model.addAttribute("judgeList",judgeList);
         model.addAttribute("judgeKindList",judgeKindList);
         model.addAttribute("adminInfo",adminInfo);
-        /*model.addAttribute("searchList",searchList);*/
 
         return "admin/judge/confirm";
     }
@@ -71,6 +71,8 @@ public class JudgeController {
     public String judgeUpdateForm(HttpServletRequest request, Model model, JudgeVO judgeVO) throws Exception {
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
+        //로그인 정보 유지용으로(안만들면 상단 로그인정보 공란으로 보여짐)
+
         Map<String,Object> paramMap = new HashMap<>();
         List<CodeVO> judgeKindList = null; //종목List를 담으려고 선언~
         paramMap.put("groupCode","100001");
@@ -82,8 +84,10 @@ public class JudgeController {
             logger.debug(e.getMessage());
         }
         model.addAttribute("judgeVO",judgeVO); //심판 정보를 담는다.
-        model.addAttribute("adminInfo",adminInfo);
-        model.addAttribute("judgeKindList",judgeKindList); //ㅎㅎ
+        model.addAttribute("adminInfo",adminInfo);//로그인용
+        model.addAttribute("judgeKindList",judgeKindList);
+        //담아온 judgeKindList를 model에 담아주지않으면 말짱도루묵...
+
         return "admin/judge/update";
     }
 

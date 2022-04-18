@@ -18,20 +18,29 @@
 <jsp:include page="/WEB-INF/jsp/include/common.jsp"/>
 
 <%-- 0418 function ready practice--%>
-    <script>
+    <%--<script>
         $(document).ready(function(){
             alert("hi");
         })
-    </script>
+    </script>--%>
 
-    <script>
+    <%--<script>
         $(function(){
             alert("간단하게 사용하는 경우 이렇게");
             alert("$(document).ready(function(){})를");
             alert("$(function(){})로");
         })
-    </script>
-<%-- 0418 function ready practice--%>
+    </script>--%>
+<%-- 0418 function ready practice --%>
+
+<%-- 0418 function practice --%>
+<%--<script>
+    (function(write){
+        document.write("test");
+    })()
+</script>--%>
+<%-- 0418 function practice --%>
+
 
 
 <script type="text/javascript">
