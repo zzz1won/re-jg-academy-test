@@ -24,9 +24,9 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/common.css">
 
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/fullcalendar/lib/main.css">
-<script src="${pageContext.request.contextPath}/resources/fullcalendar/lib/main.js"></script>
-<script src="${pageContext.request.contextPath}/resources/fullcalendar/lib/locales/ko.js"></script>
+<%--<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/fullcalendar/lib/main.css">--%>
+<%--<script src="${pageContext.request.contextPath}/resources/fullcalendar/lib/main.js"></script>--%>
+<%--<script src="${pageContext.request.contextPath}/resources/fullcalendar/lib/locales/ko.js"></script>--%>
 
 <script type="text/javascript">
 var doubleSubmitFlag = false;

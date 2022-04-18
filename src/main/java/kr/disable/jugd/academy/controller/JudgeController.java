@@ -75,9 +75,9 @@ public class JudgeController {
 
         Map<String,Object> paramMap = new HashMap<>();
         List<CodeVO> judgeKindList = null; //종목List를 담으려고 선언~
-        paramMap.put("groupCode","100001");
+        paramMap.put("groupCode","100001");//groupCode가 100001인 값들만 출력됨...
         try{
-            judgeVO = judgeService.selectDetailJudge(judgeVO);
+            judgeVO = judgeService.selectDetailJudge(judgeVO); //judgeService에서 judge의 List를 가져와서 출력하려고...
             judgeKindList = codeService.selectCode(paramMap); //codeService에서 종목List를 가져와 담는다.
         }
         catch (Exception e){
@@ -124,10 +124,11 @@ public class JudgeController {
 
         judgeVO.setJudgeState("Y"); //Constants를 사용하지않아도 되겠지...
         judgeVO.setJudgeNoArr(judgeVO.getJudgeChkNo().split(",")); //다중선택시 "," 로 나누겠다.
-        //judgeNo로 했는데 못찾아서 새로이 추가를 해줬다.
+        //처음엔 judgeVO.getJudgeNo로 했는데 못찾아서 새로이 추가를 해줬다.
 
         try{
             result = judgeService.updateJudgeStateY(judgeVO);
+            //Mapper에 있는 forEach를 이용해 돌아간 수정데이터가 몇개인지 체크? 으음...
         }
         catch (Exception e){
             logger.debug(e.getMessage());
@@ -170,18 +171,17 @@ public class JudgeController {
 
         Map<String,Object> paramMap = new HashMap<>();
         List<CodeVO> judgeKindList = null; //종목추가용
-        //List<JudgeVO> judgeList = null;
+        paramMap.put("groupCode","100001"); //groupCode 100001만 출력되게끔!
 
         try{
-            judgeKindList = codeService.selectCode(paramMap);
-            //judgeList = judgeService.selectJudgeList(paramMap);
+            judgeKindList = codeService.selectCode(paramMap);//paramMap을 담아 code를 judgeKindList에 담는다.
+            //아 이 순서에 따랐고, 그래서 groupCode 100001인애만 가져올 수 있던거군...!!
         }
         catch (Exception e){
             logger.debug(e.getMessage());
         }
-        model.addAttribute("judgeKindList",judgeKindList);
-        model.addAttribute("adminInfo",adminInfo);
-        //model.addAttribute("judgeList", judgeList);
+        model.addAttribute("judgeKindList",judgeKindList); //model에 judgeKindList를 담기
+        model.addAttribute("adminInfo",adminInfo);  //관리자 로그인 정보
 
         return "admin/judge/register";
     }
@@ -199,11 +199,13 @@ public class JudgeController {
         AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("adminInfo",adminInfo);
-        int result = 0;
+        //로그인 정보 등등등
 
+        int result = 0;
+        //굳이 result 아니어도 되는거 아닌가?
         try{
-            result = judgeService.insertJudge(judgeVO);
-            resultMap.put("result",result);
+            result = judgeService.insertJudge(judgeVO); //judgeVO를 추가하는 Mapper 를 들고 result 에 담은 후
+            resultMap.put("result",result); //mapper 에 넣어준다.
         }
         catch (Exception e){
             logger.debug(e.getMessage());

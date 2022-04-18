@@ -149,8 +149,7 @@
                         </colgroup>
                         <tbody>
                         <tr>
-                            <%--<th class="required_need">종목</th>--%>
-                            <th>종목</th>
+                            <th class="required_need">종목</th>
                             <td>
                                 <select id="judgeKind" name="judgeKind" class="login_select wide">
                                     <c:forEach var="judgeKind" items="${judgeKindList}" varStatus="status">
