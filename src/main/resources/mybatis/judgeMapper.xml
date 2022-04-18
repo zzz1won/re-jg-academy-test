@@ -85,7 +85,6 @@
         ORDER by J.reg_date DESC, J.judge_name ASC;
     </select>
 
-
     <!-- 0415 join 다시! -->
     <select id="selectDetailJudge" parameterType="JudgeVO" resultType="judgeVO">
         /*selectDetailJudge*/
@@ -99,21 +98,8 @@
 
     </select>
 
-
-    <!--굳이 join 할 필요가 ? -->
-    <update id="updateJudgeData1" parameterType="JudgeVO">
-        UPDATE JUDGE_INFO J
-            JOIN COMMON_CODE C
-        ON J.judge_kind = C.code
-            SET J.judge_name = #{judgeName},
-                J.judge_kind = #{judgeKind},
-                J.judge_state = #{judgeState},
-                J.judge_etc = #{judgeEtc},
-        WHERE
-            J.judge_no = #{judgeNo}
-    </update>
-
     <update id="updateJudgeData" parameterType="JudgeVO">
+        /*updateJudgeDate-real*/
         UPDATE JUDGE_INFO
         SET judge_name  = #{judgeName},
             judge_kind  = #{judgeKind},
@@ -149,6 +135,7 @@
     </update>
 
     <insert id="insertJudge" parameterType="JudgeVO">
+        /*insertJudge*/
         INSERT INTO JUDGE_INFO ( judge_name
                                , judge_kind
                                , judge_state

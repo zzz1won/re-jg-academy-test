@@ -11,7 +11,7 @@ public class JudgeVO extends SearchVO {
 	private String  judgeMemo;
 	/**0414 추가*/
 	private String judgeEtc; //비고
-	private String judgeState; //사용여부
+	private String judgeState; //계정사용여부
 	private Date regDate; //등록일
 	/**0415 추가, 계정체크 여러개 */
 	private String judgeChkNo;

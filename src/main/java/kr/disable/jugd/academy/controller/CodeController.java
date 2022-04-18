@@ -28,29 +28,14 @@ public class CodeController {
     private Logger logger = LoggerFactory.getLogger(CodeController.class);
 
     @Autowired
-    private CommonService commonService;
-
-    @Autowired
-    private EduService eduService;
-
-    @Autowired
-    private ApplyService applyService;
-
-    @Autowired
-    private CertService certService;
-
-    @Autowired
-    private AdminService adminService;
-
-    @Autowired
     private CodeService codeService;
 
     /**
      * 코드관리하는 컨트롤러
      *
      * @param model //CertController.java - certAdminConfirm 참고!
-     * @return
-     * @throws Exception
+     * @return //
+     * @throws //Exception
      */
 
     @RequestMapping("admin/confirm")
@@ -61,18 +46,14 @@ public class CodeController {
 
         Map<String, Object> paramMap = new HashMap<>();
         List<CodeVO> codeList = null;
-        List<SearchVO> searchList = null;
 
         paramMap.put("codeName",search.getCodeName()); //검색이 안돼서 추가
-        /*검색이 안돼서 추가*/
-        paramMap.put("codeListCheck", search.getCodeListCheck()); //검색 체크는 이 아이 ^^;
+        paramMap.put("codeListCheck", search.getCodeListCheck()); //검색 selected 체크는 이 아이 ^^;
 
         String[] codeStateList = {Constants.CODE_USE_STATE, Constants.CODE_USE_STATE_N};
         try {
-            /*codeList = commonService.selectToCommonCode(paramMap); //표준*/
             codeList = codeService.selectCode(paramMap);
             paramMap.put("codeStateList",codeStateList);
-            /*codeStateList = codeService.selectCode(paramMap);*/
         } catch (Exception e) {
             logger.debug(e.getMessage());
         }
@@ -93,29 +74,36 @@ public class CodeController {
     @RequestMapping("admin/delete")
     @ResponseBody
     public Map<String, Object> deleteCode(@RequestBody CodeVO codeVO) throws Exception {
-        Map<String, Object> resultMap = new HashMap<>();
-        List<CodeVO> codeNoList = null;
-        /*ApplyVO apply = new ApplyVO(); //관련내용 삭제할거야!*/
-        String codeNoArr = "";
-        int result = 0;
-        //코드를 삭제하면 해당 코드와 관련된 자료도 모두 삭제를 해야 맞잖어?
-        //하지만 일단 코드만 삭제한다! 안되넹
+        Map<String, Object> resultMap = new HashMap<>(); //data를 담을 Map : resultMap
+        List<CodeVO> codeNoList = null; //CodeVO의 데이터를 기반으로 하는 List 타입의 codeNoList 선언
+        String codeNoArr = "";          //String 타입의 codeNoArr 선언
+        int result = 0;                 //int 타입의 result 선언(삭제할 갯수 체크)
 
+        //왜 이 문구를 try catch 이전에 진행하는가? 의미가 있는걸까?
         codeVO.setCodeNoArr(codeVO.getCodeNo().split(","));
+        //CodeVO의 codeNo을 가져온 후 ','으로 구분하여 codeNoArr 값을 셋팅한다.
 
         try {
             codeNoList = codeService.selectCodeNo(codeVO);
+                //codeService 의 selectCodeNo를 가져와 codeVO의 리스트를 볼 수 있게 지정 후...
             for (CodeVO codeNo : codeNoList) {
-                //code에서 no값을 가져온다.
+                //for 문에 의해 codeNoList 를 반복, codeNo 라는 이름으로 for 문 실행
                 codeNoArr += codeNo.getCommonCodeNo() + ",";
+                //forEach 돌려 codeNoList 를 codeNo 라는 이름으로 CommonCodeNo(pk) 를 꺼내와
+                //codeNoArr 에 추가, 값의 구분은 ',' 를 사용.
             }
 
             result = codeService.deleteCode(codeVO);
+            //codeService 의 deleteCode를 가져와 선택한 codeVO를 삭제할 수 있게 지정.
             resultMap.put("result", result);
+            //그 값을 result 에 담는다.
+
         } catch (Exception e) {
             logger.debug(e.getMessage());
         }
         return resultMap;
+            // Exception 발생하지 않을 시 return resultMap 실행.
+            // resultMap에 든 result값이 실행(삭제) 처리됨.
     }
 
     /**
@@ -146,14 +134,11 @@ public class CodeController {
     @ResponseBody
     public Map<String, Object> insertCode(@RequestBody CodeVO codeVO, HttpServletRequest request) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
-        int nullChk = 0;
         int result = 0;
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
-        //굳이?
-        codeVO.setRegId(adminInfo.getAdminId());
+        resultMap.put("adminInfo",adminInfo);   //로그인 정보는 보여야하므로 adminInfo 추가
         try {
-            //insert
             result = codeService.insertCode(codeVO);
             resultMap.put("result", result);
         } catch (Exception e) {
@@ -165,7 +150,7 @@ public class CodeController {
     /** 코드 상세보기 페이지
      * @param codeVO
      * @return request
-     * @throws Exception
+     * @throws //Exception
      * */
 
     @RequestMapping("admin/detail")
@@ -173,54 +158,31 @@ public class CodeController {
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
 
-        try {
-            codeVO = codeService.selectDetailCode(codeVO);
-        }
-        catch (Exception e){
-            logger.debug(e.getMessage());
-        }
+        try {       codeVO = codeService.selectDetailCode(codeVO);        }
+        catch (Exception e){            logger.debug(e.getMessage());        }
 
         model.addAttribute("codeVO", codeVO);
         model.addAttribute("adminInfo",adminInfo);
-        System.out.println("-----------------selected:"+codeVO);
         return "admin/code/detail";
     }
-
-    /** 코드 수정요청 페이지 아...!
-     * @param
-     * @return
-     * @throws Exception
-     * */
-    /*@RequestMapping("admin/updatePage")
-    public String codeUpdatePage(HttpServletRequest request, Model model, CodeVO codeVO) throws Exception {
-        HttpSession session = request.getSession();
-        AdminVO adminInfo = (AdminVO)session.getAttribute("ADMIN");
-        try {
-        codeVO = codeService.selectDetailCode(codeVO);
-        }
-        catch (Exception e){
-            logger.debug(e.getMessage());
-        }
-
-        model.addAttribute("codeVO", codeVO);
-        return "admin/code/update";
-    }*/
-
 
     /** 코드 수정처리
      * @param
      * @return
-     * @throws Exception
+     * @throws //Exception
      * */
 
     @RequestMapping("admin/update")
     @ResponseBody
+    //ResponseBody : @RequestBody 의 요청에 따라 POST 방식으로 전송 된 HTTP 요청 데이터를
+    //String type 의 Body Parameter로 전달받는 것[수신] 둘이 짝꿍.
     public Map<String, Object> codeUpdate(@RequestBody CodeVO codeVO, HttpServletRequest request) throws Exception {
         Map<String,Object> resultMap = new HashMap<>();
-        int result = 0;
+        int result = 0; //건수
 
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO)session.getAttribute("ADMIN");
+        resultMap.put("adminInfo",adminInfo); //adminHeader 에 의해 적용되는 부분.
 
         try{
             result = codeService.updateCode(codeVO);
@@ -245,16 +207,14 @@ public class CodeController {
         int result = 0;
         /*로그인정보*/
         HttpSession session = request.getSession();
+        AdminVO adminInfo = (AdminVO)session.getAttribute("ADMIN");
+        resultMap.put("adminInfo",adminInfo);
 
         codeVO.setUseState(Constants.CODE_USE_STATE_N);
-        /*codeVO.setUseState(Constants.CODE_USE_STATE); //오늘도 바보짓을 한 걸루! ^^*/
         codeVO.setCodeNoArr(codeVO.getCodeNo().split(","));
 
         try{
-            //취소처리. 신청->수료 넘어가는 기능은 없기때문에 변경만 하는 걸로!
-            /*codeList = codeService.insertUseState(codeVO);*/
             result = codeService.updateCodeUseState(codeVO);
-            /*resultMap.put("result"+result);*/
         }
         catch (Exception e){
             logger.debug(e.getMessage());

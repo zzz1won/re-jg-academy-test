@@ -140,7 +140,7 @@ public class JudgeController {
         AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
 
         //judgeVO.setJudgeState("N");
-        judgeVO.setJudgeState(Constants.Judge_STATE_N); //계정미사용
+        judgeVO.setJudgeState(Constants.JUDGE_STATE_N); //계정미사용
         judgeVO.setJudgeNoArr(judgeVO.getJudgeChkNo().split(",")); //다중선택시 "," 로 나누겠다.
         //judgeNo로 했는데 못찾아서 새로이 추가를 해줬다.
 

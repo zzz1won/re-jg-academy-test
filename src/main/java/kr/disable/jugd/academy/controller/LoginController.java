@@ -32,7 +32,7 @@ public class LoginController {
 	/**
      * 로그인 (심판)
      * @param request
-     * @param model
+     * @param //model
      * @param judge
      * @return
      * @throws Exception
@@ -59,11 +59,11 @@ public class LoginController {
 			HttpSession session = request.getSession();
 			session.setAttribute("USER", judgeInfo);
 			session.setMaxInactiveInterval(30*60);
-			
+
 			return "redirect:/edu/judge/schedule";
-			
+
 		} else if(StringUtils.equals(judgeInfo.getJudgeState(),Constants.JUDGE_STATE_N)){
-			redirectAttributes.addFlashAttribute("message", "계정미사용 상태입니다.<br> 관리자에게 문의하세요.");
+			redirectAttributes.addFlashAttribute("message", "계정미사용 상태입니다.<br>관리자에게 문의하세요.");
 			return "redirect:/judge/index";
 		} else {
 			// 로그인 실패
