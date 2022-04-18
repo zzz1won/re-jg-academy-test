@@ -17,6 +17,23 @@
 
 <jsp:include page="/WEB-INF/jsp/include/common.jsp"/>
 
+<%-- 0418 function ready practice--%>
+    <script>
+        $(document).ready(function(){
+            alert("hi");
+        })
+    </script>
+
+    <script>
+        $(function(){
+            alert("간단하게 사용하는 경우 이렇게");
+            alert("$(document).ready(function(){})를");
+            alert("$(function(){})로");
+        })
+    </script>
+<%-- 0418 function ready practice--%>
+
+
 <script type="text/javascript">
     $(function () {
         <%-- 신청확정 --%>
@@ -206,13 +223,15 @@
                                     <option value="">전체</option>
                                     <c:forEach var="judgeKind" items="${judgeKindList}" varStatus="status">
                                         <option value="<c:out value="${judgeKind.code}"/>"> <c:out value="${judgeKind.codeName}"/> </option>
+                                        <%-- judgeKind의 code값을 가진, codeName을 띄우는?...--%>
+                                        <%--<option value="<c:out value="${judgeKind.groupCode}"/>"> <c:out value="${judgeKind.groupCodeName}"/> </option>--%>
                                     </c:forEach>
                                 </select>
                                 <%-- 검색부분 체크할 것 --%>
                         </li>
                         <li>
                             <input type="text" id="searchArea" name="searchArea" class="input-text" style="width:140px"
-                                   placeholder="이름 또는 심판번호" value="<c:out value="${search.codeName}"/>">
+                                   placeholder="이름 또는 심판번호">
                         </li>
                         <li>
                             <button type="button" id="btn_search" class="btn2 btn-search">

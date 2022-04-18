@@ -41,13 +41,16 @@ public class JudgeController {
         //필요없다고 생각했는데 session(admin)정보를 입력하지 않으니까 로그인시 공백으로 나옴.
 
         Map<String,Object> paramMap = new HashMap<>();
+        //그럼 검색을 위해 여기서 map을 쓴건가?? 데이터를 꺼내 쓰려고...??
         List<JudgeVO> judgeList = null; //심판
         List<CodeVO> judgeKindList = null; //심판 종목체크용
         List<SearchVO> searchList = null; //검색용
 
         paramMap.put("searchArea", searchVO.getSearchArea()); //검색단어
         paramMap.put("searchChkValue",searchVO.getSearchChkValue()); //검색어분류
-        paramMap.put("groupCode","100001");
+        paramMap.put("groupCode","100001"); //100001이라는 object를 지닌 groupCode를 paramMap에 추가. //현재 groupCode의 값은 100001
+        //paramMap.put("groupCode","100002"); //100002이라는 object를 지닌 groupCode를 paramMap에 추가+덮어씌움 //groupCode의 최종값은 100002
+        //paramMap.put("groupCode","100003"); //100003이라는 object를 지닌 groupCode를 paramMap에 추가+덮어씌움+덮어씌움 //groupCode의 최종값은 100003
         try{
             judgeList = judgeService.selectJudgeList(paramMap);
             judgeKindList = codeService.selectCode(paramMap);
