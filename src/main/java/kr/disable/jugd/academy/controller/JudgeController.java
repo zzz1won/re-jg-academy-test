@@ -5,6 +5,7 @@ import kr.disable.jugd.academy.domain.CodeVO;
 import kr.disable.jugd.academy.domain.JudgeVO;
 import kr.disable.jugd.academy.domain.SearchVO;
 import kr.disable.jugd.academy.service.*;
+import kr.disable.jugd.academy.utils.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,21 +28,6 @@ public class JudgeController {
     private Logger logger = LoggerFactory.getLogger(CodeController.class);
 
     @Autowired
-    private CommonService commonService;
-
-    @Autowired
-    private EduService eduService;
-
-    @Autowired
-    private ApplyService applyService;
-
-    @Autowired
-    private CertService certService;
-
-    @Autowired
-    private AdminService adminService;
-
-    @Autowired
     private CodeService codeService;
 
     @Autowired
@@ -51,6 +37,8 @@ public class JudgeController {
     @RequestMapping("admin/judgeList")
     public String judgeAdminConfirmList(HttpServletRequest request, SearchVO searchVO, Model model){
         HttpSession session = request.getSession();
+        AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
+        //필요없다고 생각했는데 session(admin)정보를 입력하지 않으니까 로그인시 공백으로 나옴.
 
         Map<String,Object> paramMap = new HashMap<>();
         List<JudgeVO> judgeList = null; //심판
@@ -70,6 +58,7 @@ public class JudgeController {
 
         model.addAttribute("judgeList",judgeList);
         model.addAttribute("judgeKindList",judgeKindList);
+        model.addAttribute("adminInfo",adminInfo);
         /*model.addAttribute("searchList",searchList);*/
 
         return "admin/judge/confirm";
@@ -78,20 +67,20 @@ public class JudgeController {
     @RequestMapping("admin/detail")
     public String judgeUpdateForm(HttpServletRequest request, Model model, JudgeVO judgeVO) throws Exception {
         HttpSession session = request.getSession();
+        AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
         Map<String,Object> paramMap = new HashMap<>();
-        List<CodeVO> judgeKindList = null;
-        List<JudgeVO> judgeList = null;
+        List<CodeVO> judgeKindList = null; //종목List를 담으려고 선언~
         paramMap.put("groupCode","100001");
         try{
             judgeVO = judgeService.selectDetailJudge(judgeVO);
-            judgeKindList = codeService.selectCode(paramMap);
+            judgeKindList = codeService.selectCode(paramMap); //codeService에서 종목List를 가져와 담는다.
         }
         catch (Exception e){
             logger.debug(e.getMessage());
         }
-        model.addAttribute("judgeVO",judgeVO); //얘만 제대로 작동하는 중
+        model.addAttribute("judgeVO",judgeVO); //심판 정보를 담는다.
+        model.addAttribute("adminInfo",adminInfo);
         model.addAttribute("judgeKindList",judgeKindList); //ㅎㅎ
-        model.addAttribute("judgeList", judgeList); //ㅎㅎ
         return "admin/judge/update";
     }
 
@@ -102,6 +91,7 @@ public class JudgeController {
     public Map<String,Object> judgeUpdate(@RequestBody JudgeVO judgeVO, HttpServletRequest request) throws Exception{
         Map<String,Object> resultMap = new HashMap<>();
         HttpSession session = request.getSession();
+        AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
         int result = 0;
 
         try{
@@ -111,6 +101,7 @@ public class JudgeController {
         catch (Exception e){
             logger.debug(e.getMessage());
         }
+        resultMap.put("adminInfo",adminInfo);
         return resultMap;
     }
 
@@ -122,6 +113,7 @@ public class JudgeController {
         Map<String, Object> resultMap = new HashMap<>();
         int result = 0;
         HttpSession session = request.getSession(); //로그인정보...
+        AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
 
         judgeVO.setJudgeState("Y"); //Constants를 사용하지않아도 되겠지...
         judgeVO.setJudgeNoArr(judgeVO.getJudgeChkNo().split(",")); //다중선택시 "," 로 나누겠다.
@@ -134,19 +126,21 @@ public class JudgeController {
             logger.debug(e.getMessage());
         }
         resultMap.put("result", result);
-
+        resultMap.put("adminInfo", adminInfo);
         return resultMap;
     }
 
-    /** 계정 사용(Y)체크 */
+    /** 계정 미사용(N)체크 */
     @RequestMapping("admin/stateChkN")
     @ResponseBody
     public Map<String,Object> useStateChkN (HttpServletRequest request, @RequestBody JudgeVO judgeVO) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
         int result = 0;
         HttpSession session = request.getSession(); //로그인정보...
+        AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
 
-        judgeVO.setJudgeState("N");
+        //judgeVO.setJudgeState("N");
+        judgeVO.setJudgeState(Constants.Judge_STATE_N); //계정미사용
         judgeVO.setJudgeNoArr(judgeVO.getJudgeChkNo().split(",")); //다중선택시 "," 로 나누겠다.
         //judgeNo로 했는데 못찾아서 새로이 추가를 해줬다.
 
@@ -157,7 +151,7 @@ public class JudgeController {
             logger.debug(e.getMessage());
         }
         resultMap.put("result", result);
-
+        resultMap.put("adminInfo",adminInfo);
         return resultMap;
     }
 
@@ -179,16 +173,25 @@ public class JudgeController {
             logger.debug(e.getMessage());
         }
         model.addAttribute("judgeKindList",judgeKindList);
+        model.addAttribute("adminInfo",adminInfo);
         //model.addAttribute("judgeList", judgeList);
 
         return "admin/judge/register";
     }
 
+    /** 신규 심판 등록 처리
+     * @param   //judgeVO, request
+     * @return  //Map
+     * @throws  //exception 
+     * */
+    
     @RequestMapping("admin/register")
     @ResponseBody
     public Map<String, Object> insertJudge (@RequestBody JudgeVO judgeVO, HttpServletRequest request) throws Exception{
         HttpSession session = request.getSession();
+        AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
         Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("adminInfo",adminInfo);
         int result = 0;
 
         try{

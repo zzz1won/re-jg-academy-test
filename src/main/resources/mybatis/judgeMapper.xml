@@ -8,6 +8,7 @@
         judge_no
         , judge_name
         , judge_kind
+        , judge_state
         FROM
         JUDGE_INFO
         WHERE

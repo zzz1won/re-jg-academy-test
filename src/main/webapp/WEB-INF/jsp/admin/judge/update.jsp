@@ -197,20 +197,22 @@
                         </tr>
                         <tr>
                             <th>비고</th>
-                            <td colspan="3"><c:choose>
-                                <c:when test="${judge.judgeEtc eq null}">
-                                    <input type="text" name="judgeEtc" id="judgeEtc"
-                                           placeholder="비고란이 비어있습니다.">
-                                </c:when>
-                                <c:when test="${empty judge.judgeEtc}">
-                                    <input type="text" name="judgeEtc" id="judgeEtc"
-                                           placeholder="비고란이 비어있습니다.">
-                                </c:when>
-                                <c:otherwise>
-                                    <input type="text" name="judgeEtc" id="judgeEtc"
-                                           value="<c:out value="${judge.judgeEtc}"/>">
-                                </c:otherwise>
-                            </c:choose>
+                            <td colspan="3">
+                                <c:choose>
+                                    <c:when test="${judgeVO.judgeEtc eq null}">
+                                        <input type="text" name="judgeEtc" id="judgeEtc"
+                                               placeholder="비고란이 비어있습니다.">
+                                    </c:when>
+                                    <%--<c:when test="${empty judgeVO.judgeEtc}"> 위의 when 부분도 그렇고 judge라고만 써서 모두 비고란이 비어있습니다 라고 읽혀졌다. 무슨 값을 불러올건지 잘 체크할 것.!--%>
+                                    <c:when test="${empty judgeVO.judgeEtc}">
+                                        <input type="text" name="judgeEtc" id="judgeEtc"
+                                               placeholder="비고란이 비어있습니다.">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input type="text" name="judgeEtc" id="judgeEtc"
+                                               value="<c:out value="${judgeVO.judgeEtc}"/>">
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                         </tr>
                         </tbody>
