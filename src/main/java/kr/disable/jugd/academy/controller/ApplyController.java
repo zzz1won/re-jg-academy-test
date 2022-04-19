@@ -223,25 +223,31 @@ public class ApplyController {
 	@ResponseBody
 	public Map<String, Object> applyCancelConfirm(HttpServletRequest request, @RequestBody ApplyVO apply) throws Exception{
 		Map<String, Object> resultMap = new HashMap<>();
-		int result = 0;
+		int result = 0; //변경 할 건수 확인용
 		
 		HttpSession session = request.getSession();
 		AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
+		//로그인 정보
 		
 		// 신청확정(02) -> 신청(01)으로 update
-		apply.setState(Constants.APPLY_STATE_APPLY_WAIT); // 신청(01)
-		apply.setModId(adminInfo.getAdminId());
-		apply.setApplyNoArr(apply.getApplyNo().split(","));
+		apply.setState(Constants.APPLY_STATE_APPLY_WAIT); // 신청(01) 으로 state 값 변경
+		apply.setModId(adminInfo.getAdminId());			// 확정자는 여기서 set 안해줘도 되지 않나? null을 시킬건데...
+		apply.setApplyNoArr(apply.getApplyNo().split(","));	//여러건일 경우, split ','을 이용해 코드를 나눠줌.
 		
 		try {
 			// 확정취소
 			result = applyService.updateConfirmCancel(apply);
-			
-			if(result > 0) {
+			//확정취소하려 선택한 건수를 result에 담는다~
+
+			if(result > 0) { //result가 0보다 클 때(1개 이상일 때!)
 				List<ApplyVO> deleteList = applyService.selectApplyListByApplyNo(apply);
+			// apply no값으로 신청 정보 목록 조회 라는데,
+			// 이 값을 가져와 for문 돌림.
 				
 				for(ApplyVO delete : deleteList) {
 					certService.deleteCertInfoByJudgeNoEudId(delete);
+					//확정취소 누를 시, 신청확정되어 cert(수료)테이블에 insert된 row삭제
+					//연결된 정보 함께 수정해준다.
 				}
 			}
 			
@@ -251,6 +257,7 @@ public class ApplyController {
 		
 		resultMap.put("result", result);
 		return resultMap;
+		//resultMap, result가 담겨있으니 try에 있는 과정들 실행...?
 	}
 	
 	/**
