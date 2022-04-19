@@ -218,18 +218,7 @@
                             <td><c:out value="${code.groupCodeName}"></c:out></td>
                             <td><c:out value="${code.groupCode}"></c:out></td>
                             <td><fmt:formatDate value="${code.regDate}" pattern="yyyy/MM/dd"/></td>
-                            <td><c:choose>
-                                <c:when test="${code.etcInfo eq null}">
-                                    -
-                                </c:when>
-                                <c:when test="${empty code.etcInfo}">
-                                    -
-                                </c:when>
-                                <c:otherwise>
-                                    <c:out value="${code.etcInfo}"></c:out>
-                                </c:otherwise>
-                            </c:choose>
-                            </td>
+                            <td><c:out value="${code.etcInfo}" default="-"/></td>
                             <td><c:out value="${code.useState}"/></td>
                             <td><c:out value="${code.commonCodeNo}"/></td>
 

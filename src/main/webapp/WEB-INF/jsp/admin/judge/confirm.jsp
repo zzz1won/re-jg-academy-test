@@ -18,19 +18,19 @@
 <jsp:include page="/WEB-INF/jsp/include/common.jsp"/>
 
 <%-- 0418 function ready practice--%>
-    <%--<script>
-        $(document).ready(function(){
-            alert("hi");
-        })
-    </script>--%>
+<%--<script>
+    $(document).ready(function(){
+        alert("hi");
+    })
+</script>--%>
 
-    <%--<script>
-        $(function(){
-            alert("간단하게 사용하는 경우 이렇게");
-            alert("$(document).ready(function(){})를");
-            alert("$(function(){})로");
-        })
-    </script>--%>
+<%--<script>
+    $(function(){
+        alert("간단하게 사용하는 경우 이렇게");
+        alert("$(document).ready(function(){})를");
+        alert("$(function(){})로");
+    })
+</script>--%>
 <%-- 0418 function ready practice --%>
 
 <%-- 0418 function practice --%>
@@ -40,7 +40,6 @@
     })()
 </script>--%>
 <%-- 0418 function practice --%>
-
 
 
 <script type="text/javascript">
@@ -228,15 +227,16 @@
                     <ul class="filter-row">
                         <li>
                             <label for="searchChkValue">분 류</label>
-                                <select id="searchChkValue" name="searchChkValue" class="wd_120">
-                                    <option value="">전체</option>
-                                    <c:forEach var="judgeKind" items="${judgeKindList}" varStatus="status">
-                                        <option value="<c:out value="${judgeKind.code}"/>"> <c:out value="${judgeKind.codeName}"/> </option>
-                                        <%-- judgeKind의 code값을 가진, codeName을 띄우는?...--%>
-                                        <%--<option value="<c:out value="${judgeKind.groupCode}"/>"> <c:out value="${judgeKind.groupCodeName}"/> </option>--%>
-                                    </c:forEach>
-                                </select>
-                                <%-- 검색부분 체크할 것 --%>
+                            <select id="searchChkValue" name="searchChkValue" class="wd_120">
+                                <option value="">전체</option>
+                                <c:forEach var="judgeKind" items="${judgeKindList}" varStatus="status">
+                                    <option value="<c:out value="${judgeKind.code}"/>"><c:out
+                                            value="${judgeKind.codeName}"/></option>
+                                    <%-- judgeKind의 code값을 가진, codeName을 띄우는?...--%>
+                                    <%--<option value="<c:out value="${judgeKind.groupCode}"/>"> <c:out value="${judgeKind.groupCodeName}"/> </option>--%>
+                                </c:forEach>
+                            </select>
+                            <%-- 검색부분 체크할 것 --%>
                         </li>
                         <li>
                             <input type="text" id="searchArea" name="searchArea" class="input-text" style="width:140px"
@@ -280,25 +280,16 @@
 
                             <td><%--judgeCon-confirm에서 judgeKindList 내용들 추가 --%>
                                 <c:forEach var="kind" items="${judgeKindList}" varStatus="status">
-                                <c:if test="${kind.code eq judge.judgeKind}">
-                                    <c:out value="${kind.codeName}"/>
-                                </c:if>
+                                    <c:if test="${kind.code eq judge.judgeKind}">
+                                        <c:out value="${kind.codeName}"/>
+                                    </c:if>
                                 </c:forEach>
                             </td>
 
                             <td><c:out value="${judge.judgeState}"></c:out></td>
                             <td><fmt:formatDate value="${judge.regDate}" pattern="yyyy-MM-dd"/></td>
-                            <td colspan="3"><c:choose>
-                                <c:when test="${judge.judgeEtc eq null}">
-                                    -
-                                </c:when>
-                                <c:when test="${empty judge.judgeEtc}">
-                                    -
-                                </c:when>
-                                <c:otherwise>
-                                    <c:out value="${judge.judgeEtc}"></c:out>
-                                </c:otherwise>
-                            </c:choose>
+                            <td colspan="3">
+                                <c:out value="${judge.judgeEtc}" default="-"/>
                             </td>
                         </tr>
                     </c:forEach>
@@ -430,7 +421,7 @@
 <!-- //popup 03-3 -->
 
 
- <%--상세화면으로 가기 위한 파라미터 --%>
+<%--상세화면으로 가기 위한 파라미터 --%>
 <form id="detailView" method="post">
     <input type="hidden" id="judgeNo" name="judgeNo">
 </form>

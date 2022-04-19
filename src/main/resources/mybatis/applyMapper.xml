@@ -212,7 +212,7 @@
 			) C, (SELECT @ROWNUM := #{applyListCnt} + 1) NUM
 				]]>
 	</select>
-	
+
 	<!-- 신청 관리 목록 개수 -->
 	<select id="selectAdminApplyListCnt" parameterType="Map" resultType="Integer">
 	<![CDATA[
