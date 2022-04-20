@@ -81,16 +81,6 @@
             });
             return false;
         }
-
-        <%-- 심판번호 --%>
-        /*if($('#judgeNo').val().length < 1){
-            $('#pop_check_form_judge_no').bPopup({
-                speed: 450,
-                // transition: 'slideDown'
-            });
-            return false;
-        }*/
-
         <%-- 심판이름 --%>
         if($('#judgeName').val().length < 1){
             $('#pop_check_form_judge_name').bPopup({

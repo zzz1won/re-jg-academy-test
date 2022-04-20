@@ -100,9 +100,14 @@
 <!-- custom js -->
 <script type="text/javascript">
     $(document).ready(function () {
-        <%-- 심판등록 버튼 클릭--%>
+        <%-- 신규가입 시도 --%>
         $('#btn_join').click(function(){
-            location.href="<c:out value='${pageContext.request.contextPath}/judge/hello'/>";
+            return checkForm();
+        });
+        <%-- 신규 교육과정 등록화면으로 이동 --%>
+        $('#btn_join').click(function(){
+            location.href="<c:out value='${pageContext.request.contextPath}/judge/registerPage'/>";
+            console.log("register 버튼 누름")
         });
 
         //로그인 셀렉트메뉴

@@ -1,5 +1,6 @@
 package kr.disable.jugd.academy.domain;
 
+import java.util.Arrays;
 import java.util.Date;
 
 public class JudgeVO extends SearchVO {
@@ -61,4 +62,20 @@ public class JudgeVO extends SearchVO {
 	public void setJudgeChkNo(String judgeChkNo) {		this.judgeChkNo = judgeChkNo;	}
 	public String[] getJudgeNoArr() {		return judgeNoArr;	}
 	public void setJudgeNoArr(String[] judgeNoArr) {		this.judgeNoArr = judgeNoArr;	}
+
+	@Override
+	public String toString() {
+		return "JudgeVO{" +
+				"judgeNo='" + judgeNo + '\'' +
+				", judgeName='" + judgeName + '\'' +
+				", judgeKind='" + judgeKind + '\'' +
+				", phoneNumber='" + phoneNumber + '\'' +
+				", judgeMemo='" + judgeMemo + '\'' +
+				", judgeEtc='" + judgeEtc + '\'' +
+				", judgeState='" + judgeState + '\'' +
+				", regDate=" + regDate +
+				", judgeChkNo='" + judgeChkNo + '\'' +
+				", judgeNoArr=" + Arrays.toString(judgeNoArr) +
+				'}';
+	}
 }

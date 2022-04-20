@@ -25,6 +25,7 @@ public class WebConfig implements WebMvcConfigurer  {
                 .excludePathPatterns("/**/login")
                 .excludePathPatterns("/**/detail")
                 .excludePathPatterns("/**/popup/**")
+                .excludePathPatterns("/judge/registerPage") //0420 추가
                 ;
     }
 }

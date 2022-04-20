@@ -36,7 +36,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 				if(session.getAttribute("USER") == null) {
 					response.sendRedirect("/judge/index/");
 					return false;
-				} else {
+				}
+				else {
 					return true;
 				}
 			}

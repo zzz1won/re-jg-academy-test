@@ -41,7 +41,7 @@ public class LoginController {
     @RequestMapping("/judge/login")
     public String judgeLogin(HttpServletRequest request, JudgeVO judge, RedirectAttributes redirectAttributes) throws Exception {
         JudgeVO judgeInfo = new JudgeVO();
-
+        System.out.println("LoginController~~~~~~~~~");
         try {
             // 로그인 정보와 일치하는 심판 정보를 가지고온다.
             judgeInfo = judgeService.selectJudgeInfo(judge);
@@ -55,9 +55,9 @@ public class LoginController {
         //System.out.println("judgeInfo: "+ judgeInfo.getJudgeKind()+" "+judgeInfo.getJudgeNo()+" "+judgeInfo.getJudgeName()); //0420 이렇게 쓰면 null로 잡히는...? 당연한건가 흠
         System.out.println(!StringUtils.equals(judgeInfo.getJudgeState(), Constants.JUDGE_STATE_N));
 
-		boolean judgeStateN = StringUtils.equals(judgeInfo.getJudgeState(), Constants.JUDGE_STATE_N); //해당 데이터의 JudgeState가 N일때
-		boolean judgeNameChk = StringUtils.equals(judgeInfo.getJudgeName(), judge.getJudgeName());	 //입력한 JudgeName 값이 기존 데이터와 일치하는 경우
-		boolean judgeKindChk = StringUtils.equals(judgeInfo.getJudgeKind(), judge.getJudgeKind());	//입력한 JudegKind 값이 기존 데이터와 일치하는 경우
+        boolean judgeStateN = StringUtils.equals(judgeInfo.getJudgeState(), Constants.JUDGE_STATE_N); //해당 데이터의 JudgeState가 N일때
+        boolean judgeNameChk = StringUtils.equals(judgeInfo.getJudgeName(), judge.getJudgeName());     //입력한 JudgeName 값이 기존 데이터와 일치하는 경우
+        boolean judgeKindChk = StringUtils.equals(judgeInfo.getJudgeKind(), judge.getJudgeKind());    //입력한 JudegKind 값이 기존 데이터와 일치하는 경우
 
         if (judgeInfo != null && !judgeStateN && judgeNameChk && judgeKindChk) {
             // 조회된 정보를 session에 등록
@@ -103,7 +103,7 @@ public class LoginController {
      * 로그인 (관리자)
      *
      * @param request
-     * @param model
+     * @param redirectAttributes
      * @param admin
      * @return
      * @throws Exception
