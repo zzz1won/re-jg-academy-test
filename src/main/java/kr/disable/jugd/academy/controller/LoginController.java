@@ -51,10 +51,12 @@ public class LoginController {
 		}
 
 		System.out.println("judgeInfo.getJudgeState() : " + judgeInfo.getJudgeState());
+		//System.out.println("judgeInfo: "+ judgeInfo.getJudgeKind()+" "+judgeInfo.getJudgeNo()+" "+judgeInfo.getJudgeName()); //0420 이렇게 쓰면 null로 잡히는...? 당연한건가 흠
 		System.out.println(!StringUtils.equals(judgeInfo.getJudgeState(),Constants.JUDGE_STATE_N));
 
 
-		if(judgeInfo != null && !StringUtils.equals(judgeInfo.getJudgeState(),Constants.JUDGE_STATE_N)) {
+		/*if(judgeInfo != null && !StringUtils.equals(judgeInfo.getJudgeState(),Constants.JUDGE_STATE_N)) {*/
+		if(judgeInfo != null && !StringUtils.equals(judgeInfo.getJudgeState(),Constants.JUDGE_STATE_N) && StringUtils.equals(judgeInfo.getJudgeName(),judge.getJudgeName()) && StringUtils.equals(judgeInfo.getJudgeKind(), judge.getJudgeKind())) {
 			// 조회된 정보를 session에 등록
 			HttpSession session = request.getSession();
 			session.setAttribute("USER", judgeInfo);
@@ -65,7 +67,14 @@ public class LoginController {
 		} else if(StringUtils.equals(judgeInfo.getJudgeState(),Constants.JUDGE_STATE_N)){
 			redirectAttributes.addFlashAttribute("message", "계정미사용 상태입니다.<br>관리자에게 문의하세요.");
 			return "redirect:/judge/index";
-		} else {
+		} else if(!StringUtils.equals(judgeInfo.getJudgeName(),judge.getJudgeName())){
+			redirectAttributes.addFlashAttribute("message", "회원매칭 불가<br> 정보를 다시 확인해주세요.");
+			return "redirect:/judge/index";
+		} else if(!StringUtils.equals(judgeInfo.getJudgeKind(), judge.getJudgeKind())){
+			redirectAttributes.addFlashAttribute("message", "종목을 확인해주세요.");
+			return "redirect:/judge/index";
+		}
+		else {
 			// 로그인 실패
 			redirectAttributes.addFlashAttribute("message", "로그인에 실패하셨습니다.<br>다시 시도해주세요.");
 			return "redirect:/judge/index";
