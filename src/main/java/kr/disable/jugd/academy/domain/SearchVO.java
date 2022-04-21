@@ -48,7 +48,6 @@ public class SearchVO {
 	/** judge 관리용 */
 	private String searchArea; //검색칸
 	private String searchChkValue; //검색기준
-
 	/**
 	 * @return the start
 	 */
@@ -204,6 +203,4 @@ public class SearchVO {
 
 	public String getSearchChkValue() {		return searchChkValue;}
 	public void setSearchChkValue(String searchChkValue) {		this.searchChkValue = searchChkValue;	}
-
-
 }

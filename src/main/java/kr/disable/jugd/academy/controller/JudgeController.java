@@ -1,9 +1,6 @@
 package kr.disable.jugd.academy.controller;
 
-import kr.disable.jugd.academy.domain.AdminVO;
-import kr.disable.jugd.academy.domain.CodeVO;
-import kr.disable.jugd.academy.domain.JudgeVO;
-import kr.disable.jugd.academy.domain.SearchVO;
+import kr.disable.jugd.academy.domain.*;
 import kr.disable.jugd.academy.service.*;
 import kr.disable.jugd.academy.utils.Constants;
 import org.slf4j.Logger;
@@ -11,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,9 +31,10 @@ public class JudgeController {
     @Autowired
     private JudgeService judgeService;
 
-
+    /** 심판관리 화면, 수료관리참고
+     * */
     @RequestMapping("admin/judgeList")
-    public String judgeAdminConfirmList(HttpServletRequest request, SearchVO searchVO, Model model){
+    public String judgeAdminConfirmList(HttpServletRequest request, SearchVO searchVO, Model model) throws Exception {
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
         //필요없다고 생각했는데 session(admin)정보를 입력하지 않으니까 로그인시 공백으로 나옴.

@@ -293,7 +293,7 @@ public class ApplyController {
 	
 	/**
 	 * 신청 관리 목록 엑셀 저장
-	 * @param request
+	 * @param //request
 	 * @param model
      * @return 
      * @throws Exception

@@ -205,5 +205,4 @@ public class Pagination {
 
         this.setFinalPageNo(finalPage); // 마지막 페이지 번호
     }
-
 }

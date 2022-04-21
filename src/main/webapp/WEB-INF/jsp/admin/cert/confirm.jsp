@@ -577,6 +577,7 @@
             $('#searchForm').attr("method", "post");
             $('#searchForm').attr("action", "<c:out value='${pageContext.request.contextPath}/cert/admin/confirm'/>");
             $('#searchForm').submit();
+            console.log("검색!");
         });
 
         <%-- 수료확정 처리하시겠습니까? --%>

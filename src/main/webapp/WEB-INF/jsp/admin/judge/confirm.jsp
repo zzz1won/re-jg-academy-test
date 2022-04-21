@@ -230,17 +230,17 @@
                             <select id="searchChkValue" name="searchChkValue" class="wd_120">
                                 <option value="">전체</option>
                                 <c:forEach var="judgeKind" items="${judgeKindList}" varStatus="status">
-                                    <option value="<c:out value="${judgeKind.code}"/>"><c:out
-                                            value="${judgeKind.codeName}"/></option>
+                                    <option value="<c:out value="${judgeKind.code}"/>"
+                                            <c:if test="${judgeKind.code eq searchVO.searchChkValue}">selected="selected"</c:if>> <%--선택한 데이터 있을 시--%>
+                                        <c:out value="${judgeKind.codeName}"/></option>
                                     <%-- judgeKind의 code값을 가진, codeName을 띄우는?...--%>
-                                    <%--<option value="<c:out value="${judgeKind.groupCode}"/>"> <c:out value="${judgeKind.groupCodeName}"/> </option>--%>
                                 </c:forEach>
                             </select>
                             <%-- 검색부분 체크할 것 --%>
                         </li>
                         <li>
                             <input type="text" id="searchArea" name="searchArea" class="input-text" style="width:140px"
-                                   placeholder="이름 또는 심판번호">
+                                   placeholder="이름 또는 심판번호" value="<c:out value="${searchVO.searchArea}"/>">
                         </li>
                         <li>
                             <button type="button" id="btn_search" class="btn2 btn-search">
@@ -602,11 +602,17 @@
         });
 
         <%-- 검색 --%>
-        $('#btn_search').click(function () {
-            $('#searchForm').attr("method", "post");
+        $('#btn_search').click(function () { //body의 btn_search 버튼 누를시 실행되는 함수
+            $('#searchForm').attr("method", "post"); //method에 post형식을 담아감
             $('#searchForm').attr("action", "<c:out value='${pageContext.request.contextPath}/judge/admin/judgeList'/>");
             $('#searchForm').submit();
+
+            //0421
+            //$('#searchForm').attr("type", '#type');
+            //$('#searchForm').attr("keyword", '#searchArea');
+
             console.log("검색!")
+
         });
     });
 </script>
