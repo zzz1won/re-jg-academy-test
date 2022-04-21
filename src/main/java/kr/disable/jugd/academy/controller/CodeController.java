@@ -60,6 +60,7 @@ public class CodeController {
         model.addAttribute("adminInfo", adminInfo);
         model.addAttribute("codeList", codeList);
         model.addAttribute("codeStateList",codeStateList);
+        model.addAttribute("search",search);
 
         return "admin/code/confirm";
     }

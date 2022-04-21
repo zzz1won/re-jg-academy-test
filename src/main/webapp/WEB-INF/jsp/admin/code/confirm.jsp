@@ -168,14 +168,14 @@
                             <label for="codeListCheck">분 류</label>
                             <select name="codeListCheck" id="codeListCheck" class="wd_120">
                                 <option value="00">전체</option>
-                                <option value="01">그룹코드명</option>
-                                <option value="02">코드명</option>
+                                <option value="01" <c:if test="${search.codeListCheck eq '01'}"> selected="selected"</c:if>>그룹코드명</option>
+                                <option value="02" <c:if test="${search.codeListCheck eq '02'}"> selected="selected"</c:if>>코드명</option>
                                 <%-- 검색부분 체크할 것 --%>
                             </select>
                         </li>
                         <li>
-                            <input type="text" id="codeName" name="codeName" class="input-text" style="width:140px"
-                                   value="<c:out value="${search.codeName}"/>">
+                            <input type="text" id="codeName" name="codeName" class="input-text" style="width:140px" placeholder="그룹 혹은 코드명"
+                                   value="<c:out value="${search.codeName}"/>"/>
                         </li>
                         <li>
                             <button type="button" id="btn_search" class="btn2 btn-search">
