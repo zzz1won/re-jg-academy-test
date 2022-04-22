@@ -37,34 +37,6 @@ public class CodeController {
      * @return //
      * @throws //Exception
      */
-/*    @RequestMapping("admin/confirm")
-    public String codeAdminConfirm(HttpServletRequest request, Model model, SearchVO search) throws Exception {
-        HttpSession session = request.getSession();
-        AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
-        //Admin 로그인 정보를 유지하기위해 사용.
-
-        Map<String, Object> paramMap = new HashMap<>();
-        List<CodeVO> codeList = null;
-
-        paramMap.put("codeName",search.getCodeName()); //검색이 안돼서 추가
-        paramMap.put("codeListCheck", search.getCodeListCheck()); //검색 selected 체크는 이 아이 ^^;
-
-        String[] codeStateList = {Constants.CODE_USE_STATE, Constants.CODE_USE_STATE_N};
-        try {
-            codeList = codeService.selectCode(paramMap);
-            paramMap.put("codeStateList",codeStateList);
-        } catch (Exception e) {
-            logger.debug(e.getMessage());
-        }
-        model.addAttribute("adminInfo", adminInfo);
-        model.addAttribute("codeList", codeList);
-        model.addAttribute("codeStateList",codeStateList);
-        model.addAttribute("search",search);
-
-        return "admin/code/confirm";
-    }*/
-
-
     @RequestMapping("admin/confirm")
     public String codeAdminConfirm(HttpServletRequest request, Model model, SearchVO search) throws Exception {
         HttpSession session = request.getSession();
@@ -74,25 +46,21 @@ public class CodeController {
         Map<String, Object> paramMap = new HashMap<>();
         List<CodeVO> codeList = null;
 
-        paramMap.put("searchChkValue",search.getSearchChkValue()); //검색이 안돼서 추가
-        //기존 codeName 이라고 붙여진거 전부 searchArea 로 수정 할 것
-        paramMap.put("searchArea", search.getSearchArea()); //검색 selected 체크
-        //기존 codeName 이라고 붙여진거 전부 searchChkValue 로 수정 할 것
+        paramMap.put("searchChkValue", search.getSearchChkValue()); //검색 selected 체크
+        paramMap.put("searchArea", search.getSearchArea()); //검색이 안돼서 추가
+        //기존 codeName, codeListCheck (통일) search~ 로 수정 완료
 
         String[] codeStateList = {Constants.CODE_USE_STATE, Constants.CODE_USE_STATE_N};
         try {
             codeList = codeService.selectCode(paramMap);
-            paramMap.put("codeStateList",codeStateList);
+            paramMap.put("codeStateList", codeStateList);
         } catch (Exception e) {
             logger.debug(e.getMessage());
         }
         model.addAttribute("adminInfo", adminInfo);
         model.addAttribute("codeList", codeList);
-        model.addAttribute("codeStateList",codeStateList);
-        model.addAttribute("search",search); //검색담당!
-
-        System.out.println("searchArea: "+search.getSearchArea());
-        System.out.println("searchChkValue: "+search.getSearchChkValue());
+        model.addAttribute("codeStateList", codeStateList);
+        model.addAttribute("search", search); //검색담당!
 
         return "admin/code/confirm";
     }
@@ -118,7 +86,7 @@ public class CodeController {
 
         try {
             codeNoList = codeService.selectCodeNo(codeVO);
-                //codeService 의 selectCodeNo를 가져와 codeVO의 리스트를 볼 수 있게 지정 후...
+            //codeService 의 selectCodeNo를 가져와 codeVO의 리스트를 볼 수 있게 지정 후...
             for (CodeVO codeNo : codeNoList) {
                 //for 문에 의해 codeNoList 를 반복, codeNo 라는 이름으로 for 문 실행
                 codeNoArr += codeNo.getCommonCodeNo() + ",";
@@ -135,8 +103,8 @@ public class CodeController {
             logger.debug(e.getMessage());
         }
         return resultMap;
-            // Exception 발생하지 않을 시 return resultMap 실행.
-            // resultMap에 든 result값이 실행(삭제) 처리됨.
+        // Exception 발생하지 않을 시 return resultMap 실행.
+        // resultMap에 든 result값이 실행(삭제) 처리됨.
     }
 
     /**
@@ -170,7 +138,7 @@ public class CodeController {
         int result = 0;
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
-        resultMap.put("adminInfo",adminInfo);   //로그인 정보는 보여야하므로 adminInfo 추가
+        resultMap.put("adminInfo", adminInfo);   //로그인 정보는 보여야하므로 adminInfo 추가
         try {
             result = codeService.insertCode(codeVO);
             resultMap.put("result", result);
@@ -180,95 +148,98 @@ public class CodeController {
         return resultMap;
     }
 
-    /** 코드 상세보기 페이지
+    /**
+     * 코드 상세보기 페이지
+     *
      * @param codeVO
      * @return request
      * @throws //Exception
-     * */
+     */
 
     @RequestMapping("admin/detail")
-    public String detailPage (HttpServletRequest request, Model model, CodeVO codeVO) throws Exception {
+    public String detailPage(HttpServletRequest request, Model model, CodeVO codeVO) throws Exception {
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
 
+        /*원래 데이터*/
         String searchChkValue = codeVO.getViewSearchChkValue();
         String searchArea = codeVO.getViewSearchArea();
 
         try {
             codeVO = codeService.selectDetailCode(codeVO);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             logger.debug(e.getMessage());
         }
 
         model.addAttribute("codeVO", codeVO);
-        model.addAttribute("adminInfo",adminInfo);
+        model.addAttribute("adminInfo", adminInfo);
 
         model.addAttribute("searchChkValue", searchChkValue);
         model.addAttribute("searchArea", searchArea);
-        System.out.println("searchChkValue: "+searchChkValue);
-        System.out.println("searchArea: "+searchArea);
+        System.out.println("searchChkValue: " + searchChkValue);
+        System.out.println("searchArea: " + searchArea);
         return "admin/code/detail";
     }
 
-    /** 코드 수정처리
+    /**
+     * 코드 수정처리
+     *
      * @param
      * @return
      * @throws //Exception
-     * */
+     */
 
     @RequestMapping("admin/update")
     @ResponseBody
     //ResponseBody : @RequestBody 의 요청에 따라 POST 방식으로 전송 된 HTTP 요청 데이터를
     //String type 의 Body Parameter로 전달받는 것[수신] 둘이 짝꿍.
     public Map<String, Object> codeUpdate(@RequestBody CodeVO codeVO, HttpServletRequest request) throws Exception {
-        Map<String,Object> resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         int result = 0; //건수
 
         HttpSession session = request.getSession();
-        AdminVO adminInfo = (AdminVO)session.getAttribute("ADMIN");
-        resultMap.put("adminInfo",adminInfo); //adminHeader 에 의해 적용되는 부분.
+        AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
+        resultMap.put("adminInfo", adminInfo); //adminHeader 에 의해 적용되는 부분.
 
-        try{
+        try {
             result = codeService.updateCode(codeVO);
             resultMap.put("result", result);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             logger.debug(e.getMessage());
         }
         return resultMap;
     }
 
-    /** 코드를 삭제하지않고 사용여부 체크를 하는 기능.
+    /**
+     * 코드를 삭제하지않고 사용여부 체크를 하는 기능.
      * 취소처리
+     *
      * @param
      * @return
      * @throws Exception
-     * */
+     */
     @RequestMapping("admin/stateChkN")
     @ResponseBody
-    public Map<String,Object> useStateChkN (HttpServletRequest request, @RequestBody CodeVO codeVO) throws Exception {
-        Map<String,Object> resultMap = new HashMap<>();
+    public Map<String, Object> useStateChkN(HttpServletRequest request, @RequestBody CodeVO codeVO) throws Exception {
+        Map<String, Object> resultMap = new HashMap<>();
         int result = 0;
         /*로그인정보*/
         HttpSession session = request.getSession();
-        AdminVO adminInfo = (AdminVO)session.getAttribute("ADMIN");
-        resultMap.put("adminInfo",adminInfo);
+        AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
+        resultMap.put("adminInfo", adminInfo);
 
         codeVO.setUseState(Constants.CODE_USE_STATE_N);
         codeVO.setCodeNoArr(codeVO.getCodeNo().split(","));
 
-        try{
+        try {
             result = codeService.updateCodeUseState(codeVO);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             logger.debug(e.getMessage());
         }
         resultMap.put("result", result);
 
         return resultMap;
     }
-
 
 
 }
