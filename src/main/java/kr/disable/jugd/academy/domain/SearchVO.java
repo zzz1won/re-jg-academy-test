@@ -53,8 +53,6 @@ public class SearchVO {
 	private String viewSearchChkValue;
 	private String viewSearchArea;
 
-
-
 	/**
 	 * @return the start
 	 */
@@ -207,7 +205,6 @@ public class SearchVO {
 	/** 0414 심판 검색용 추가*/
 	public String getSearchArea() {		return searchArea;	}
 	public void setSearchArea(String searchArea) { 		this.searchArea = searchArea;	}
-
 	public String getSearchChkValue() {		return searchChkValue;}
 	public void setSearchChkValue(String searchChkValue) {		this.searchChkValue = searchChkValue;	}
 
