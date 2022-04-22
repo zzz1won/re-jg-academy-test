@@ -74,9 +74,9 @@ public class CodeController {
         Map<String, Object> paramMap = new HashMap<>();
         List<CodeVO> codeList = null;
 
-        paramMap.put("searchArea",search.getCodeName()); //검색이 안돼서 추가
+        paramMap.put("searchChkValue",search.getSearchChkValue()); //검색이 안돼서 추가
         //기존 codeName 이라고 붙여진거 전부 searchArea 로 수정 할 것
-        paramMap.put("searchChkValue", search.getCodeListCheck()); //검색 selected 체크
+        paramMap.put("searchArea", search.getSearchArea()); //검색 selected 체크
         //기존 codeName 이라고 붙여진거 전부 searchChkValue 로 수정 할 것
 
         String[] codeStateList = {Constants.CODE_USE_STATE, Constants.CODE_USE_STATE_N};
@@ -91,7 +91,8 @@ public class CodeController {
         model.addAttribute("codeStateList",codeStateList);
         model.addAttribute("search",search); //검색담당!
 
-        System.out.println("searchArea: "+search);
+        System.out.println("searchArea: "+search.getSearchArea());
+        System.out.println("searchChkValue: "+search.getSearchChkValue());
 
         return "admin/code/confirm";
     }

@@ -319,8 +319,8 @@
 <%-- 상세화면으로 가기 위한 파라미터 --%>
 <form id="detailView" method="post">
     <input type="hidden" id="commonCodeNo" name="commonCodeNo">
-    <input type="text" id="viewSearchChkValue" name="viewSearchChkValue" value="<c:out value="${search.searchChkValue}"/>">
-    <input type="text" id="viewSearchArea" name="viewSearchArea" value="<c:out value="${search.searchArea}"/>">
+    <input type="hidden" id="viewSearchChkValue" name="viewSearchChkValue" value="<c:out value="${search.searchChkValue}"/>">
+    <input type="hidden" id="viewSearchArea" name="viewSearchArea" value="<c:out value="${search.searchArea}"/>">
 </form>
 
 <script>

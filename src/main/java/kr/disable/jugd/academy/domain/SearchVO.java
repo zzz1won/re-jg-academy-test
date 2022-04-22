@@ -42,8 +42,8 @@ public class SearchVO {
 
 	/** code 관리용 **/
 	private String groupCodeName; //그룹코드명
-	private String codeName; //코드명
-	private String codeListCheck; //검색용
+	//private String codeName; //코드명
+	//private String codeListCheck; //검색용
 
 	/** judge 관리용 */
 	private String searchArea; //검색칸
@@ -195,12 +195,12 @@ public class SearchVO {
 	/** 0411 추가 **/
 	public String getGroupCodeName() { return groupCodeName;	}
 	public void setGroupCodeName(String groupCodeName) { this.groupCodeName = groupCodeName; }
-	public String getCodeName() { return codeName;	}
+	/*public String getCodeName() { return codeName;	}
 	public void setCodeName(String codeName) { this.codeName = codeName; }
 
 	public String getCodeListCheck() {		return codeListCheck;	}
 	public void setCodeListCheck(String codeListCheck) {  this.codeListCheck = codeListCheck;
-	}
+	}*/
 
 	/** 0414 심판 검색용 추가*/
 	public String getSearchArea() {		return searchArea;	}
@@ -233,8 +233,8 @@ public class SearchVO {
 				", start='" + start + '\'' +
 				", end='" + end + '\'' +
 				", groupCodeName='" + groupCodeName + '\'' +
-				", codeName='" + codeName + '\'' +
-				", codeListCheck='" + codeListCheck + '\'' +
+				/*", codeName='" + codeName + '\'' +
+				", codeListCheck='" + codeListCheck + '\'' +*/
 				", searchArea='" + searchArea + '\'' +
 				", searchChkValue='" + searchChkValue + '\'' +
 				'}';
