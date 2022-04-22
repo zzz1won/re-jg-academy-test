@@ -23,13 +23,13 @@
 <script type="text/javascript">
     var check = false;
 
-    $(function(){
+    $(function () {
         <%-- 심판정보 수정 --%>
-        $("#btn_update").click(function(){
+        $("#btn_update").click(function () {
             <%-- 필수입력값 체크 --%>
             check = fn_checkForm();
             console.log("필수입력값 체크")
-            if(check){
+            if (check) {
                 $('#pop_confirm_update').bPopup({
                     speed: 450,
                     // transition: 'slideDown'
@@ -38,12 +38,12 @@
         });
 
         <%-- 수정 버튼 클릭 --%>
-        $('#btn_confirm_update').click(function(){
+        $('#btn_confirm_update').click(function () {
             $('#pop_confirm_update').bPopup().close();
             console.log("수정버튼 클릭")
-            if(check){
+            if (check) {
                 <%-- 중복 클릭 방지 --%>
-                if(doubleSubmitCheck()) return;
+                if (doubleSubmitCheck()) return;
 
                 $.ajax({
                     type: "post",
@@ -51,30 +51,31 @@
                     data: JSON.stringify($('#updateForm').serializeObject()),
                     dataType: "json",
                     contentType: "application/json;charset=UTF-8",
-                    success: function(data){
-                        if(data.result > 0){
+                    success: function (data) {
+                        if (data.result > 0) {
                             $('#pop_success_update').bPopup();
-                        } else{
+                        } else {
                             $('#pop_fail_update').bPopup();
                         }
                     },
-                    error: function(){
+                    error: function () {
                         $('#pop_fail_update').bPopup();
                     }
                 });
 
                 doubleSubmitFlag = false;
-            } else{
+            } else {
                 alert("다시 한 번 확인해주시기바랍니다.");
             }
         });
     });
 
     <%-- 필수입력값 체크 --%>
-    function fn_checkForm(){
+
+    function fn_checkForm() {
 
         <%-- 종목 --%>
-        if($('#judgeKind').val().length < 1){
+        if ($('#judgeKind').val().length < 1) {
             $('#pop_check_form_judge_kind').bPopup({
                 speed: 450,
                 // transition: 'slideDown'
@@ -83,7 +84,7 @@
         }
 
         <%-- 심판번호 --%>
-        if($('#judgeNo').val().length < 1){
+        if ($('#judgeNo').val().length < 1) {
             $('#pop_check_form_judge_no').bPopup({
                 speed: 450,
                 // transition: 'slideDown'
@@ -92,7 +93,7 @@
         }
 
         <%-- 심판이름 --%>
-        if($('#judgeName').val().length < 1){
+        if ($('#judgeName').val().length < 1) {
             $('#pop_check_form_judge_name').bPopup({
                 speed: 450,
                 // transition: 'slideDown'
@@ -101,7 +102,7 @@
         }
 
         <%-- 계정사용여부 --%>
-        if($('#judgeState').val().length < 1){
+        if ($('#judgeState').val().length < 1) {
             $('#pop_check_form_judge_state').bPopup({
                 speed: 450,
                 // transition: 'slideDown'
@@ -112,7 +113,6 @@
         return true;
     }
 </script>
-
 
 
 <body>
@@ -153,7 +153,9 @@
                             <td>
                                 <select id="judgeKind" name="judgeKind" class="login_select wide">
                                     <c:forEach var="judgeKind" items="${judgeKindList}" varStatus="status">
-                                        <option value="<c:out value="${judgeKind.code}"/>" <c:if test="${judgeKind.code eq judgeVO.judgeKind }">selected="selected"</c:if> > <c:out value="${judgeKind.codeName}"/></option>
+                                        <option value="<c:out value="${judgeKind.code}"/>"
+                                                <c:if test="${judgeKind.code eq judgeVO.judgeKind }">selected="selected"</c:if> >
+                                            <c:out value="${judgeKind.codeName}"/></option>
                                     </c:forEach>
                                 </select>
                             </td>
@@ -170,21 +172,25 @@
                             <td>
                                 <c:choose>
                                     <c:when test="${judgeVO.judgeState eq 'Y'}">
-                                        <input class="form-check-input" type="radio" name="judgeState" id="exampleRadios1" value="${judgeVO.judgeState}" checked>
+                                        <input class="form-check-input" type="radio" name="judgeState"
+                                               id="exampleRadios1" value="${judgeVO.judgeState}" checked>
                                         <label class="form-check-label" for="exampleRadios1">
                                             예
                                         </label>
-                                        <input class="form-check-input" type="radio" name="judgeState" id="exampleRadios2" value="${judgeVO.judgeState}">
+                                        <input class="form-check-input" type="radio" name="judgeState"
+                                               id="exampleRadios2" value="${judgeVO.judgeState}">
                                         <label class="form-check-label" for="exampleRadios2">
                                             아니오
                                         </label>
                                     </c:when>
                                     <c:otherwise>
-                                        <input class="form-check-input" type="radio" name="judgeState" id="exampleRadios1" value="${judgeVO.judgeState}">
+                                        <input class="form-check-input" type="radio" name="judgeState"
+                                               id="exampleRadios1" value="${judgeVO.judgeState}">
                                         <label class="form-check-label" for="exampleRadios1">
                                             예
                                         </label>
-                                        <input class="form-check-input" type="radio" name="judgeState" id="exampleRadios2" value="${judgeVO.judgeState}" checked>
+                                        <input class="form-check-input" type="radio" name="judgeState"
+                                               id="exampleRadios2" value="${judgeVO.judgeState}" checked>
                                         <label class="form-check-label" for="exampleRadios2">
                                             아니오
                                         </label>
@@ -216,7 +222,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <input type = "hidden" name="judgeNo" value="${judgeVO.judgeNo}">
+                    <input type="hidden" name="judgeNo" value="${judgeVO.judgeNo}">
                     <!-- //table -->
                 </div>
                 <%--<!-- btn area -->--%>
@@ -231,11 +237,15 @@
         <!-- //table-wrap -->
     </div>
     <!-- //container -->
-
     <jsp:include page="/WEB-INF/jsp/include/footer.jsp"/>
 
 </div>
 <%--<!-- //wrapper -->--%>
+<form id="updateListForm" name="updateListForm">
+    <%-- detailPage의 judge 정보가 아닌 검색어를 그대로 끌어오고싶은데. --%>
+    <input type="hidden" id="searchChkValue" name="searchChkValue" value="<c:out value="${searchChkValue}"/>">
+    <input type="hidden" id="searchArea" name="searchArea" value="<c:out value="${searchArea}"/>">
+</form>
 <!-- popup 01-->
 <div class="modal no_close" id="pop_confirm_update">
     <div class="popup-content">
@@ -314,10 +324,18 @@
     $(document).ready(function () {
 
         <%-- 목록 버튼 클릭--%>
-        $('#btn_judge_list').click(function () {
-            location.href = "<c:out value='${pageContext.request.contextPath}/judge/admin/judgeList'/>";
+        /*$('#btn_judge_list').click(function () {
+            location.href = "
+        <%--<c:out value='${pageContext.request.contextPath}/judge/admin/judgeList'/>";--%>
             console.log("목록버튼클릭");
-        });
+        });*/
+
+        //검색값 유지를 위해 이런 방식을 사용하는 것인가보구만!
+        $('#btn_judge_list').click(function () {
+            $('#updateListForm').attr("method", "post");
+            $('#updateListForm').attr("action", "<c:out value='${pageContext.request.contextPath}/judge/admin/judgeList'/>");
+            $('#updateListForm').submit();
+        })
 
         <%-- 수정 성공 --%>
         $("#btn_success_update").click(function () {

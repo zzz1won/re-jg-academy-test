@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -58,10 +59,13 @@ public class JudgeController {
         catch (Exception e){
             logger.debug(e.getMessage());
         }
-
         model.addAttribute("judgeList",judgeList);
         model.addAttribute("judgeKindList",judgeKindList);
         model.addAttribute("adminInfo",adminInfo);
+
+        //0422 검색어 값을 저장하기 위해 searchVO도 담아둔다.
+        model.addAttribute("searchVO", searchVO);
+        System.out.println(searchVO);
 
         return "admin/judge/confirm";
     }
@@ -75,6 +79,10 @@ public class JudgeController {
         Map<String,Object> paramMap = new HashMap<>();
         List<CodeVO> judgeKindList = null; //종목List를 담으려고 선언~
         paramMap.put("groupCode","100001");//groupCode가 100001인 값들만 출력됨...
+
+        String searchChkValue = judgeVO.getViewSearchChkValue();
+        String searchArea = judgeVO.getViewSearchArea();
+
         try{
             judgeVO = judgeService.selectDetailJudge(judgeVO); //judgeService에서 judge의 List를 가져와서 출력하려고...
             judgeKindList = codeService.selectCode(paramMap); //codeService에서 종목List를 가져와 담는다.
@@ -86,6 +94,17 @@ public class JudgeController {
         model.addAttribute("adminInfo",adminInfo);//로그인용
         model.addAttribute("judgeKindList",judgeKindList);
         //담아온 judgeKindList를 model에 담아주지않으면 말짱도루묵...
+
+        model.addAttribute("searchChkValue",searchChkValue);
+        model.addAttribute("searchArea",searchArea);
+
+        //paramMap.put("searchChkValue", searchVO.getSearchChkValue());
+        //paramMap.put("searchArea", searchVO.getSearchArea());
+
+        //System.out.println("judgeController에서 searchVO: "+searchVO);
+        System.out.println("searchChkValue: "+searchChkValue);
+        System.out.println("searchArea: "+searchArea);
+        //0421 검색값을 담아서 수정,목록 페이지로 이동할 때 이 값을 유지한 상태로 화면이동...
 
         return "admin/judge/update";
     }
@@ -164,7 +183,7 @@ public class JudgeController {
 
     /** 신규 심판 등록 요청 */
     @RequestMapping("admin/registerPage")
-    public String registerForm (HttpServletRequest request, Model model) throws Exception{
+    public String registerForm (HttpServletRequest request, Model model) throws Exception {
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
 

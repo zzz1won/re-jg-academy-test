@@ -48,6 +48,13 @@ public class SearchVO {
 	/** judge 관리용 */
 	private String searchArea; //검색칸
 	private String searchChkValue; //검색기준
+
+	/** update param2 */
+	private String viewSearchChkValue;
+	private String viewSearchArea;
+
+
+
 	/**
 	 * @return the start
 	 */
@@ -203,4 +210,42 @@ public class SearchVO {
 
 	public String getSearchChkValue() {		return searchChkValue;}
 	public void setSearchChkValue(String searchChkValue) {		this.searchChkValue = searchChkValue;	}
+
+	@Override
+	public String toString() {
+		return "SearchVO{" +
+				"regDate=" + regDate +
+				", regId='" + regId + '\'' +
+				", modDate=" + modDate +
+				", modId='" + modId + '\'' +
+				", year='" + year + '\'' +
+				", eduStatus='" + eduStatus + '\'' +
+				", rownum=" + rownum +
+				", eduId='" + eduId + '\'' +
+				", eduTitle='" + eduTitle + '\'' +
+				", acEduTitleMask='" + acEduTitleMask + '\'' +
+				", judgeNo='" + judgeNo + '\'' +
+				", applyState='" + applyState + '\'' +
+				", excelYear='" + excelYear + '\'' +
+				", excelEduStatus='" + excelEduStatus + '\'' +
+				", excelEduTitle='" + excelEduTitle + '\'' +
+				", excelJudgeNo='" + excelJudgeNo + '\'' +
+				", excelApplyState='" + excelApplyState + '\'' +
+				", updateYear='" + updateYear + '\'' +
+				", updateEduStatus='" + updateEduStatus + '\'' +
+				", start='" + start + '\'' +
+				", end='" + end + '\'' +
+				", groupCodeName='" + groupCodeName + '\'' +
+				", codeName='" + codeName + '\'' +
+				", codeListCheck='" + codeListCheck + '\'' +
+				", searchArea='" + searchArea + '\'' +
+				", searchChkValue='" + searchChkValue + '\'' +
+				'}';
+	}
+
+	public String getViewSearchChkValue() {	return viewSearchChkValue;	}
+	public void setViewSearchChkValue(String viewSearchChkValue) {	this.viewSearchChkValue = viewSearchChkValue;	}
+
+	public String getViewSearchArea() {	return viewSearchArea;	}
+	public void setViewSearchArea(String viewSearchArea) {	this.viewSearchArea = viewSearchArea;	}
 }

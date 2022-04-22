@@ -3,6 +3,7 @@ package kr.disable.jugd.academy.mapper;
 import java.util.List;
 import java.util.Map;
 
+import kr.disable.jugd.academy.domain.SearchVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -50,4 +51,7 @@ public interface JudgeMapper {
 
 	/** 심판 신규등록 */
 	public Integer insertJudge(JudgeVO judgeVO);
+
+	/** 검색용*/
+    //SearchVO selectDetailJudgeAndSearch(JudgeVO judgeVO);
 }

@@ -287,6 +287,8 @@ public class EduController {
 			logger.debug(e.getMessage());
 		}
 
+		System.out.println("year: "+year);
+		System.out.println("eduStatus: "+eduStatus);
 		model.addAttribute("year", year);
 		model.addAttribute("nowDate", nowDate);
 		model.addAttribute("eduStatus", eduStatus);

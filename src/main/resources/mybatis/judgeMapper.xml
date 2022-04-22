@@ -63,7 +63,7 @@
 	</update>
 
     <!--0414 추가-->
-    <!--0415 다시-->
+    <!--0415 다시--> <!-- List용 화면-->
     <select id="selectJudgeList" parameterType="Map" resultType="JudgeVO">
         /*selectJudgeList*/
         SELECT J.judge_no,
@@ -85,8 +85,8 @@
         ORDER by J.reg_date DESC, J.judge_name ASC;
     </select>
 
-    <!-- 0415 join 다시! -->
-    <select id="selectDetailJudge" parameterType="JudgeVO" resultType="judgeVO">
+    <!-- 0415 상세조회 화면 -->
+    <!--<select id="selectDetailJudge" parameterType="JudgeVO" resultType="judgeVO">
         /*selectDetailJudge*/
         SELECT J.judge_no,
                J.judge_name,
@@ -95,8 +95,27 @@
                J.judge_kind
         FROM JUDGE_INFO J
         WHERE J.judge_no = #{judgeNo}
+    </select>-->
 
+    <!-- 0415 상세조회+검색기능 추가 된 화면 -->
+    <select id="selectDetailJudge" parameterType="JudgeVO" resultType="judgeVO">
+        /*selectDetailJudge*/
+        SELECT J.judge_no,
+               J.judge_name,
+               J.judge_state,
+               J.judge_etc,
+               J.judge_kind,
+               J.reg_Date
+        FROM JUDGE_INFO J
+        WHERE J.judge_no = #{judgeNo}
+        <if test="searchChkValue != null and searchChkValue != '' ">
+            AND J.judge_kide= #{searchChkValue}
+        </if>
+        <if test="searchArea != null and searchArea != '' ">
+            AND (J.judge_name= #{searchArea} or J.judge_no = #{searchArea})
+        </if>
     </select>
+
 
     <update id="updateJudgeData" parameterType="JudgeVO">
         /*updateJudgeDate-real*/

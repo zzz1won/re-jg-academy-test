@@ -262,7 +262,7 @@
                         <th><input name="select_all" value="1" id="select-all" type="checkbox"/></th>
                         <th>No</th>
                         <th style="width: 210px;">이름</th>
-                        <th>심판번호</th>
+                        <th>종목번호</th>
                         <th>심판종목</th>
                         <th>사용여부</th>
                         <th>등록일</th>
@@ -424,8 +424,10 @@
 <%--상세화면으로 가기 위한 파라미터 --%>
 <form id="detailView" method="post">
     <input type="hidden" id="judgeNo" name="judgeNo">
+    <input type="hidden" id="viewSearchChkValue" name="viewSearchChkValue" value="<c:out value="${searchVO.searchChkValue}"/>">
+    <input type="hidden" id="viewSearchArea" name="viewSearchArea" value="<c:out value="${searchVO.searchArea}"/>">
+    <%--기존 searchChkValue id값이 존재하므로 앞에 view를 붙여줌.--%>
 </form>
-
 <script>
     $(document).ready(function () {
         // listTable
@@ -606,13 +608,7 @@
             $('#searchForm').attr("method", "post"); //method에 post형식을 담아감
             $('#searchForm').attr("action", "<c:out value='${pageContext.request.contextPath}/judge/admin/judgeList'/>");
             $('#searchForm').submit();
-
-            //0421
-            //$('#searchForm').attr("type", '#type');
-            //$('#searchForm').attr("keyword", '#searchArea');
-
             console.log("검색!")
-
         });
     });
 </script>

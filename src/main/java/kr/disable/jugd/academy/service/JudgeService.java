@@ -3,6 +3,7 @@ package kr.disable.jugd.academy.service;
 import java.util.List;
 import java.util.Map;
 
+import kr.disable.jugd.academy.domain.SearchVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -75,4 +76,7 @@ public class JudgeService {
 	public Integer insertJudge(JudgeVO judgeVO) {
 		return judgeMapper.insertJudge(judgeVO);
 	}
+
+	//** judge 검색어 띄우기용 */
+    //public SearchVO selectDetailJudgeAndSearch(JudgeVO judgeVO) { return judgeMapper.selectDetailJudgeAndSearch(judgeVO); }
 }
