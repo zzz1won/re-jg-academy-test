@@ -85,18 +85,6 @@
         ORDER by J.reg_date DESC, J.judge_name ASC;
     </select>
 
-    <!-- 0415 상세조회 화면 -->
-    <!--<select id="selectDetailJudge" parameterType="JudgeVO" resultType="judgeVO">
-        /*selectDetailJudge*/
-        SELECT J.judge_no,
-               J.judge_name,
-               J.judge_state,
-               J.judge_etc,
-               J.judge_kind
-        FROM JUDGE_INFO J
-        WHERE J.judge_no = #{judgeNo}
-    </select>-->
-
     <!-- 0415 상세조회+검색기능 추가 된 화면 -->
     <select id="selectDetailJudge" parameterType="JudgeVO" resultType="judgeVO">
         /*selectDetailJudge*/

@@ -20,13 +20,13 @@
         WHERE 1=1
 
         <if test="codeListCheck == '00'">
-            and group_code_name LIKE CONCAT('%',#{codeName},'%') OR code_name LIKE CONCAT('%',#{codeName},'%')
+            and group_code_name LIKE CONCAT('%',#{searchArea},'%') OR code_name LIKE CONCAT('%',#{searchArea},'%')
         </if>
         <if test="codeListCheck == '01'">
-            and group_code_name LIKE CONCAT('%',#{codeName},'%')
+            and group_code_name LIKE CONCAT('%',#{searchArea},'%')
         </if>
         <if test="codeListCheck == '02'">
-            and code_name LIKE CONCAT('%',#{codeName},'%')
+            and code_name LIKE CONCAT('%',#{searchArea},'%')
         </if>
         ORDER BY common_code_no DESC, group_code DESC, display_order ASC
 
@@ -122,13 +122,13 @@
             and group_code = #{groupCode}
         </if>
         <if test="codeListCheck == '00'">
-            and group_code_name LIKE CONCAT('%',#{codeName},'%') OR code_name LIKE CONCAT('%',#{codeName},'%')
+            and group_code_name LIKE CONCAT('%',#{searchArea},'%') OR code_name LIKE CONCAT('%',#{searchArea},'%')
         </if>
         <if test="codeListCheck == '01'">
-            and group_code_name LIKE CONCAT('%',#{codeName},'%')
+            and group_code_name LIKE CONCAT('%',#{searchArea},'%')
         </if>
         <if test="codeListCheck == '02'">
-            and code_name LIKE CONCAT('%',#{codeName},'%')
+            and code_name LIKE CONCAT('%',#{searchArea},'%')
         </if>
         ORDER BY common_code_no DESC, group_code DESC, display_order ASC
     </select>

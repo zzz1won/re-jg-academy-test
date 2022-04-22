@@ -37,8 +37,7 @@ public class CodeController {
      * @return //
      * @throws //Exception
      */
-
-    @RequestMapping("admin/confirm")
+/*    @RequestMapping("admin/confirm")
     public String codeAdminConfirm(HttpServletRequest request, Model model, SearchVO search) throws Exception {
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
@@ -61,6 +60,38 @@ public class CodeController {
         model.addAttribute("codeList", codeList);
         model.addAttribute("codeStateList",codeStateList);
         model.addAttribute("search",search);
+
+        return "admin/code/confirm";
+    }*/
+
+
+    @RequestMapping("admin/confirm")
+    public String codeAdminConfirm(HttpServletRequest request, Model model, SearchVO search) throws Exception {
+        HttpSession session = request.getSession();
+        AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
+        //Admin 로그인 정보를 유지하기위해 사용.
+
+        Map<String, Object> paramMap = new HashMap<>();
+        List<CodeVO> codeList = null;
+
+        paramMap.put("searchArea",search.getCodeName()); //검색이 안돼서 추가
+        //기존 codeName 이라고 붙여진거 전부 searchArea 로 수정 할 것
+        paramMap.put("searchChkValue", search.getCodeListCheck()); //검색 selected 체크
+        //기존 codeName 이라고 붙여진거 전부 searchChkValue 로 수정 할 것
+
+        String[] codeStateList = {Constants.CODE_USE_STATE, Constants.CODE_USE_STATE_N};
+        try {
+            codeList = codeService.selectCode(paramMap);
+            paramMap.put("codeStateList",codeStateList);
+        } catch (Exception e) {
+            logger.debug(e.getMessage());
+        }
+        model.addAttribute("adminInfo", adminInfo);
+        model.addAttribute("codeList", codeList);
+        model.addAttribute("codeStateList",codeStateList);
+        model.addAttribute("search",search); //검색담당!
+
+        System.out.println("searchArea: "+search);
 
         return "admin/code/confirm";
     }
@@ -159,11 +190,23 @@ public class CodeController {
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
 
-        try {       codeVO = codeService.selectDetailCode(codeVO);        }
-        catch (Exception e){            logger.debug(e.getMessage());        }
+        String searchChkValue = codeVO.getViewSearchChkValue();
+        String searchArea = codeVO.getViewSearchArea();
+
+        try {
+            codeVO = codeService.selectDetailCode(codeVO);
+        }
+        catch (Exception e){
+            logger.debug(e.getMessage());
+        }
 
         model.addAttribute("codeVO", codeVO);
         model.addAttribute("adminInfo",adminInfo);
+
+        model.addAttribute("searchChkValue", searchChkValue);
+        model.addAttribute("searchArea", searchArea);
+        System.out.println("searchChkValue: "+searchChkValue);
+        System.out.println("searchArea: "+searchArea);
         return "admin/code/detail";
     }
 

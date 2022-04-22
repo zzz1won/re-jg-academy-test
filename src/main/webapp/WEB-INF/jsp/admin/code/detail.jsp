@@ -242,6 +242,12 @@
 
 </div>
 <!-- //wrapper -->
+<%-- 검색관련 데이터 담아가기 --%>
+<form id="searchData" name="searchData">
+    <input type="hidden" id="searchChkValue" name="searchChkValue" value="<c:out value="${searchChkValue}"/>">
+    <input type="hidden" id="searchArea" name="searchArea" value="<c:out value="${searchArea}"/>">
+</form>
+
 
 <!-- popup 01-->
 <div class="modal no_close" id="pop_confirm_update">
@@ -334,6 +340,14 @@
         $('#btn_code_list').click(function(){
             location.href="<c:out value='${pageContext.request.contextPath}/code/admin/confirm'/>";
         });
+
+        /* 목록버튼 클릭시...*/
+        $('#btn_code_list').click(function (){
+            $('#searchData').attr("method","post");
+            $('#searchData').attr("action","<c:out value='${pageContext.request.contextPath}/code/admin/confirm'/>");
+            $('#searchData').submit();
+            console.log("목록으로!");
+        })
 
         <%-- 수정 성공 --%>
         $("#btn_success_update").click(function(){

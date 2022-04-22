@@ -165,17 +165,17 @@
                 <form id="searchForm" name="searchForm">
                     <ul class="filter-row">
                         <li>
-                            <label for="codeListCheck">분 류</label>
-                            <select name="codeListCheck" id="codeListCheck" class="wd_120">
+                            <label for="searchChkValue">분 류</label>
+                            <select name="searchChkValue" id="searchChkValue" class="wd_120">
                                 <option value="00">전체</option>
-                                <option value="01" <c:if test="${search.codeListCheck eq '01'}"> selected="selected"</c:if>>그룹코드명</option>
-                                <option value="02" <c:if test="${search.codeListCheck eq '02'}"> selected="selected"</c:if>>코드명</option>
+                                <option value="01" <c:if test="${search.searchChkValue eq '01'}"> selected="selected"</c:if>>그룹코드명</option>
+                                <option value="02" <c:if test="${search.searchChkValue eq '02'}"> selected="selected"</c:if>>코드명</option>
                                 <%-- 검색부분 체크할 것 --%>
                             </select>
                         </li>
                         <li>
-                            <input type="text" id="codeName" name="codeName" class="input-text" style="width:140px" placeholder="그룹 혹은 코드명"
-                                   value="<c:out value="${search.codeName}"/>"/>
+                            <input type="text" id="searchArea" name="searchArea" class="input-text" style="width:140px" placeholder="그룹 혹은 코드명"
+                                   value="<c:out value="${search.searchArea}"/>"/>
                         </li>
                         <li>
                             <button type="button" id="btn_search" class="btn2 btn-search">
@@ -319,6 +319,8 @@
 <%-- 상세화면으로 가기 위한 파라미터 --%>
 <form id="detailView" method="post">
     <input type="hidden" id="commonCodeNo" name="commonCodeNo">
+    <input type="text" id="viewSearchChkValue" name="viewSearchChkValue" value="<c:out value="${search.searchChkValue}"/>">
+    <input type="text" id="viewSearchArea" name="viewSearchArea" value="<c:out value="${search.searchArea}"/>">
 </form>
 
 <script>
