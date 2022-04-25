@@ -220,7 +220,6 @@ public class JudgeController {
         //로그인 정보 등등등
 
         int result = 0;
-        //굳이 result 아니어도 되는거 아닌가?
         try{
             result = judgeService.insertJudge(judgeVO); //judgeVO를 추가하는 Mapper 를 들고 result 에 담은 후
             resultMap.put("result",result); //mapper 에 넣어준다.
