@@ -70,6 +70,12 @@ public class IndexController {
                 logger.debug(e.getMessage());
             }
 
+            System.out.println("URL: "+request.getRequestURL());
+            System.out.println("URI: "+request.getRequestURI());
+            System.out.println("ContextPath(): "+request.getContextPath());
+            System.out.println("ServletPath(): "+request.getServletPath());
+
+
             model.addAttribute("judgeKindList", judgeKindList);
             return "judge/index";
         }
@@ -87,6 +93,11 @@ public class IndexController {
     public String adminIndex(HttpServletRequest request, Model model) throws Exception {
         HttpSession session = request.getSession();
         AdminVO admin = (AdminVO) session.getAttribute("ADMIN"); // 관리자
+
+        System.out.println("URL: "+request.getRequestURL());
+        System.out.println("URI: "+request.getRequestURI());
+        System.out.println("ContextPath(): "+request.getContextPath());
+        System.out.println("ServletPath(): "+request.getServletPath());
 
         if (admin != null) {
             return "redirect:/edu/admin/schedule";
@@ -122,7 +133,7 @@ public class IndexController {
 
     /**
      * 신규심판등록요청
-     *
+     * 단순하게 쓸 수 있다구...!
      * @param
      * @return //jsp
      * @throws //Exception e
@@ -131,11 +142,13 @@ public class IndexController {
     @ResponseBody
     public Map<String, Object> judgeJoin(@RequestBody JudgeVO judgeVO) throws Exception {
 
+        //자료를 담을 Map
         Map<String, Object> resultMap = new HashMap<>();
+        //int 타입의 result 객체 선언
         int result = 0;
 
         try {
-            result = judgeService.insertJudge(judgeVO);
+            result = judgeService.insertJudge(judgeVO); //judgeService의 insertJudge를 실행하고 result에 담는다.
             resultMap.put("result", result);
         } catch (Exception e) {
             logger.debug(e.getMessage());

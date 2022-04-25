@@ -116,7 +116,7 @@
             <div class="sub-tit-container">
                 <div class="tab-wrap">
                     <a href="javascript:fn_applyList();" class="tablinks">가입 후 이용 가능</a>
-                    <a href="javascript:fn_certList();" class="tablinks"> 😎 </a>
+                    <a href="javascript:fn_applyList();" class="tablinks"> 😎 </a>
                 </div>
                 <!-- //menu -->
             </div>
