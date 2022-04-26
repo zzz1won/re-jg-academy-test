@@ -133,12 +133,12 @@ public class ApplyController {
 		paramMap.put("eduTitle", search.getEduTitle());
 		paramMap.put("applyState", search.getApplyState());
 		paramMap.put("judgeNo", search.getJudgeNo());
-		
+		paramMap.put("codeList", codeList);
+
 		try {
 			paramMap.put("groupCode", Constants.JUDGE_KIND); // 심판종목
 			judgeKindList = commonService.selectCommonCode(paramMap);
 			paramMap.put("groupCode", Constants.APPLY_STATE); // 수강 상태
-			paramMap.put("codeList", codeList);
 			eduTitleList = eduService.selectEduTitleListByYear(paramMap); // 교육과정 목록(selectBox)
 			applyStateList = commonService.selectCommonCode(paramMap); // 신청상태(selectBox)
 			adminList = adminService.selectAdminList();
@@ -282,7 +282,7 @@ public class ApplyController {
 		try {
 			// 신청취소
 			result = applyService.deleteApplyInfoByApplyNo(apply);
-			
+
 		} catch(Exception e) {
 			logger.debug(e.getMessage());
 		}
