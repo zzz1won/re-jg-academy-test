@@ -117,8 +117,8 @@ public class CertController {
 		List<AdminVO> adminList = null;
 		int certListCnt = 0;
 		
-		if(search.getYear() == null || "".equals(search.getYear())) {
-			search.setYear( new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()) );
+		if(search.getYear() == null || "".equals(search.getYear())) { //Year값이 null이거나 ""일 때!
+			search.setYear( new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()) ); //yyyy형식으로 Calendar.getInstance().getTime() 현재시간 구하기
 		}
 		
 		// 02: 신청확정(수료대기), 03: 수료확정, 05: 미수료
