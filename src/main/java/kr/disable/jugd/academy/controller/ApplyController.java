@@ -104,6 +104,7 @@ public class ApplyController {
 		
 		return "judge/apply/history";
 	}
+
 	
 	/**
 	 * 신청 확정 관리
@@ -121,7 +122,7 @@ public class ApplyController {
 		List<EduVO> eduTitleList = null;
 		List<CodeVO> applyStateList = null;
 		List<CodeVO> judgeKindList = null;
-		List<AdminVO> adminList = null;
+		//List<AdminVO> adminList = null;
 		int applyListCnt = 0;
 		
 		if(search.getYear() == null || "".equals(search.getYear())) {
@@ -141,7 +142,7 @@ public class ApplyController {
 			paramMap.put("groupCode", Constants.APPLY_STATE); // 수강 상태
 			eduTitleList = eduService.selectEduTitleListByYear(paramMap); // 교육과정 목록(selectBox)
 			applyStateList = commonService.selectCommonCode(paramMap); // 신청상태(selectBox)
-			adminList = adminService.selectAdminList();
+			//adminList = adminService.selectAdminList();
 			
 			applyListCnt = applyService.selectAdminApplyListCnt(paramMap);
 			paramMap.put("applyListCnt", applyListCnt);
@@ -151,7 +152,7 @@ public class ApplyController {
 		}
 		
 		model.addAttribute("adminInfo", adminInfo);
-		model.addAttribute("adminList", adminList);
+		//model.addAttribute("adminList", adminList);
 		model.addAttribute("search", search);
 		model.addAttribute("applyList", applyList);
 		model.addAttribute("applyListCnt", applyListCnt);
