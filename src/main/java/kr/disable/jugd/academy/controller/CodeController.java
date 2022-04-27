@@ -241,6 +241,12 @@ public class CodeController {
         return resultMap;
     }
 
+    @RequestMapping("admin/deepDive")
+    public String deepDive() {
+        System.out.println("deepDive요청");
+        return "admin/deepDive/jsStudy";
+    }
+
 
 }
 

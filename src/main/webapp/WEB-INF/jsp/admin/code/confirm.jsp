@@ -233,6 +233,7 @@
                 <button type="button" id="btn_register" class="btn2 btn-blue">신규코드 등록</button>
                 <button type="button" id="btn_change_code_state" class="btn2 btn-blue">코드상태변경</button>
                 <button type="button" id="btn_delete" class="btn2 btn-gray">삭제</button>
+                <button type="button" id="btn_deepDive" class="btn2 btn-gray">deep Dive</button>
             </div>
             <!-- //btn area -->
         </div>
@@ -460,6 +461,11 @@
         $('#btn_register').click(function () {
             location.href = "<c:out value='${pageContext.request.contextPath}/code/admin/registerPage'/>";
         });
+
+        /*deepDive 출력 링크 */
+        $('#btn_deepDive').click(function (){
+            location.href = "<c:out value='${pageContext.request.contextPath}/code/admin/deepDive'/>";
+        })
 
         <%-- 삭제 성공 --%>
         $("#btn_delete_success").click(function () {
