@@ -193,6 +193,13 @@
         kCount++;
     }
 
+    function createH(){
+        let tagArea = document.getElementById('tagArea');
+        let newHTag = document.createElement('h');
+
+        newHTag.setAttribute('class','tag');
+        newHTag.innerHTML = hCount+
+    }
 
     let pTagCount = 1;
     let hTagCount = 1;
