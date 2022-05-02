@@ -19,6 +19,10 @@
 <jsp:include page="/WEB-INF/jsp/include/common.jsp"/>
 
 <script type="text/javascript">
+    <%-- 0502 수강신청 목록2 --%>
+    function fn_scheduleList2(){
+        location.href = "<c:out value='${pageContext.request.contextPath}/edu/judge/schedule2'/>";
+    }
 var eduNo;
 var eduId;
 
@@ -96,8 +100,9 @@ function fn_apply(paramEduNo, paramEduId){
             <div class="sub-tit-wrap">
                 <div class="sub-tit-container">
                     <!-- tab: 2개-->
-                    <div class="tab-wrap tab2">
+                    <div class="tab-wrap tab3">
                         <a href="javascript:fn_scheduleList();" class="tablinks active">수강신청</a>
+                        <a href="javascript:fn_scheduleList2();" class="tablinks">수강신청2</a>
                         <a href="javascript:fn_applyList();" class="tablinks">수강내역</a>
                     </div>
                     <!-- //tab -->

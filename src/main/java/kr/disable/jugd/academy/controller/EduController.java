@@ -159,7 +159,7 @@ public class EduController {
 	 * 교육 일정 관리
 	 * @param request
 	 * @param model
-	 * @param pagination
+	 * @param //pagination
      * @return
      * @throws Exception
 	 */
@@ -205,7 +205,7 @@ public class EduController {
 	
 	/**
 	 * 신규 교육과정 등록 화면 이동
-	 * @param eduInfo
+	 * @param //eduInfo
 	 * @param request
      * @return resultMap
      * @throws Exception
@@ -328,8 +328,8 @@ public class EduController {
 	
 	/**
 	 * 교육과정 삭제
-	 * @param request
-	 * @param model
+	 * @param //request
+	 * @param //model
      * @return
      * @throws Exception
 	 */
@@ -366,7 +366,7 @@ public class EduController {
 	
 	/**
 	 * 교육과정 엑셀 저장
-	 * @param request
+	 * @param //request
 	 * @param model
      * @return 
      * @throws Exception
@@ -407,5 +407,63 @@ public class EduController {
         
 		return "admin/edu/excel";
 	}
-	
+
+	//0502
+	/** 새로운 과제~
+	 * @param searchVO, model, request
+	 * @return string, "judge/edu/schedule2"
+	 * @throws //Exception
+	 *  */
+	@RequestMapping("judge/schedule2")
+	//@ResponseBody
+	public String newEduSchedule(SearchVO searchVO, Model model, HttpServletRequest request) throws Exception{
+		Map<String, Object> paramMap = new HashMap<>();
+		HttpSession session = request.getSession();
+		JudgeVO judgeInfo = (JudgeVO) session.getAttribute("USER");
+
+		List<EduVO> eduList = null;			//과목
+		List<ApplyVO> applyList = null;		//과목 현황
+		List<CodeVO> judgeKindList = null;	//심판종목
+		List<CodeVO> eduStatusList = null;	//과목의 수강상태
+		int eduListCnt = 0;
+
+		/*if(search.getYear() == null || "".equals(search.getYear())) {
+			search.setYear( new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()) );
+		}*/
+
+		if(searchVO.getYear()==null || "".equals(searchVO.getYear())){
+			searchVO.setYear( new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()) );
+		}
+
+		paramMap.put("year", searchVO.getYear());
+		paramMap.put("groupCode", Constants.JUDGE_KIND); //심판 종목 표기를 위해
+		paramMap.put("judgeNo", judgeInfo.getJudgeNo()); //심판 고유번호 표기를 위해
+
+
+		try{
+			judgeKindList = commonService.selectCommonCode(paramMap);
+			paramMap.put("groupCode", Constants.EDU_STATUS); //교육과정상태
+			eduStatusList = commonService.selectCommonCode(paramMap);
+			eduListCnt = eduService.selectJudgeEduListCnt(paramMap);
+			paramMap.put("eduListCnt", eduListCnt);
+			eduList = eduService.selectJudgeEduList(paramMap);
+
+		}
+		catch (Exception e) {
+			logger.debug(e.getMessage());
+		}
+		
+		model.addAttribute("searchVO",searchVO);
+		model.addAttribute("eduList",eduList);
+		model.addAttribute("applyList",applyList);
+		model.addAttribute("judgeKindList",judgeKindList);
+		model.addAttribute("eduStatusList",eduStatusList);
+		model.addAttribute("eduListCnt",eduListCnt);
+		//model에 담지 않으면, 비활성화 된 것 처럼 보이니 잘 체크하자
+				
+		System.out.println("0502 새로운 과제 후덜덜 ^^..");
+
+
+		return "judge/edu/may2nd";
+	}
 }

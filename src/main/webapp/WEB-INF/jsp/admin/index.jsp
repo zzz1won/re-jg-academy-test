@@ -37,11 +37,11 @@ $(function(){
             <form id="loginForm">
                 <hr class="hr-2line">
                 <div class="inp-group">
-                    <label for="num_judge" class="hidden">사번</label>
+                    <label for="adminId" class="hidden">사번</label>
                     <input type="text" class="input-form" id="adminId" name="adminId" placeholder="사번을 입력해주세요.">
                 </div>
                 <div class="inp-group">
-                    <label for="name_judge" class="hidden">이름</label>
+                    <label for="adminName" class="hidden">이름</label>
                     <input type="text" class="input-form" id="adminName" name="adminName" placeholder="이름을 입력해주세요.">
                 </div>
                 <div class="inp-group">
