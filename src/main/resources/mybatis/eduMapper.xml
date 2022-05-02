@@ -421,5 +421,34 @@
 				ac_edu_title
 	]]>
 	</select>
-	
+	<select id="selectEduSchedule" parameterType="Map" resultType="Map">
+		<![CDATA[
+		/* selectJudgeEduCalendar 교육 스케쥴 불러오기 */
+		SELECT
+			A.ac_edu_schedule_no
+			 , A.ac_edu_id
+			 , A.ac_edu_seq
+			 , A.ac_edu_start_date
+			 , A.ac_edu_end_date
+			 , A.ac_edu_title AS title
+			 , DATE_FORMAT(STR_TO_DATE(A.ac_edu_start_date ,'%Y%m%d%H%i'),'%Y-%m-%dT%H:%i') AS start
+			 , DATE_FORMAT(STR_TO_DATE(A.ac_edu_end_date ,'%Y%m%d%H%i'),'%Y-%m-%dT%H:%i') AS end
+				, A.ac_edu_place as description
+				, A.ac_edu_contents
+				, A.ac_apply_start_date
+				, A.ac_apply_end_date
+				, A.ac_apply_limit_count
+				, A.ac_edu_institute
+				, A.reg_date
+				, A.reg_id
+				, A.mod_date
+				, A.mod_id
+		FROM
+			AC_EDU_SCHEDULE A
+		WHERE	1=1
+		  AND STR_TO_DATE(A.ac_edu_start_date ,'%Y%m%d%H%i') >= STR_TO_DATE(#{start} ,'%Y-%m-%d')
+		  AND STR_TO_DATE(A.ac_edu_end_date ,'%Y%m%d%H%i') <= STR_TO_DATE(#{end} ,'%Y-%m-%d')
+		ORDER BY A.ac_edu_start_date
+		]]>
+	</select>
 </mapper>

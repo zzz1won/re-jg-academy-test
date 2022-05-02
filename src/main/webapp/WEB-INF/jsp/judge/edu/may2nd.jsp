@@ -20,6 +20,36 @@
 
 <script>
     $(document).ready(function () {
+        var data = {"year" : ${searchVO.year}};  //data:Json.stringify(data) 얘가 기준이 되어 쿼리문을 타는 듯...?
+        //직접 입력한 값이 아닌 searchVO의 year을 가져왔다.
+        $.ajax({
+            type: "post", //전송방식, 통신 type
+            url: "<c:out value='${pageContext.request.contextPath}/edu/judge/schedule2Ajax'/>", //요청할 url
+            dataType: "json",   //요청 할 파라미터 타입
+            data: JSON.stringify(data),
+            //요청할 파라미터, var data= 의 data와 짝, year="무슨값"을 기준으로 진행...
+            contentType: "application/json;charset=UTF-8",  //헤더값 설정(?)
+            success: function (resultMap) {                      //이 곳의 data가 실행되는 것
+                if(resultMap.result > 0) {
+                    $('#pop_register_success').bPopup({
+                    })
+                    console.log("뭐가 문젤까");
+                    console.log("data::",resultMap);
+                } else {
+                    $('#pop_register_fail').bPopup({
+                        speed: 450
+                    })
+                    console.log("data::",resultMap);
+                    console.log("할수있어...!");
+                }
+            },
+            error: function () {
+                // 신청 실패시
+                alert("ajax 통신 실패");
+            }
+        });
+
+        $(".scheduleView").append('append 실행시 이렇게 보여짐');
 
         console.log("document ready~");
     })
@@ -27,19 +57,9 @@
 </script>
 <style>
     .scheduleView {
-        display: inline-flex;
-        width:80%;
-    }
-    .content-wrap {
-        display: inline-block;
-        width: 50%;
-    }
-    .table-write-wrap {
-        display: inline-block;
-        width: 50%;
+        height: 300px;
     }
 </style>
-
 <body>
 
 <div id="wrapper">
@@ -67,7 +87,7 @@
                     <ul class="filter-row">
                         <li>
                             <label for="year">조회기간</label>
-                            <input type="text" id="year" name="year" value="<c:out value='${search.year}'/>"
+                            <input type="text" id="year" name="year" value="<c:out value='${searchVO.year}'/>"
                                    class="input-text year icon_calendar" style="width:100px" placeholder="년도"/>
                         </li>
                         <li>
@@ -83,88 +103,29 @@
     </div>
 
     <div class="scheduleView">
-        <!-- table-wrap -->
-        <div class="content-wrap">
-            <div class="table-wrap">
-                <!-- table -->
-                <table id="listTable" class="cell-border hover dataTable" width="100%">
-                    <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>과정명</th>
-                        <th>수강기간</th>
-                        <th>장소</th>
-                        <th>인원</th>
-                        <th>신청기간</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="edu" items="${eduList}" varStatus="status">
-                        <c:if test="${eduListCnt > 0}">
-                            <tr>
-                                <td><c:out value="${edu.rownum}"/></td>
-                                <td><c:out value="${edu.acEduTitleMask}"/></td>
-                                <td>
-                                    <fmt:parseDate var="acEduStartDate" value="${edu.acEduStartDate}"
-                                                   pattern="yyyyMMdd"/>
-                                    <fmt:formatDate value="${acEduStartDate}" pattern="yyyy/MM/dd"/>
-                                    ~
-                                    <fmt:parseDate var="acEduEndDate" value="${edu.acEduEndDate}" pattern="yyyyMMdd"/>
-                                    <fmt:formatDate value="${acEduEndDate}" pattern="yyyy/MM/dd"/>
-                                </td>
-                                <td><c:out value="${edu.acEduPlace}"/></td>
-                                <td><c:out value="${edu.acApplyCount}"/>/<c:out value="${edu.acApplyLimitCount}"/></td>
-                                <td>
-                                    <fmt:parseDate var="acApplyStartDate" value="${edu.acApplyStartDate}"
-                                                   pattern="yyyyMMdd"/>
-                                    <fmt:formatDate value="${acApplyStartDate}" pattern="yyyy/MM/dd"/>
-                                    ~
-                                    <fmt:parseDate var="acApplyEndDate" value="${edu.acApplyEndDate}"
-                                                   pattern="yyyyMMdd"/>
-                                    <fmt:formatDate value="${acApplyEndDate}" pattern="yyyy/MM/dd"/>
-                                </td>
-                            </tr>
-                        </c:if>
-                    </c:forEach>
-                    </tbody>
-                </table>
-                <!-- //table -->
+
+    </div>
+    <jsp:include page="/WEB-INF/jsp/include/footer.jsp"/>
+
+    <!-- popup 02-->
+    <div class="modal no_close" id="pop_register_success">
+        <div class="popup-content">
+            <p class="pop-text">신청이 완료 되었습니다.<br>교육신청이 확정되면 학습 가능 합니다.</p>
+            <div class="btn-wrap">
+                <button type="button" id="btn_register_success" class="btn2 btn-blue b-close">확인</button>
             </div>
         </div>
-        <div class="table-write-wrap">
-            <!-- table -->
-            <table>
-                <caption>과정상세 정보 테이블</caption>
-                <colgroup>
-                    <col width="110px">
-                    <col width="">
-                    <col width="110px">
-                    <col width="">
-                </colgroup>
-                <tbody>
-                <tr>
-                    <th>과 정 명</th>
-                    <td colspan="3" class="t_tit"><c:out value="${eduInfo.acEduTitle}"/></td>
-                </tr>
-                <tr>
-                    <th>주관기관</th>
-                    <td><c:out value="${eduInfo.acEduInstitute}"/></td>
-                    <th>교육사이트</th>
-                    <td><a href="<c:out value="${eduInfo.acEduUrl}"/>" target="_blank"><c:out value="${eduInfo.acEduUrl}"/></a></td>
-                </tr>
-                <tr>
-                    <th>수강신청</th>
-                    <td colspan="3">
-                        <div class="view_box">
-                            <c:out value="${eduInfo.acEduContents}" escapeXml="false"/>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <!-- //table -->
-        </div>
-        <!-- //table-wrap -->
     </div>
+    <!-- //popup 02-->
+    <!-- popup 03-->
+    <div class="modal no_close" id="pop_register_fail">
+        <div class="popup-content">
+            <p class="pop-text">신청에 실패하였습니다.<br>관리자에게 문의해주시기 바랍니다.</p>
+            <div class="btn-wrap">
+                <button type="button" id="btn_register_fail" class="btn2 btn-blue b-close">확인</button>
+            </div>
+        </div>
+    </div>
+    <!-- //popup 03-->
 </body>
 </html>

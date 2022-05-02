@@ -95,4 +95,8 @@ public class EduService {
 	public List<EduVO> selectHolidayList(Map<String, Object> paramMap) {
 		return eduMapper.selectHolidayList(paramMap);
 	}
+
+	/** 0502 테스트 */
+    public List<EduVO> selectEduSchedule(Map<String, Object> resultMap) { return eduMapper.selectEduSchedule(resultMap);
+    }
 }

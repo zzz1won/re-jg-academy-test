@@ -1,15 +1,13 @@
 package kr.disable.jugd.academy.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -421,49 +419,57 @@ public class EduController {
 		HttpSession session = request.getSession();
 		JudgeVO judgeInfo = (JudgeVO) session.getAttribute("USER");
 
-		List<EduVO> eduList = null;			//과목
-		List<ApplyVO> applyList = null;		//과목 현황
-		List<CodeVO> judgeKindList = null;	//심판종목
-		List<CodeVO> eduStatusList = null;	//과목의 수강상태
-		int eduListCnt = 0;
-
-		/*if(search.getYear() == null || "".equals(search.getYear())) {
-			search.setYear( new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()) );
-		}*/
-
 		if(searchVO.getYear()==null || "".equals(searchVO.getYear())){
 			searchVO.setYear( new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()) );
 		}
+		List<CodeVO> judgeKindList = null;
 
 		paramMap.put("year", searchVO.getYear());
 		paramMap.put("groupCode", Constants.JUDGE_KIND); //심판 종목 표기를 위해
 		paramMap.put("judgeNo", judgeInfo.getJudgeNo()); //심판 고유번호 표기를 위해
+		judgeKindList = commonService.selectCommonCode(paramMap); //심판종목 가져오기 위해
+		paramMap.put("groupCode", Constants.EDU_STATUS); // 교육과정 상태
 
-
-		try{
-			judgeKindList = commonService.selectCommonCode(paramMap);
-			paramMap.put("groupCode", Constants.EDU_STATUS); //교육과정상태
-			eduStatusList = commonService.selectCommonCode(paramMap);
-			eduListCnt = eduService.selectJudgeEduListCnt(paramMap);
-			paramMap.put("eduListCnt", eduListCnt);
-			eduList = eduService.selectJudgeEduList(paramMap);
-
-		}
-		catch (Exception e) {
-			logger.debug(e.getMessage());
-		}
-		
-		model.addAttribute("searchVO",searchVO);
-		model.addAttribute("eduList",eduList);
-		model.addAttribute("applyList",applyList);
-		model.addAttribute("judgeKindList",judgeKindList);
-		model.addAttribute("eduStatusList",eduStatusList);
-		model.addAttribute("eduListCnt",eduListCnt);
-		//model에 담지 않으면, 비활성화 된 것 처럼 보이니 잘 체크하자
-				
-		System.out.println("0502 새로운 과제 후덜덜 ^^..");
-
-
+		System.out.println("0502 새로운 과제 후덜덜 😎 ..");
+		model.addAttribute("judgeInfo",judgeInfo); //세션정보 띄움
+		model.addAttribute("judgeKindList",judgeKindList); //심판종목 담아 띄움
+		model.addAttribute("searchVO", searchVO); //연도 및 주 내용들이 담긴 VO
 		return "judge/edu/may2nd";
 	}
+
+	@RequestMapping("judge/schedule2Ajax")
+	@ResponseBody
+	public Map<String, Object> newEduScheduleAjax (@RequestBody SearchVO searchVO, Model model, HttpServletRequest request) throws Exception {
+		HttpSession session = request.getSession();
+		JudgeVO judgeInfo = (JudgeVO) session.getAttribute("USER");
+		Map<String, Object> paramMap = new HashMap<>();
+
+		paramMap.put("year", searchVO.getYear());
+		paramMap.put("groupCode", Constants.JUDGE_KIND); //심판 종목 표기를 위해
+		paramMap.put("judgeNo",judgeInfo.getJudgeNo());
+		/*기본자료*/
+
+		List<EduVO> eduList = null;
+		List<CodeVO> eduStatusList = null;
+		int eduListCnt = 0;
+
+		/* ajax로 넘기고싶은 애들 */
+		eduStatusList = commonService.selectCommonCode(paramMap);
+		paramMap.put("eduStatusList",eduStatusList);
+		paramMap.put("groupCode", Constants.EDU_STATUS); // 교육과정 상태
+		eduListCnt = eduService.selectJudgeEduListCnt(paramMap);
+		paramMap.put("eduListCnt", eduListCnt);
+
+		eduList = eduService.selectJudgeEduList(paramMap);
+		paramMap.put("eduList", eduList);
+		/* ajax로 넘기고싶은 값 */
+
+		int result = 0;
+		result = eduService.selectJudgeEduListCnt(paramMap);
+
+		paramMap.put("result",result);
+		return paramMap;
+	}
+
+
 }

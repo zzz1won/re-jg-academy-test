@@ -85,4 +85,8 @@ function fn_calendar(){
 	location.href = "<c:out value='${pageContext.request.contextPath}/calendar/judge/calendarList'/>";
 }
 
+function fn_scheduleList2(){
+    location.href = "<c:out value='${pageContext.request.contextPath}/edu/judge/schedule2'/>";
+}
+
 </script>
