@@ -468,6 +468,7 @@ public class EduController {
 		result = eduService.selectJudgeEduListCnt(paramMap);
 
 		paramMap.put("result",result);
+		//model.addAttribute("eduList", eduList);
 		return paramMap;
 	}
 

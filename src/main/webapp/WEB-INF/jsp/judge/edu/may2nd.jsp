@@ -20,7 +20,9 @@
 
 <script>
     $(document).ready(function () {
-        var data = {"year" : ${searchVO.year}};  //data:Json.stringify(data) 얘가 기준이 되어 쿼리문을 타는 듯...?
+        console.log("document ready~");
+
+        var data = {"year": ${searchVO.year}};  //data:Json.stringify(data) 얘가 기준이 되어 쿼리문을 타는 듯...?
         //직접 입력한 값이 아닌 searchVO의 year을 가져왔다.
         $.ajax({
             type: "post", //전송방식, 통신 type
@@ -29,17 +31,36 @@
             data: JSON.stringify(data),
             //요청할 파라미터, var data= 의 data와 짝, year="무슨값"을 기준으로 진행...
             contentType: "application/json;charset=UTF-8",  //헤더값 설정(?)
-            success: function (resultMap) {                      //이 곳의 data가 실행되는 것
-                if(resultMap.result > 0) {
-                    $('#pop_register_success').bPopup({
-                    })
+            success: function (paramMap) {                      //이 곳의 data가 실행되는 것
+                if (paramMap.result > 0) {
+                    $('#pop_register_success').bPopup({})
                     console.log("뭐가 문젤까");
-                    console.log("data::",resultMap);
+                    console.log("data::", paramMap);
+
+                    /*테이블 추가*/
+                    var eList = paramMap;
+                    var output = '';
+                    $.each(eList, function(i){
+                        output += '<tr>'
+                        output += '<td>'+paramMap[i].judgeNo + '</td><td>' + paramMap[i].acEduScheduleNo + '</td>'
+                        output += '</tr>'
+                    });
+                    $("#listTable2").append(output);
+
+                    /*for(key in paramMap) {
+                        output += '<tr>';
+                        output += '<td>'+paramMap[key].acEduScheduleNo+'</td>';
+                        output += '<td>'+paramMap[key].acEduNo+'</td>';
+                        output += '<td>'+paramMap[key].acEduId+'</td>';
+                        //output += '<td>'+paramMap[key].hobby+'</td>';
+                        output += '</tr>';
+                    }*/
+                    /*테이블 추가*/
                 } else {
                     $('#pop_register_fail').bPopup({
                         speed: 450
                     })
-                    console.log("data::",resultMap);
+                    console.log("data::", paramMap);
                     console.log("할수있어...!");
                 }
             },
@@ -49,16 +70,26 @@
             }
         });
 
-        $(".scheduleView").append('append 실행시 이렇게 보여짐');
 
-        console.log("document ready~");
     })
-
+</script>
+<script>
+    /** append 연습 */
+    //$(".scheduleView").append('<div id=eduSchList></div>');
+    /* append 연습 */
 </script>
 <style>
     .scheduleView {
         height: 300px;
+        display: inline-block;
+        width: 90%;
     }
+
+    .table-wrap{
+        display: block;
+        width: 50%;
+    }
+
 </style>
 <body>
 
@@ -103,7 +134,24 @@
     </div>
 
     <div class="scheduleView">
+        <div class="table-wrap">
+            <!-- table -->
+            <table id="listTable" class="cell-border hover dataTable" width="100%">
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>과정명</th>
+                    <th>수강기간</th>
+                    <th>장소</th>
+                    <th>인원</th>
+                    <th>신청기간</th>
+                </tr>
+                </thead>
+                <tbody id="listTable2">
 
+                </tbody>
+            </table>
+        </div>
     </div>
     <jsp:include page="/WEB-INF/jsp/include/footer.jsp"/>
 
