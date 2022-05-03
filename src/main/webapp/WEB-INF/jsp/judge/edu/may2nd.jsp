@@ -35,16 +35,22 @@
                 if (paramMap.result > 0) {
                     $('#pop_register_success').bPopup({})
                     console.log("뭐가 문젤까");
-                    console.log("data::", paramMap);
+                    console.log("data::", JSON.stringify(paramMap.eduList));
 
                     /*테이블 추가*/
-                    var eList = paramMap;
+                    var list = paramMap.eduList;
                     var output = '';
-                    $.each(eList, function(i){
+                    for (let i = 0; i < list.length; i++) {
                         output += '<tr>'
-                        output += '<td>'+paramMap[i].judgeNo + '</td><td>' + paramMap[i].acEduScheduleNo + '</td>'
+                        //output += '<td>'+paramMap.eduList[i].judgeNo + '</td><td>' + paramMap.eduList[i].acEduScheduleNo + '</td>'
+                        output += '<td>'+list[i].acEduScheduleNo + '</td>';
+                        output += '<td>'+list[i].acEduTitle + '</td>';
+                        output += '<td>'+list[i].acEduStartDate + '~' + list[i].acEduEndDate + '</td>';
+                        output += '<td>'+list[i].acEduPlace + '</td>';
+                        output += '<td>'+list[i].acApplyLimitCount + '</td>';
+                        output += '<td>'+list[i].acApplyStartDate + '~' + list[i].acApplyEndDate + '</td>';
                         output += '</tr>'
-                    });
+                    }
                     $("#listTable2").append(output);
 
                     /*for(key in paramMap) {
