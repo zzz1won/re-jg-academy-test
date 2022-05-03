@@ -22,45 +22,41 @@
     $(document).ready(function () {
         console.log("document ready~");
 
-        var data = {"year": ${searchVO.year}};  //data:Json.stringify(data) 얘가 기준이 되어 쿼리문을 타는 듯...?
+        var param = {"year": ${searchVO.year}};  //data:Json.stringify(data) 얘가 기준이 되어 쿼리문을 타는 듯...?
         //직접 입력한 값이 아닌 searchVO의 year을 가져왔다.
+        alert('일단 ajax로 데이터를 먼저 띄워보자:eduList');
         $.ajax({
             type: "post", //전송방식, 통신 type
             url: "<c:out value='${pageContext.request.contextPath}/edu/judge/schedule2Ajax'/>", //요청할 url
             dataType: "json",   //요청 할 파라미터 타입
-            data: JSON.stringify(data),
+            data: JSON.stringify(param),
             //요청할 파라미터, var data= 의 data와 짝, year="무슨값"을 기준으로 진행...
             contentType: "application/json;charset=UTF-8",  //헤더값 설정(?)
-            success: function (paramMap) {                      //이 곳의 data가 실행되는 것
-                if (paramMap.result > 0) {
+            success: function (data) {                      //이 곳의 data가 실행되는 것
+                if (data.result > 0) {
                     $('#pop_register_success').bPopup({})
                     console.log("뭐가 문젤까");
-                    console.log("data::", JSON.stringify(paramMap.eduList));
+                    //console.log("data::", JSON.stringify(data.eduList));
+                    //json.stringify로 데이터가 나오는데 이 데이터를 jsonformatter 에서 확인하면 더 좋은 결과값을 확인 할 수 있다.
 
                     /*테이블 추가*/
-                    var list = paramMap.eduList;
+                    var list = data.eduList;
+                    //paramMap에는 다양한 데이터가 들어있으므로 eduList를 가져오겠다고 명확히 선언, 값은 list에 담긴다.
                     var output = '';
-                    for (let i = 0; i < list.length; i++) {
+                    for (let i = 0; i < list.length; i++) { //i는 list의 length가 다할 때 까지 반복!
                         output += '<tr>'
-                        //output += '<td>'+paramMap.eduList[i].judgeNo + '</td><td>' + paramMap.eduList[i].acEduScheduleNo + '</td>'
-                        output += '<td>'+list[i].acEduScheduleNo + '</td>';
-                        output += '<td>'+list[i].acEduTitle + '</td>';
-                        output += '<td>'+list[i].acEduStartDate + '~' + list[i].acEduEndDate + '</td>';
-                        output += '<td>'+list[i].acEduPlace + '</td>';
-                        output += '<td>'+list[i].acApplyLimitCount + '</td>';
-                        output += '<td>'+list[i].acApplyStartDate + '~' + list[i].acApplyEndDate + '</td>';
+                        //output += '<td>'+paramMap.eduList[i].judgeNo + '</td><td>' + paramMap.eduList[i].acEduScheduleNo + '</td>' 기존내용
+                        output += '<td>' + list[i].acEduScheduleNo + '</td>';
+                        //output += '<td> <a href="javascript:fn_detail1('list[i].acEduScheduleNo')">' + list[i].acEduTitle + '</td>'; //밑줄이 그어져도 실제로 나오는지 직접 확인 해 보자!
+                        output += '<td> <a href="javascript:fn_detailAjax('+ list[i].acEduScheduleNo +')">' + list[i].acEduTitle + '</td>'; //밑줄이 그어져도 실제로 나오는지 직접 확인 해 보자!
+                        output += '<td>' + list[i].acEduStartDate + '~' + list[i].acEduEndDate + '</td>';
+                        output += '<td>' + list[i].acEduPlace + '</td>';
+                        output += '<td>' + list[i].acApplyLimitCount + '</td>';
+                        output += '<td>' + list[i].acApplyStartDate + '~' + list[i].acApplyEndDate + '</td>';
                         output += '</tr>'
                     }
-                    $("#listTable2").append(output);
 
-                    /*for(key in paramMap) {
-                        output += '<tr>';
-                        output += '<td>'+paramMap[key].acEduScheduleNo+'</td>';
-                        output += '<td>'+paramMap[key].acEduNo+'</td>';
-                        output += '<td>'+paramMap[key].acEduId+'</td>';
-                        //output += '<td>'+paramMap[key].hobby+'</td>';
-                        output += '</tr>';
-                    }*/
+                    $("#listTable2").append(output);
                     /*테이블 추가*/
                 } else {
                     $('#pop_register_fail').bPopup({
@@ -76,22 +72,49 @@
             }
         });
 
+        /* 상세화면 부르기 */
+        <%-- 교육과정 상세 팝업 --%>
+        function fn_detailAjax(eduNo){
+            var param = { "acEduScheduleNo" : eduNo  }
+            $.ajax({
+                type: "post",
+                url: "<c:out value='${pageContext.request.contextPath}/edu/judge/detailAjax'/>",
+                data: JSON.stringify(param),
+                dataType: "text",
+                contentType: "application/json;charset=UTF-8",
+                success: function(data){
+                    alert('ajax 통신 성공');
+                    console.log('detailAjax 호출은 완료')
+                },
+                error: function(){
+                    alert("ajax error");
+                }
+            });
+        }
+        /* 상세화면 부르기 */
 
+
+
+        /* ready 함수 끝내는 괄호... ^^ */
     })
 </script>
 <script>
-    /** append 연습 */
-    //$(".scheduleView").append('<div id=eduSchList></div>');
-    /* append 연습 */
+
 </script>
+
 <style>
     .scheduleView {
         height: 300px;
-        display: inline-block;
-        width: 90%;
+        display: inline-flex;
+        width: 80%;
     }
 
-    .table-wrap{
+    .table-wrap {
+        display: block;
+        width: 50%;
+    }
+
+    .table-write-wrap {
         display: block;
         width: 50%;
     }
@@ -138,7 +161,6 @@
         </div>
         <!-- //search area -->
     </div>
-
     <div class="scheduleView">
         <div class="table-wrap">
             <!-- table -->
@@ -154,7 +176,24 @@
                 </tr>
                 </thead>
                 <tbody id="listTable2">
-
+                </tbody>
+            </table>
+        </div>
+        <div class="table-write-wrap">
+            <table>
+                <caption>과정상세 정보 테이블</caption>
+                <colgroup>
+                    <col width="110px">
+                    <col width="">
+                    <col width="110px">
+                    <col width="">
+                </colgroup>
+                <tbody>
+                <%--               <tr><th>과 정 명</th></tr>
+                               <tr><th>교육사이트</th></tr>
+                               <tr><th>주관기관</th></tr>
+                               <tr><th>장 소</th><th>인원제한</th></tr>
+                               <tr></tr>--%>
                 </tbody>
             </table>
         </div>

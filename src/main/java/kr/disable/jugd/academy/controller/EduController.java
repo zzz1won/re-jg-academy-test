@@ -469,8 +469,22 @@ public class EduController {
 
 		paramMap.put("result",result);
 		//model.addAttribute("eduList", eduList);
+		model.addAttribute("searchVO",searchVO);
 		return paramMap;
 	}
+
+	@RequestMapping("judge/detailAjax")
+	@ResponseBody
+	public Map<String, Object> detailPageAjax (@RequestBody EduVO edu) throws Exception {
+		Map<String, Object> resultMap = new HashMap<>();
+		EduVO eduInfo = new EduVO();
+
+		eduInfo = eduService.selectEduInfo(edu);
+		resultMap.put("eduInfo",eduInfo);
+
+		return resultMap;
+	}
+
 
 
 }
