@@ -478,13 +478,26 @@ public class EduController {
 
 	@RequestMapping("judge/detailAjax")
 	@ResponseBody
-	public Map<String, Object> detailPageAjax (@RequestBody EduVO edu) throws Exception {
-		Map<String, Object> resultMap = new HashMap<>();
+	public Map<String, Object> detailPageAjax (@RequestBody EduVO eduVO, Model model, HttpServletRequest request) throws Exception {
+		HttpSession session = request.getSession();
+		JudgeVO judgeInfo = (JudgeVO) session.getAttribute("USER");
+		Map<String, Object> paramMap = new HashMap<>();
 		EduVO eduInfo = new EduVO();
-		eduInfo = eduService.selectEduInfo(edu);
-		resultMap.put("eduInfo",eduInfo);
+		//eduScheduleNo를 기준으로 eduInfo를 select해 조회해야하는데 왜 계속 못하고있는가 ㅠㅠ
+		try {
+			eduInfo = eduService.selectEduInfo(eduVO);
+		} catch(Exception e) {
+			logger.debug(e.getMessage());
+		}
+		model.addAttribute("eduInfo", eduInfo);
+		System.out.println("eduInfo: "+eduInfo.getAcEduScheduleNo());
+		System.out.println("eduInfo: "+eduInfo.getAcEduTitle());
+		System.out.println("eduInfo: "+eduInfo.getAcEduPlace());
+		System.out.println("eduInfo: "+eduInfo.getAcEduInstitute());
 
-		return resultMap;
+		paramMap.put("eduInfo",eduInfo); //바보야 ^^
+
+		return paramMap;
 	}
 
 

@@ -96,7 +96,5 @@ public class EduService {
 		return eduMapper.selectHolidayList(paramMap);
 	}
 
-	/** 0502 테스트 */
-    public List<EduVO> selectEduSchedule(Map<String, Object> resultMap) { return eduMapper.selectEduSchedule(resultMap);
-    }
+	/** 0503 테스트 */
 }

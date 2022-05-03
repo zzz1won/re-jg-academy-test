@@ -64,5 +64,5 @@ public interface EduMapper {
 	public List<EduVO> selectHolidayList(Map<String, Object> paramMap);
 
 	/** 테스트*/
-    public List<EduVO> selectEduSchedule(Map<String, Object> resultMap);
+
 }

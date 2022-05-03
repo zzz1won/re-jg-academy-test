@@ -24,7 +24,6 @@
 
         var param = {"year": ${searchVO.year}};  //data:Json.stringify(data) 얘가 기준이 되어 쿼리문을 타는 듯...?
         //직접 입력한 값이 아닌 searchVO의 year을 가져왔다.
-        alert('일단 ajax로 데이터를 먼저 띄워보자:eduList');
         $.ajax({
             type: "post", //전송방식, 통신 type
             url: "<c:out value='${pageContext.request.contextPath}/edu/judge/schedule2Ajax'/>", //요청할 url
@@ -34,8 +33,7 @@
             contentType: "application/json;charset=UTF-8",  //헤더값 설정(?)
             success: function (data) {                      //이 곳의 data가 실행되는 것
                 if (data.result > 0) {
-                    $('#pop_register_success').bPopup({})
-                    console.log("뭐가 문젤까");
+                    console.log("schedule ajax 성공");
                     //console.log("data::", JSON.stringify(data.eduList));
                     //json.stringify로 데이터가 나오는데 이 데이터를 jsonformatter 에서 확인하면 더 좋은 결과값을 확인 할 수 있다.
 
@@ -48,7 +46,7 @@
                         //output += '<td>'+paramMap.eduList[i].judgeNo + '</td><td>' + paramMap.eduList[i].acEduScheduleNo + '</td>' 기존내용
                         output += '<td>' + list[i].acEduScheduleNo + '</td>';
                         //output += '<td> <a href="javascript:fn_detail1('list[i].acEduScheduleNo')">' + list[i].acEduTitle + '</td>'; //밑줄이 그어져도 실제로 나오는지 직접 확인 해 보자!
-                        output += '<td>'+ '<a href="javascript:fn_detailAjax('+ list[i].acEduScheduleNo +')">' + list[i].acEduTitle + '</td>'; //밑줄이 그어져도 실제로 나오는지 직접 확인 해 보자!
+                        output += '<td>' + '<a onclick="javascript:fn_detailAjax(' + list[i].acEduScheduleNo + ')">' + list[i].acEduTitle + '</td>'; //밑줄이 그어져도 실제로 나오는지 직접 확인 해 보자!
                         output += '<td>' + list[i].acEduStartDate + '~' + list[i].acEduEndDate + '</td>';
                         output += '<td>' + list[i].acEduPlace + '</td>';
                         output += '<td>' + list[i].acApplyLimitCount + '</td>';
@@ -76,25 +74,38 @@
 
     /* 상세화면 부르기 */
     <%-- 교육과정 상세 팝업 --%>
-    function fn_detailAjax(acEduScheduleNo){
-        var param = { "eduNo" : acEduScheduleNo };
+
+    function fn_detailAjax(eduNo) {
+        var param = {
+            "acEduScheduleNo": eduNo
+        }
         $.ajax({
             type: "post",
             url: "<c:out value='${pageContext.request.contextPath}/edu/judge/detailAjax'/>",
             data: JSON.stringify(param),
             dataType: "json",
             contentType: "application/json;charset=UTF-8",
-            success: function(data){
-                alert('ajax 통신 성공');
+            success: function (data) {
                 console.log('detailAjax 호출은 완료')
-                $("#table-write-wrap").append('asdasdasdasd');
+                console.log("data::", JSON.stringify(param.acEduScheduleNo));
+                console.log("data::", JSON.stringify(data.eduInfo.acEduTitle));
+
+                var eduDetail = data.eduInfo;
+                $('#detail_Title').text(eduDetail.acEduTitle); //jquery를 이용한.
+                $('#detail_url').text(eduDetail.acEduUrl); //jquery를 이용한.
+                $('#detail_institute').text(eduDetail.acEduInstitute); //jquery를 이용한.
+                $('#detail_place').text(eduDetail.acEduPlace); //jquery를 이용한.
+                $('#detail_limit').text(eduDetail.acApplyLimitCount); //jquery를 이용한.
+                /**/
+
                 /*테이블 추가*/
             },
-            error: function(){
+            error: function () {
                 alert("ajax 통신 실패");
             }
         });
     }
+
     /* 상세화면 부르기 */
 
 </script>
@@ -189,11 +200,26 @@
                     <col width="">
                 </colgroup>
                 <tbody>
-                <%--               <tr><th>과 정 명</th></tr>
-                               <tr><th>교육사이트</th></tr>
-                               <tr><th>주관기관</th></tr>
-                               <tr><th>장 소</th><th>인원제한</th></tr>
-                               <tr></tr>--%>
+                <tr>
+                    <th>과 정 명</th>
+                    <td id="detail_Title">양꼬치</td>
+                </tr>
+                <tr>
+                    <th>교육사이트</th>
+                    <td id="detail_url">떡꼬치</td>
+                </tr>
+                <tr>
+                    <th>주관기관</th>
+                    <td id="detail_institute">닭꼬치</td>
+                </tr>
+                <tr>
+                    <th>장 소</th>
+                    <td id="detail_place">은행꼬치</td>
+                    <th>인원제한</th>
+                    <td id="detail_limit">어묵탕</td>
+                </tr>
+                <tr></tr>
+
                 </tbody>
             </table>
         </div>
