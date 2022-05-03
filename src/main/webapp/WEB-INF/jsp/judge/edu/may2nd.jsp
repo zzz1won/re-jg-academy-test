@@ -48,7 +48,7 @@
                         //output += '<td>'+paramMap.eduList[i].judgeNo + '</td><td>' + paramMap.eduList[i].acEduScheduleNo + '</td>' 기존내용
                         output += '<td>' + list[i].acEduScheduleNo + '</td>';
                         //output += '<td> <a href="javascript:fn_detail1('list[i].acEduScheduleNo')">' + list[i].acEduTitle + '</td>'; //밑줄이 그어져도 실제로 나오는지 직접 확인 해 보자!
-                        output += '<td> <a href="javascript:fn_detailAjax('+ list[i].acEduScheduleNo +')">' + list[i].acEduTitle + '</td>'; //밑줄이 그어져도 실제로 나오는지 직접 확인 해 보자!
+                        output += '<td>'+ '<a href="javascript:fn_detailAjax('+ list[i].acEduScheduleNo +')">' + list[i].acEduTitle + '</td>'; //밑줄이 그어져도 실제로 나오는지 직접 확인 해 보자!
                         output += '<td>' + list[i].acEduStartDate + '~' + list[i].acEduEndDate + '</td>';
                         output += '<td>' + list[i].acEduPlace + '</td>';
                         output += '<td>' + list[i].acApplyLimitCount + '</td>';
@@ -71,32 +71,32 @@
                 alert("ajax 통신 실패");
             }
         });
-
-        /* 상세화면 부르기 */
-        <%-- 교육과정 상세 팝업 --%>
-        function fn_detailAjax(eduNo){
-            var param = { "acEduScheduleNo" : eduNo  }
-            $.ajax({
-                type: "post",
-                url: "<c:out value='${pageContext.request.contextPath}/edu/judge/detailAjax'/>",
-                data: JSON.stringify(param),
-                dataType: "text",
-                contentType: "application/json;charset=UTF-8",
-                success: function(data){
-                    alert('ajax 통신 성공');
-                    console.log('detailAjax 호출은 완료')
-                },
-                error: function(){
-                    alert("ajax error");
-                }
-            });
-        }
-        /* 상세화면 부르기 */
-
-
-
         /* ready 함수 끝내는 괄호... ^^ */
-    })
+    }) // end
+
+    /* 상세화면 부르기 */
+    <%-- 교육과정 상세 팝업 --%>
+    function fn_detailAjax(acEduScheduleNo){
+        var param = { "eduNo" : acEduScheduleNo };
+        $.ajax({
+            type: "post",
+            url: "<c:out value='${pageContext.request.contextPath}/edu/judge/detailAjax'/>",
+            data: JSON.stringify(param),
+            dataType: "json",
+            contentType: "application/json;charset=UTF-8",
+            success: function(data){
+                alert('ajax 통신 성공');
+                console.log('detailAjax 호출은 완료')
+                $("#table-write-wrap").append('asdasdasdasd');
+                /*테이블 추가*/
+            },
+            error: function(){
+                alert("ajax 통신 실패");
+            }
+        });
+    }
+    /* 상세화면 부르기 */
+
 </script>
 <script>
 

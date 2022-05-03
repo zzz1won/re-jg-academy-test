@@ -423,17 +423,20 @@ public class EduController {
 			searchVO.setYear( new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()) );
 		}
 		List<CodeVO> judgeKindList = null;
+		//List<EduVO> eduVO = null;
 
 		paramMap.put("year", searchVO.getYear());
 		paramMap.put("groupCode", Constants.JUDGE_KIND); //심판 종목 표기를 위해
 		paramMap.put("judgeNo", judgeInfo.getJudgeNo()); //심판 고유번호 표기를 위해
 		judgeKindList = commonService.selectCommonCode(paramMap); //심판종목 가져오기 위해
+		//eduVO = eduService.selectJudgeEduList(paramMap);
 		paramMap.put("groupCode", Constants.EDU_STATUS); // 교육과정 상태
 
 		System.out.println("0502 새로운 과제 후덜덜 😎 ..");
 		model.addAttribute("judgeInfo",judgeInfo); //세션정보 띄움
 		model.addAttribute("judgeKindList",judgeKindList); //심판종목 담아 띄움
 		model.addAttribute("searchVO", searchVO); //연도 및 주 내용들이 담긴 VO
+		//model.addAttribute("EduVO", eduVO);
 		return "judge/edu/may2nd";
 	}
 
@@ -478,7 +481,6 @@ public class EduController {
 	public Map<String, Object> detailPageAjax (@RequestBody EduVO edu) throws Exception {
 		Map<String, Object> resultMap = new HashMap<>();
 		EduVO eduInfo = new EduVO();
-
 		eduInfo = eduService.selectEduInfo(edu);
 		resultMap.put("eduInfo",eduInfo);
 
