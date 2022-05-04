@@ -41,6 +41,7 @@
                     var list = data.eduList;
                     //paramMap에는 다양한 데이터가 들어있으므로 eduList를 가져오겠다고 명확히 선언, 값은 list에 담긴다.
                     var output = '';
+                    console.log(list.length)
                     for (let i = 0; i < list.length; i++) { //i는 list의 length가 다할 때 까지 반복!
                         output += '<tr>'
                         //output += '<td>'+paramMap.eduList[i].judgeNo + '</td><td>' + paramMap.eduList[i].acEduScheduleNo + '</td>' 기존내용
@@ -63,11 +64,9 @@
                     $('.eduTitleHere:eq(0)').find('a').click();
 
                 } else {
-                    $('#pop_register_fail').bPopup({
-                        speed: 450
-                    })
-                    console.log("data::", paramMap);
+                    $("#listTable2").append('<td class="dataTables_empty" colspan="7">개설된 과정이 없습니다.</td>');
                     console.log("할수있어...!");
+
                 }
             },
             error: function () {
@@ -76,9 +75,12 @@
             }
         });
 
-        /*function detailClickEvent () {
-            $('#listTable2 > tr:eq(0)').find('a').click();
-        }*/
+
+        $('#btn-search').click(function () {
+            $('#searchForm').attr("method", "post");
+            $('#searchForm').attr("action", "<c:out value='${pageContext.request.contextPath}/edu/judge/schedule2'/>");
+            $('#searchForm').submit();
+        });
         /* ready 함수 끝내는 괄호... ^^ */
     }) // end
 
@@ -123,24 +125,29 @@
 
 </script>
 <script>
-
 </script>
 
 <style>
     .scheduleView {
-        height: 300px;
-        display: inline-flex;
+        margin-top: 40px;
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        text-align: center;
         width: 80%;
     }
 
     .table-wrap {
-        display: block;
-        width: 50%;
+        display: inline-block;
+        margin: 0 auto;
+        width: 55%;
     }
 
     .table-write-wrap {
-        display: block;
-        width: 50%;
+        align-items: start;
+        margin: 0 auto;
+        display: inline-block;
+        width: 40%;
     }
 
 </style>
@@ -207,29 +214,29 @@
             <table>
                 <caption>과정상세 정보 테이블</caption>
                 <colgroup>
-                    <col width="110px">
+                    <col width="120px">
                     <col width="">
-                    <col width="110px">
+                    <col width="120px">
                     <col width="">
                 </colgroup>
                 <tbody>
                 <tr>
                     <th>과 정 명</th>
-                    <td id="detail_Title">양꼬치</td>
+                    <td colspan="3" id="detail_Title">-</td>
                 </tr>
                 <tr>
                     <th>교육사이트</th>
-                    <td id="detail_url">떡꼬치</td>
+                    <td colspan="3" id="detail_url">-</td>
                 </tr>
                 <tr>
                     <th>주관기관</th>
-                    <td id="detail_institute">닭꼬치</td>
+                    <td colspan="3" id="detail_institute">-</td>
                 </tr>
                 <tr>
                     <th>장 소</th>
-                    <td id="detail_place">은행꼬치</td>
+                    <td id="detail_place">-</td>
                     <th>인원제한</th>
-                    <td id="detail_limit">어묵탕</td>
+                    <td id="detail_limit">-</td>
                 </tr>
                 <tr></tr>
 
