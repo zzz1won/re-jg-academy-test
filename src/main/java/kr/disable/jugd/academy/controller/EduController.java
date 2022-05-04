@@ -489,7 +489,7 @@ public class EduController {
 		} catch(Exception e) {
 			logger.debug(e.getMessage());
 		}
-		model.addAttribute("eduInfo", eduInfo);
+		//model.addAttribute("eduInfo", eduInfo);
 		System.out.println("eduInfo: "+eduInfo.getAcEduScheduleNo());
 		System.out.println("eduInfo: "+eduInfo.getAcEduTitle());
 		System.out.println("eduInfo: "+eduInfo.getAcEduPlace());

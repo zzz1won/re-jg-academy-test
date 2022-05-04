@@ -46,7 +46,7 @@
                         //output += '<td>'+paramMap.eduList[i].judgeNo + '</td><td>' + paramMap.eduList[i].acEduScheduleNo + '</td>' 기존내용
                         output += '<td>' + list[i].acEduScheduleNo + '</td>';
                         //output += '<td> <a href="javascript:fn_detail1('list[i].acEduScheduleNo')">' + list[i].acEduTitle + '</td>'; //밑줄이 그어져도 실제로 나오는지 직접 확인 해 보자!
-                        output += '<td>' + '<a onclick="javascript:fn_detailAjax(' + list[i].acEduScheduleNo + ')">' + list[i].acEduTitle + '</td>'; //밑줄이 그어져도 실제로 나오는지 직접 확인 해 보자!
+                        output += '<td class="eduTitleHere">' + '<a onclick="javascript:fn_detailAjax(' + list[i].acEduScheduleNo + ')">' + list[i].acEduTitle + '</td>'; //밑줄이 그어져도 실제로 나오는지 직접 확인 해 보자!
                         output += '<td>' + list[i].acEduStartDate + '~' + list[i].acEduEndDate + '</td>';
                         output += '<td>' + list[i].acEduPlace + '</td>';
                         output += '<td>' + list[i].acApplyLimitCount + '</td>';
@@ -58,7 +58,9 @@
                     /*테이블 추가*/
 
                     /* 0504 추가! */
-                    $('#listTable2 > tr:eq(0)').find('a').click();
+                    //$('#listTable2 > tr:eq(0)').find('a').click();
+                    //찾아가는 함수를 사용하기보다, class를 줘서 간단히 작성하는것이 좋다.
+                    $('.eduTitleHere:eq(0)').find('a').click();
 
                 } else {
                     $('#pop_register_fail').bPopup({
@@ -113,6 +115,7 @@
             }
         });
     }
+
     /* 상세화면 부르기 */
     /*$(function () {
         $('#listTable2 > tr:eq(0)').find('a').click();
