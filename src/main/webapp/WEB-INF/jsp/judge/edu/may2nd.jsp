@@ -22,7 +22,15 @@
     $(document).ready(function () {
         console.log("document ready~");
 
-        var param = {"year": ${searchVO.year}};  //data:Json.stringify(data) 얘가 기준이 되어 쿼리문을 타는 듯...?
+        ajaxEduSchedule(); //지저분하니... ajax는 함수 만들어서 부르기
+        alert('ajaxEduSchedule 함수 호출');
+        /* ready 함수 끝내는 괄호... ^^ */
+    }) // end
+
+
+    /* edu Schedule Ajax */
+    function ajaxEduSchedule() {
+        var param = {"year":$('#year').val()};  //data:Json.stringify(data) 얘가 기준이 되어 쿼리문을 타는 듯...?
         //직접 입력한 값이 아닌 searchVO의 year을 가져왔다.
         $.ajax({
             type: "post", //전송방식, 통신 type
@@ -33,6 +41,7 @@
             contentType: "application/json;charset=UTF-8",  //헤더값 설정(?)
             success: function (data) {                      //이 곳의 data가 실행되는 것
                 if (data.result > 0) {
+                    $("#listTable2").text(''); //공백으로 만들어주고...
                     console.log("schedule ajax 성공");
                     //console.log("data::", JSON.stringify(data.eduList));
                     //json.stringify로 데이터가 나오는데 이 데이터를 jsonformatter 에서 확인하면 더 좋은 결과값을 확인 할 수 있다.
@@ -62,6 +71,8 @@
                     //$('#listTable2 > tr:eq(0)').find('a').click();
                     //찾아가는 함수를 사용하기보다, class를 줘서 간단히 작성하는것이 좋다.
                     $('.eduTitleHere:eq(0)').find('a').click();
+                    console.log('eduScheduleAjax 호출 완료')
+
 
                 } else {
                     $("#listTable2").append('<td class="dataTables_empty" colspan="7">개설된 과정이 없습니다.</td>');
@@ -74,15 +85,10 @@
                 alert("ajax 통신 실패");
             }
         });
+    }
 
 
-        $('#btn-search').click(function () {
-            $('#searchForm').attr("method", "post");
-            $('#searchForm').attr("action", "<c:out value='${pageContext.request.contextPath}/edu/judge/schedule2'/>");
-            $('#searchForm').submit();
-        });
-        /* ready 함수 끝내는 괄호... ^^ */
-    }) // end
+    /* edu Schedule Ajax */
 
     /* 상세화면 부르기 */
     <%-- 교육과정 상세 팝업 --%>
@@ -117,16 +123,16 @@
             }
         });
     }
-
     /* 상세화면 부르기 */
-    /*$(function () {
-        $('#listTable2 > tr:eq(0)').find('a').click();
-    })*/
-
+    $(function (){
+        $('#btn-search').click(function () {
+            console.log('test 함수 호출');
+            console.log($('#year').val());
+            $("#listTable2").text('');
+            ajaxEduSchedule();
+        });
+    })
 </script>
-<script>
-</script>
-
 <style>
     .scheduleView {
         margin-top: 40px;
