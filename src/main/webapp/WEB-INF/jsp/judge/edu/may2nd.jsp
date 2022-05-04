@@ -42,7 +42,6 @@
             success: function (data) {                      //이 곳의 data가 실행되는 것
                 if (data.result > 0) {
                     $("#listTable2").text(''); //공백으로 만들어주고...
-                    console.log("schedule ajax 성공");
                     //console.log("data::", JSON.stringify(data.eduList));
                     //json.stringify로 데이터가 나오는데 이 데이터를 jsonformatter 에서 확인하면 더 좋은 결과값을 확인 할 수 있다.
 
@@ -70,14 +69,23 @@
                     /* 0504 추가! */
                     //$('#listTable2 > tr:eq(0)').find('a').click();
                     //찾아가는 함수를 사용하기보다, class를 줘서 간단히 작성하는것이 좋다.
+                    $('.table-write-wrap').show();
                     $('.eduTitleHere:eq(0)').find('a').click();
                     console.log('eduScheduleAjax 호출 완료')
 
+                    yearCheck();
 
                 } else {
                     $("#listTable2").append('<td class="dataTables_empty" colspan="7">개설된 과정이 없습니다.</td>');
-                    console.log("할수있어...!");
+                    //else가 떴을 때 detail 부분도 - 로 띄워주기
+                    //$(".table-write-wrap").text('아놔');
+                    $('#detail_Title').text('-');
+                    $('#detail_url').text('-');
+                    $('#detail_institute').text('-');
+                    $('#detail_place').text('-');
+                    $('#detail_limit').text('-');
 
+                    console.log("데이터 없음");
                 }
             },
             error: function () {
@@ -104,19 +112,17 @@
             dataType: "json",
             contentType: "application/json;charset=UTF-8",
             success: function (data) {
-                console.log('detailAjax 호출은 완료')
-                console.log("data::", JSON.stringify(param.acEduScheduleNo));
-                console.log("data::", JSON.stringify(data.eduInfo.acEduTitle));
+                    console.log('detailAjax 호출은 완료')
+                    console.log("data::", JSON.stringify(param.acEduScheduleNo));
+                    console.log("data::", JSON.stringify(param));
+                    console.log("data::", JSON.stringify(data.eduInfo.acEduTitle));
 
-                var eduDetail = data.eduInfo;
-                $('#detail_Title').text(eduDetail.acEduTitle); //jquery를 이용한.
-                $('#detail_url').text(eduDetail.acEduUrl); //jquery를 이용한.
-                $('#detail_institute').text(eduDetail.acEduInstitute); //jquery를 이용한.
-                $('#detail_place').text(eduDetail.acEduPlace); //jquery를 이용한.
-                $('#detail_limit').text(eduDetail.acApplyLimitCount); //jquery를 이용한.
-                /**/
-
-                /*테이블 추가*/
+                    var eduDetail = data.eduInfo;
+                    $('#detail_Title').text(eduDetail.acEduTitle); //jquery를 이용한.
+                    $('#detail_url').text(eduDetail.acEduUrl); //jquery를 이용한.
+                    $('#detail_institute').text(eduDetail.acEduInstitute); //jquery를 이용한.
+                    $('#detail_place').text(eduDetail.acEduPlace); //jquery를 이용한.
+                    $('#detail_limit').text(eduDetail.acApplyLimitCount); //jquery를 이용한.
             },
             error: function () {
                 alert("ajax 통신 실패");
@@ -129,11 +135,23 @@
             console.log('test 함수 호출');
             console.log($('#year').val());
             $("#listTable2").text('');
+            yearCheck();
             ajaxEduSchedule();
+            //fn_detailAjax(eduNo);
         });
     })
+
+    function yearCheck(){
+        console.log('yearCheck 호출');
+        $('.yearBlock').show();
+        $('.yearBlock').text($('#year').val()+'수강 검색결과입니다.');
+    }
 </script>
 <style>
+    .yearBlock {
+        margin-top: 30px;
+        text-align: center;
+    }
     .scheduleView {
         margin-top: 40px;
         margin-left: auto;
@@ -198,6 +216,9 @@
         </div>
         <!-- //search area -->
     </div>
+        <div class="yearBlock" style="display: none" >
+            안보이지롱
+        </div>
     <div class="scheduleView">
         <div class="table-wrap">
             <!-- table -->
