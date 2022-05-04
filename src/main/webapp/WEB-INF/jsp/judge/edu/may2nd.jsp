@@ -56,6 +56,10 @@
 
                     $("#listTable2").append(output);
                     /*테이블 추가*/
+
+                    /* 0504 추가! */
+                    $('#listTable2 > tr:eq(0)').find('a').click();
+
                 } else {
                     $('#pop_register_fail').bPopup({
                         speed: 450
@@ -69,6 +73,10 @@
                 alert("ajax 통신 실패");
             }
         });
+
+        /*function detailClickEvent () {
+            $('#listTable2 > tr:eq(0)').find('a').click();
+        }*/
         /* ready 함수 끝내는 괄호... ^^ */
     }) // end
 
@@ -105,8 +113,10 @@
             }
         });
     }
-
     /* 상세화면 부르기 */
+    /*$(function () {
+        $('#listTable2 > tr:eq(0)').find('a').click();
+    })*/
 
 </script>
 <script>
