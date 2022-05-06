@@ -303,6 +303,10 @@ button::-moz-focus-inner, [type="button"]::-moz-focus-inner, [type="reset"]::-mo
     background: #fff;
 }
 
+.scheduleView {
+    width: 100%;
+}
+
 .search-container {
     max-width: 1320px;
     width: 100%;

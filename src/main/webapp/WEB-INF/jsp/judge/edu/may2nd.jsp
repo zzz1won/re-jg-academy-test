@@ -19,7 +19,8 @@
 </head>
 
 <script>
-    $(document).ready(function () {
+    //$(document).ready(function () {
+    $(function (){
         console.log("document ready~");
 
         ajaxEduSchedule(); //지저분하니... ajax는 함수 만들어서 부르기
@@ -51,7 +52,7 @@
                     var output = '';
                     console.log(list.length)
                     for (let i = 0; i < list.length; i++) { //i는 list의 length가 다할 때 까지 반복!
-                        output += '<tr>'
+                        output += '<tr>';
                         //output += '<td>'+paramMap.eduList[i].judgeNo + '</td><td>' + paramMap.eduList[i].acEduScheduleNo + '</td>' 기존내용
                         output += '<td>' + list[i].acEduScheduleNo + '</td>';
                         //output += '<td> <a href="javascript:fn_detail1('list[i].acEduScheduleNo')">' + list[i].acEduTitle + '</td>'; //밑줄이 그어져도 실제로 나오는지 직접 확인 해 보자!
@@ -60,7 +61,7 @@
                         output += '<td>' + list[i].acEduPlace + '</td>';
                         output += '<td>' + list[i].acApplyLimitCount + '</td>';
                         output += '<td>' + list[i].acApplyStartDate + '~' + list[i].acApplyEndDate + '</td>';
-                        output += '</tr>'
+                        output += '</tr>';
                     }
 
                     $("#listTable2").append(output);
@@ -96,6 +97,35 @@
     }
 
 
+    $(function (){
+        $('.test123').append('append는 A뒤에 추가로 붙는다.');
+        $('.test123').after('after 뭐가 많이 다른가?');
+        $('.test123').before('before를 사용했을 때!');
+        $('.test123').prepend('prepend는 어떻게 나오는가?');
+        $('<p>insertAfter😎 p태그 안붙이니까 안나온다 대박~</p>').insertAfter($('.test123'));
+        $('<span>우우우우우우 나의 향기가</span>').insertBefore($('.test123'));
+        $($('.pearl')).insertBefore($('.test123')); //문구밖에 안 써지나?
+        //$('.test123').insertBefore('insertBefore 을 구현시에, 휘낭시에'); 어? 안되네
+
+        $('.pearl').show();
+    })
+
+    nums = Array(20).fill().map((_, i) => i) //함수생성
+
+    nums.splice(5,3) //nums의 인덱스5가 가리키는 값부터 3개의 값을 삭제
+    nums.splice(5,0, -5,6,-7) //nums의 인덱스5가 가리키는 값부터 아무 값도 삭제하지않고 데이터를 추가
+    nums.splice(10,2, -10,-111) //nums의 인덱스 10이 가리키는 값부터 2개의 값을 -10, -111로 변경
+
+
+    $(function(){
+        $('.tttt').click(function(){
+           //var test1 = $('h2', this).text();
+           var test1 = $('h2').text();
+           var test2 = $('span', this).text();
+
+           alert(test1+'\n'+test2);
+        });
+    })
     /* edu Schedule Ajax */
 
     /* 상세화면 부르기 */
@@ -145,6 +175,29 @@
         console.log('yearCheck 호출');
         $('.yearBlock').show();
         $('.yearBlock').text($('#year').val()+'수강 검색결과입니다.');
+    }
+
+
+
+    //12345실행하는 queue 시나리오
+    $('#start').click(animateBox);
+
+    $('#reset').click(function() {
+        $('div').queue('fx', []);
+    });
+
+    $('#add').click(function() {
+        $('div').queue( function(){
+            $(this).animate({ height : '-=25'}, 2000);
+            $(this).dequeue();
+        });
+    });
+
+    function animateBox() {
+        $('div').slideUp(2000)
+            .slideDown(2000)
+            .hide(2000)
+            .show(2000, animateBox);
     }
 </script>
 <style>
@@ -271,7 +324,32 @@
             </table>
         </div>
     </div>
+        <div class="test123">
+            <p id="ppp"></p>
+            <p id="pppp"><span>ㅁㄴㅇㅁㄴㅇ</span></p>
+            <p onclick="fn_detailAjax()">s</p>
+            <div class="tttt">
+                <p>포포포포포</p>
+                <span>asdasdasd</span>
+                <h2>하이 hi</h2>
+            </div>
+        </div>
+        <div class="pearl" style="display: none">
+            ZOO
+            <h2>893482794823</h2>
+            <h2>꿀먹은바나나</h2>
+        </div>
+        <div class="12345">
+            <ul>
+                <li id="start">Start Animating</li>
+                <li id="reset">Stop Animating</li>
+                <li id="add">Add to Queue</li>
+            </ul>
+            <div style="width:150px; height:150px; background:#ececec;"></div>
+        </div>
     <jsp:include page="/WEB-INF/jsp/include/footer.jsp"/>
+
+
 
     <!-- popup 02-->
     <div class="modal no_close" id="pop_register_success">
