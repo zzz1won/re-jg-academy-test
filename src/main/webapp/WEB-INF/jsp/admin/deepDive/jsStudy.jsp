@@ -23,23 +23,67 @@
 <jsp:include page="/WEB-INF/jsp/include/common.jsp"/>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/se2/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 <%--아이콘 없다고 404뜨길래, 추가했더니 되었다 ^^--%>
-<script type="text/javascript">
 
+<script>
     $(function(){
-        $("button").click(function(){
+/*        $("button").click(function(){
             $("*").hide();
-        })
+        })*/
 
-        $("#tagArea123").mouseenter(function(){
-          alert("어서오세요옹");
+        $(".tagArea12").mouseenter(function(){
+            alert("😂");
             //실행하려면 #tagArea1으로 변경
         })
 
-        $('#tagArea123').mouseleave(function(){
-            alert("잘가요옹");
+        $('.tagArea12').mouseleave(function(){
+            alert("😎");
             //실행하려면 #tagArea1으로 변경
         })
+
+        //위처럼 mouseenter, mouseleave를 같이 줄거면 hover() 를 이용해 진행하는것이 좋다.
+        $('.tagArea1').hover(function(){
+            $(".tagArea1").css("color",'orange');
+        },   function(){
+            $(".tagArea1").css("color",'green');
+        })
+
+        var modify = $('#TT-area');
+        $('.TT').click(function(){
+            //alert('ㅋㅋㅋㅋㅋㅋ클릭');
+            modify.append('클릭<br>');
+        })
+
+        $('.TT').mousedown(function(){
+            modify.append('mousedown!<br>');
+        })
+
+        $('.TT').mouseup(function(){
+            modify.append('mouseup!<br>');
+        })
+
+        $('.TT').dblclick(function(){
+            modify.append('더블클릭!<br>');
+        })
+
+        $('input:button').click(function(){
+            modify.text('');
+        })
+
+
+    //focus && blur
+    $("input").focus(function(){
+        $(this).css("background-color","pink");
     })
+    $('input').blur(function(){
+        $(this).css("background-color","blue");
+    })
+    })
+
+
+</script>
+<%--<script type="text/javascript">
+
+
 
 
     //jsStudy220427 예제 10-01
@@ -164,8 +208,8 @@
     console.log(today.getMonth());
     /* 근데 잘 안쓰는 표현이라고 하셨다. */
     /* 브라우저 기준이 아니라 서버 시간 기준으로 돌리기때문에, 개념만 알아두는게 좋을 듯 */
-</script>
-<script>
+</script>--%> <%-- js 연습 --%>
+<%--<script>
     $(function(){
         let kCount = 1;
         let hCount = 1;
@@ -245,22 +289,37 @@
             hTagCount++;
     }
 
-</script>
+</script>--%> <%--버튼 js 연습--%>
+<style>
+    .TT{
+        width: 100px;
+        height: 100px;
+        background-color: #9a54ce;
+    }
+
+</style>
 <body>
 얄루
 
-<span id="FnTest1"> 원래는 FnText1 이었던 곳 </span>
-
-<div id="tagArea1">
-    우하하
+<span class="FnTest1"> 원래는 FnText1 이었던 곳 </span>
+<div class="tagArea1" style="display: block">
+    오늘 저녁은 소곱창
 </div>
-<input type="button" value="ㅋㅋㅋ" onclick="createK()">
-<input type="button" value="ㅎㅎㅎ" onclick="createH()">
+<div class="TT">
+</div>
+<div id="TT-area"></div>
+<input id="clear-btn" type="button" value="clear"/>
 
-<div id = "tagArea"></div>
+<div class="focus-blur">
+소곱창: <input type="text" id="input1">
+염통구이: <input type="text" id="input2">
+</div>
+<%--<div id = "tagArea">
+<input type="button" value="ㅎㅎㅎ" onclick="createH()">
+<input type="button" value="ㅋㅋㅋ" onclick="createK()">
 <input type="button" value="add_hTag" onclick="create_hTag();">
 <input type="button" value="add_pTag" onclick="create_pTag();">
-
 <button>dsdsfsdfss</button>
+</div>--%>
 </body>
 </html>
