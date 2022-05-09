@@ -24,6 +24,24 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/se2/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 <%--아이콘 없다고 404뜨길래, 추가했더니 되었다 ^^--%>
 <script type="text/javascript">
+
+    $(function(){
+        $("button").click(function(){
+            $("*").hide();
+        })
+
+        $("#tagArea123").mouseenter(function(){
+          alert("어서오세요옹");
+            //실행하려면 #tagArea1으로 변경
+        })
+
+        $('#tagArea123').mouseleave(function(){
+            alert("잘가요옹");
+            //실행하려면 #tagArea1으로 변경
+        })
+    })
+
+
     //jsStudy220427 예제 10-01
     var person = {
         name: 'Lee',
@@ -193,13 +211,13 @@
         kCount++;
     }
 
-    function createH(){
+    /*function createH(){
         let tagArea = document.getElementById('tagArea');
         let newHTag = document.createElement('h');
 
         newHTag.setAttribute('class','tag');
         newHTag.innerHTML = hCount+
-    }
+    }*/
 
     let pTagCount = 1;
     let hTagCount = 1;
@@ -214,6 +232,7 @@
 
         pTagCount++;
     }
+
     function create_hTag(){
         let tagArea = document.getElementById('tagArea');
         let new_hTag = document.createElement('h'+hTagCount);
@@ -225,6 +244,7 @@
         if(hTagCount < 6)
             hTagCount++;
     }
+
 </script>
 <body>
 얄루
@@ -241,5 +261,6 @@
 <input type="button" value="add_hTag" onclick="create_hTag();">
 <input type="button" value="add_pTag" onclick="create_pTag();">
 
+<button>dsdsfsdfss</button>
 </body>
 </html>

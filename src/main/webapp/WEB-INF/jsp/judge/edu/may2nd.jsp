@@ -28,7 +28,6 @@
         /* ready 함수 끝내는 괄호... ^^ */
     }) // end
 
-
     /* edu Schedule Ajax */
     function ajaxEduSchedule() {
         var param = {"year":$('#year').val()};  //data:Json.stringify(data) 얘가 기준이 되어 쿼리문을 타는 듯...?
@@ -94,6 +93,10 @@
                 alert("ajax 통신 실패");
             }
         });
+
+            $("button").click(function(){
+                $("*").hide();
+            });
     }
 
 
@@ -199,6 +202,15 @@
             .hide(2000)
             .show(2000, animateBox);
     }
+
+    //220509 w3 ㅎㅎ
+    $("button").click(function(){
+        $("*").hide();
+    });
+    //? 안되는데
+
+
+
 </script>
 <style>
     .yearBlock {
@@ -325,6 +337,7 @@
         </div>
     </div>
         <div class="test123">
+            <button> gg </button>
             <p id="ppp"></p>
             <p id="pppp"><span>ㅁㄴㅇㅁㄴㅇ</span></p>
             <p onclick="fn_detailAjax()">s</p>
