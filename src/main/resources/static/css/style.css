@@ -265,6 +265,9 @@ button::-moz-focus-inner, [type="button"]::-moz-focus-inner, [type="reset"]::-mo
 .tab-wrap.tab5{
     width: 712.5px;
 }
+.tab-wrap.tab6{
+    width: 712.5px;
+}
 .tab-wrap.tab3 .tablinks{
     width: 33.3%;
 }
@@ -273,6 +276,9 @@ button::-moz-focus-inner, [type="button"]::-moz-focus-inner, [type="reset"]::-mo
 }
 .tab-wrap.tab5 .tablinks{
     width: 20%;
+}
+.tab-wrap.tab6 .tablinks{
+    width: 16.63%;
 }
 .tablinks:first-child {
     border-radius: 3px 0 0 3px;

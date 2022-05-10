@@ -94,4 +94,9 @@
     function fn_judgeList() {
         location.href = "<c:out value='${pageContext.request.contextPath}/judge/admin/judgeList'/>";
     }
+
+    <%-- 지원코딩연습 화면으로 이동 --%>
+    function fn_codingEx() {
+        location.href = "<c:out value='${pageContext.request.contextPath}/code/admin/codeEx'/>";
+    }
 </script>

@@ -248,5 +248,36 @@ public class CodeController {
     }
 
 
+    /** 220510 js랑 jquery보다가 adminCertPage가 매우 복잡해보여 따라할건데, 이제 Ajax를 곁들인...
+     * @return: String
+     * @throws: Exception
+     * @param: model, request, searchVO
+     * */
+    @RequestMapping("admin/codeEx")
+    public String jCodeExPage(HttpServletRequest request, Model model, SearchVO searchVO) throws Exception {
+        HttpSession session = request.getSession();
+        AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
+        model.addAttribute("adminInfo",adminInfo);
+
+        //이 페이지에서도 연도 검색을 하기땜시롱 조회기간 설정도 해주는게 맞을 것 같다~
+        //검색분류: 연도_과정명_수료확정(신청확정,수료확정,미수료)_심판번호
+        if(searchVO.getYear()==null || "".equals(searchVO.getYear())){
+            searchVO.setYear(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()));
+        }
+        Map<String,Object> paramMap = new HashMap<>();
+        paramMap.put("year",searchVO.getYear());
+        
+
+        return "admin/deepDive/codeEx";
+    }
+
+    @RequestMapping("admin/codingEx")
+    @ResponseBody
+    public Map<String, Object> jCodeEx(@RequestBody SearchVO searchVO, HttpServletRequest request) throws Exception {
+        Map<String,Object> paramMap = new HashMap<>();
+        System.out.println("controller에서 codeEx호출");
+        return paramMap;
+    }
+
 }
 
