@@ -13,36 +13,51 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>심판아카데미 운영 Admin</title>
+    <%-- jquery cdn을 포함하고 있기 때문에 script보다 위에 위치해야한다. --%>
+    <jsp:include page="/WEB-INF/jsp/include/common.jsp"/>
 </head>
 <script>
-    /* document ready 함수 */
     $(function () {
-        ajaxCodeEx();
+
+        alert("지원관리 입장");
+        $("#btn_search").click(function () {
+            alert("year: " + $("#year").val() + "\t eduTitle: " + $("#eduTitle").val() + "\t applyState: " + $("#applyState").val() + "\t judgeNo: " + $("#judgeNo").val());
+        })
+
+        ajaxTest();
 
     })
 
-    //--------
-    /* 내용 ajax */
-    function ajaxCodeEx() {
+    function ajaxTest() {
+        var param = { "연도: ":$('#year').val()
+        }; //일단 year만!
+
+        console.log(param);
         $.ajax({
             type: "post",
-            url: "<c:out value='${PageContext.request.contextPath}/code/admin/codeEx'/>",
-            dataType: "json",   //요청 할 파라미터 타입
-            data: JSON.stringify(param),
-            contentType: "application/json;charset=UTF-8",
-            success: function(data){
-              alert("ajax 통신 성공");
+            url: "<c:out value='${pageContext.request.contextPath}/code/admin/codeEx2'/>",
+            dataType: "json",
+            data: JSON.stringify(param), //여기의 제이슨은 대문자로만 써야하나봐
+            contentType: "application/json;charset=UTF-8",  //헤더값 설정(?)
+            success: function(data) {
+                if(data.result >0){
+                    alert('우헤헥');
+                }
+                else    {
+                    alert('ajax는 성공, 코드를 다시.');
+                }
             },
             error: function(){
-                alert("ajax 통신 실패");
+                    alert('ajax 실패');
+                    console.log('힝입니다')
             }
 
         })
-
     }
+
+
 </script>
 <body>
-<jsp:include page="/WEB-INF/jsp/include/common.jsp"/>
 <%--이 위치는 상관없는건가?--%>
 <div id="wrapper">
     <jsp:include page="/WEB-INF/jsp/include/adminHeader.jsp"/>
@@ -72,8 +87,8 @@
                     <ul class="filter-row">
                         <li>
                             <label for="year">조회기간</label>
-                            <input type="text" id="year" name="year" value="<c:out value="${search.year}"/>"
-                                   class="input-text year icon_calendar" style="width:150px" placeholder="연도"/>
+                            <input type="text" id="year" name="year" value="<c:out value='${searchVO.year}'/>"
+                                   class="input-text year icon_calendar" style="width:100px" placeholder="년도"/>
                         </li>
                         <li>
                             <label for="eduTitle">과정명</label>
