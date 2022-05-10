@@ -146,6 +146,10 @@
             console.log("cbchk alert 뜸")
             });
         });
+
+        alert("attr checked: "+$("#aptest1").attr("checked")+"\nprop checked: "+$("#aptest1").prop("checked"));
+        alert("attr checked: "+$("#aptest1").a);
+        alert("attr checked: "+$("#aptest2").attr("checked")+"\nprop checked: "+$("#aptest2").prop("checked"));
     })
 
 </script>
@@ -405,7 +409,18 @@
     <br>
     <button class="callback-chk">버튼</button>
     <p id="cbchk">천재가 되고싶어</p>
+
+    <div class="attr-prop">
+
+        <input type="checkbox" id="aptest1" checked="checked"/>체크박스1
+        <input type="checkbox" id="aptest2"/>체크박스2
+
+
+    </div>
+
 </div>
+
+
 <%--<div id = "tagArea">
 <input type="button" value="ㅎㅎㅎ" onclick="createH()">
 <input type="button" value="ㅋㅋㅋ" onclick="createK()">
