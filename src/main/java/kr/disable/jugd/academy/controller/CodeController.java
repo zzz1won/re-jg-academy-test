@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static kr.disable.jugd.academy.utils.Constants.APPLY_STATE;
+import static kr.disable.jugd.academy.utils.Constants.JUDGE_KIND;
+
 @Controller
 @RequestMapping("/code/")
 public class CodeController {
@@ -29,6 +31,10 @@ public class CodeController {
 
     @Autowired
     private CodeService codeService;
+
+
+    @Autowired
+    private CommonService commonService;
 
     /**
      * 코드관리하는 컨트롤러
@@ -257,25 +263,48 @@ public class CodeController {
     public String jCodeExPage(HttpServletRequest request, Model model, SearchVO searchVO) throws Exception {
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
-        model.addAttribute("adminInfo",adminInfo);
-
         //이 페이지에서도 연도 검색을 하기땜시롱 조회기간 설정도 해주는게 맞을 것 같다~
         //검색분류: 연도_과정명_수료확정(신청확정,수료확정,미수료)_심판번호
         if(searchVO.getYear()==null || "".equals(searchVO.getYear())){
             searchVO.setYear(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()));
         }
-        Map<String,Object> paramMap = new HashMap<>();
-        paramMap.put("year",searchVO.getYear());
-        
 
-        return "admin/deepDive/codeEx";
+        Map<String,Object> paramMap = new HashMap<>();
+        // 02: 신청확정(수료대기), 03: 수료확정, 05: 미수료
+        // 원래 codeList, certState 로 변경해봄
+        String[] certState = {Constants.APPLY_STATE_APPLY_COMP,Constants.APPLY_STATE_CERT_COMP,Constants.APPLY_STATE_CERT_NOT};
+        //[] 대괄호 아니고 중괄호
+        paramMap.put("year",searchVO.getYear());
+        paramMap.put("eduTitle",searchVO.getEduTitle());
+        paramMap.put("applyState",searchVO.getApplyState());
+        paramMap.put("judgeNo",searchVO.getJudgeNo());
+        paramMap.put("groupCode",APPLY_STATE); //뭐야 왜 다나와
+        paramMap.put("certState",certState);
+        List<CodeVO> applyStateList = null;//수료상태
+        paramMap.put("search",searchVO);
+
+        try {
+            applyStateList = commonService.selectCommonCode(paramMap);//수료상태
+
+        }
+        catch (Exception e){
+            logger.debug(e.getMessage());
+        }
+        model.addAttribute("adminInfo",adminInfo);
+        model.addAttribute("applyStateList",applyStateList);
+        model.addAttribute("searchVO",searchVO);
+        //여기에선 검색만 실행
+        
+        return "admin/code/codeEx";
     }
 
     @RequestMapping("admin/codingEx")
     @ResponseBody
     public Map<String, Object> jCodeEx(@RequestBody SearchVO searchVO, HttpServletRequest request) throws Exception {
         Map<String,Object> paramMap = new HashMap<>();
-        System.out.println("controller에서 codeEx호출");
+        System.out.println("controller.codeEx");
+
+
         return paramMap;
     }
 
