@@ -93,31 +93,31 @@
         })*/
 
         $(".FnTest1").on({
-            mouseenter: function(){
+            mouseenter: function () {
                 $(this).css("background-color", "lightblue");
             },
-            mouseleave : function(){
+            mouseleave: function () {
                 $(this).css("background-color", "lightgray");
             },
-            click : function(){
+            click: function () {
                 $(this).css("background-color", "pink");
             }
         })
 
         //keyboard event
-        $("#input1").keypress(function(){
+        $("#input1").keypress(function () {
             $("#input2").val($(this).val())
         });
 
-        $("#input2").keyup(function(){
+        $("#input2").keyup(function () {
             $("#input3").val($(this).val())
         });
 
-        $("#input3").keydown(function(){
+        $("#input3").keydown(function () {
             $("#input4").val($(this).val())
         });
 
-        $(".togglebtn").click(function(){
+        $(".togglebtn").click(function () {
             $(".toggleArea").toggle();
         });
 
@@ -127,30 +127,73 @@
         });*/
 
         $(".showHide").on({
-            click: function(){
+            click: function () {
                 $("#show1").text("개봉박두!");
                 //$("#show1").hide(500);
                 $("#hide1").show(300);
             },
-            dblclick:function (){
+            dblclick: function () {
                 $("#hide1").show(300);
                 $("#show1").text("ㅋㅋㅋㅋㅋㅋㅋㅋ");
             }
         });
 
-        $(".callback-chk").click(function(){
+        $(".callback-chk").click(function () {
             console.log("callback-chk버튼 누름")
-            $("#cbchk").hide("slow",function(){
-            console.log("cbchk alert 뜨기전")
+            $("#cbchk").hide("slow", function () {
+                console.log("cbchk alert 뜨기전")
                 alert("callback 실행완");
-            console.log("cbchk alert 뜸")
+                console.log("cbchk alert 뜸")
             });
         });
 
-        alert("attr checked: "+$("#aptest1").attr("checked")+"\nprop checked: "+$("#aptest1").prop("checked"));
-        alert("attr checked: "+$("#aptest1").a);
-        alert("attr checked: "+$("#aptest2").attr("checked")+"\nprop checked: "+$("#aptest2").prop("checked"));
+        $("#apWonder").click(function () {
+            console.log("apWonder 누름")
+            apTest();
+        })
+
+        $("#jsToJquery1").click(function () {
+            console.log("jsToJquery1 누름")
+            jsToJqueryEx1();
+        })
+
+        $("#jsToJquery2").click(function(){
+            jsToJqueryEx2();
+        });
+
+        $("#jsToJquery3_1").click(function(){
+            jsToJqueryEx3_1();
+        });
+
+        $("#jsToJquery3_2").click(function(){
+            jsToJqueryEx3_2();
+        });
     })
+
+    //일반함수는 도큐레디 밖에 써주는걸로.
+    function apTest() {  //attr() prop()의 차이
+        //attr() : 속성 값 그 자체! prop() : 속성 값을 다루는 용도로 쓰인다.
+        alert("attr checked: " + $("#aptest1").attr("checked") + "\nprop checked: " + $("#aptest1").prop("checked"));
+        alert("attr checked: " + $("#aptest2").attr("checked") + "\nprop checked: " + $("#aptest2").prop("checked"));
+    };
+
+    function jsToJqueryEx1() { //javascript를 jquery로 변형
+        $("#jTOj1").append("🍕🍔🍟🌭🍿🧂🥓🥚<br>");
+        $("#jTOj1").append(Date() + "<br>");
+    };
+
+    function jsToJqueryEx2() {
+        $('#jToj2').text("돼! 😎");
+    };
+
+    //이미지 다루기는 attr()로
+    function jsToJqueryEx3_1(){
+        $("#jjImage").attr("src","https://www.w3schools.com/js/pic_bulbon.gif");
+    }
+    function jsToJqueryEx3_2(){
+        $("#jjImage").attr("src","https://www.w3schools.com/js/pic_bulboff.gif");
+    }
+
 
 </script>
 <%--<script type="text/javascript">
@@ -398,7 +441,7 @@
         <p>토글2 우하하 </p>
         <p>토글3 우하하 </p>
     </div>
-<br>
+    <br>
     <div class="showHide">
         <p id="show1">빠밤</p>
         <p id="hide1" style="display: none">😎</p>
@@ -409,15 +452,30 @@
     <br>
     <button class="callback-chk">버튼</button>
     <p id="cbchk">천재가 되고싶어</p>
-
+    <br>
     <div class="attr-prop">
-
+        <input type="button" id="apWonder" value="궁금해"/>
         <input type="checkbox" id="aptest1" checked="checked"/>체크박스1
         <input type="checkbox" id="aptest2"/>체크박스2
-
-
     </div>
-
+</div>
+<br>
+<br>
+<div class="jsJquery">
+    <div class="jj1">
+        <input type="button" id="jsToJquery1" value="click me to display Date and Time"/>
+        <p id="jTOj1"></p>
+    </div>
+    <br>
+    <div class="jj2">
+        <input type="button" id="jsToJquery2" value="click!">
+        <p id="jToj2"> 클릭버튼을 누르면 안돼! </p>
+    </div>
+    <div class="jj3">
+        <input type="button" class="jj3btn" id="jsToJquery3_1" src="https://www.w3schools.com/js/pic_bulbon.gif" value="똑">
+        <img id="jjImage" src="https://www.w3schools.com/js/pic_bulboff.gif" style="width:100px">
+        <input type="button" class="jj3btn" id="jsToJquery3_2" src="https://www.w3schools.com/js/pic_bulboff.gif" value="딱">
+    </div>
 </div>
 
 
