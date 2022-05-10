@@ -25,6 +25,17 @@
     /* 내용 ajax */
     function ajaxCodeEx() {
         $.ajax({
+            type: "post",
+            url: "<c:out value='${PageContext.request.contextPath}/code/admin/codeEx'/>",
+            dataType: "json",   //요청 할 파라미터 타입
+            data: JSON.stringify(param),
+            contentType: "application/json;charset=UTF-8",
+            success: function(data){
+              alert("ajax 통신 성공");
+            },
+            error: function(){
+                alert("ajax 통신 실패");
+            }
 
         })
 

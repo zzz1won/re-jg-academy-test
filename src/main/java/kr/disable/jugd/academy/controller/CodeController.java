@@ -31,10 +31,14 @@ public class CodeController {
 
     @Autowired
     private CodeService codeService;
-
-
     @Autowired
     private CommonService commonService;
+    @Autowired
+    private EduService eduService;
+    @Autowired
+    private CertService certService;
+    @Autowired
+    private AdminService adminService;
 
     /**
      * 코드관리하는 컨트롤러
@@ -254,57 +258,85 @@ public class CodeController {
     }
 
 
-    /** 220510 js랑 jquery보다가 adminCertPage가 매우 복잡해보여 따라할건데, 이제 Ajax를 곁들인...
+    /**
+     * 220510 js랑 jquery보다가 adminCertPage가 매우 복잡해보여 따라할건데, 이제 Ajax를 곁들인...
+     *
      * @return: String
      * @throws: Exception
      * @param: model, request, searchVO
-     * */
+     */
     @RequestMapping("admin/codeEx")
     public String jCodeExPage(HttpServletRequest request, Model model, SearchVO searchVO) throws Exception {
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
         //이 페이지에서도 연도 검색을 하기땜시롱 조회기간 설정도 해주는게 맞을 것 같다~
         //검색분류: 연도_과정명_수료확정(신청확정,수료확정,미수료)_심판번호
-        if(searchVO.getYear()==null || "".equals(searchVO.getYear())){
+        if (searchVO.getYear() == null || "".equals(searchVO.getYear())) {
             searchVO.setYear(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()));
         }
 
-        Map<String,Object> paramMap = new HashMap<>();
+        Map<String, Object> paramMap = new HashMap<>();
         // 02: 신청확정(수료대기), 03: 수료확정, 05: 미수료
         // 원래 codeList, certState 로 변경해봄
-        String[] certState = {Constants.APPLY_STATE_APPLY_COMP,Constants.APPLY_STATE_CERT_COMP,Constants.APPLY_STATE_CERT_NOT};
+        String[] certState = {Constants.APPLY_STATE_APPLY_COMP, Constants.APPLY_STATE_CERT_COMP, Constants.APPLY_STATE_CERT_NOT};
         //[] 대괄호 아니고 중괄호
-        paramMap.put("year",searchVO.getYear());
-        paramMap.put("eduTitle",searchVO.getEduTitle());
-        paramMap.put("applyState",searchVO.getApplyState());
-        paramMap.put("judgeNo",searchVO.getJudgeNo());
-        paramMap.put("groupCode",APPLY_STATE); //뭐야 왜 다나와
-        paramMap.put("certState",certState);
+        paramMap.put("year", searchVO.getYear());
+        paramMap.put("eduTitle", searchVO.getEduTitle());
+        paramMap.put("applyState", searchVO.getApplyState());
+        paramMap.put("judgeNo", searchVO.getJudgeNo());
+
+        paramMap.put("groupCode", APPLY_STATE); //뭐야 왜 다나와
+        paramMap.put("certState", certState);
         List<CodeVO> applyStateList = null;//수료상태
-        paramMap.put("search",searchVO);
+        paramMap.put("search", searchVO);
 
         try {
             applyStateList = commonService.selectCommonCode(paramMap);//수료상태
 
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             logger.debug(e.getMessage());
         }
-        model.addAttribute("adminInfo",adminInfo);
-        model.addAttribute("applyStateList",applyStateList);
-        model.addAttribute("searchVO",searchVO);
+        model.addAttribute("adminInfo", adminInfo);
+        model.addAttribute("applyStateList", applyStateList);
+        model.addAttribute("searchVO", searchVO);
         //여기에선 검색만 실행
-        
+
         return "admin/code/codeEx";
     }
 
     @RequestMapping("admin/codingEx")
     @ResponseBody
     public Map<String, Object> jCodeEx(@RequestBody SearchVO searchVO, HttpServletRequest request) throws Exception {
-        Map<String,Object> paramMap = new HashMap<>();
+        Map<String, Object> paramMap = new HashMap<>();
         System.out.println("controller.codeEx");
+        // 검색분류: 연도_과정명_수료확정(신청확정,수료확정,미수료)_심판번호
 
 
+        // ajax 넘기고 싶은 애들
+        List<EduVO> eduTitleList = null; //강좌명
+        List<CertVO> certList = null; //수료
+        List<CodeVO> applyStateList = null; //
+        List<CodeVO> judgeKindList = null; //종목을 한글로 기입해줍니다.
+        List<AdminVO> adminList = null; //확정자 관리자로 만들기 위해
+        int certListCnt = 0;
+
+        try{
+            eduTitleList = eduService.selectEduTitleListByYear(paramMap);
+            paramMap.put("eduTitleList",eduTitleList);
+            certListCnt = certService.selectCertListCnt(paramMap);
+            paramMap.put("certListCnt",certListCnt);
+            certList = certService.selectCertList(paramMap);
+            paramMap.put("certList",certList);
+            applyStateList = commonService.selectCommonCode(paramMap);
+            paramMap.put("applyStateList",applyStateList);
+            judgeKindList = commonService.selectCommonCode(paramMap);
+            paramMap.put("judgeKindList",judgeKindList);
+            adminList = adminService.selectAdminList();
+            paramMap.put("adminList",adminList);
+        }
+        catch (Exception e){
+            logger.debug(e.getMessage());
+        }
         return paramMap;
     }
 
