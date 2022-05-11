@@ -38,4 +38,7 @@ public interface CodeMapper {
 
     /** 0414 codeUseState n-> y*/
     public Integer updateCodeUseStateY(CodeVO codeVO);
+
+    /** 0511 코드갯수...? */
+    public Integer selectCodeCnt(Map<String, Object> paramMap);
 }

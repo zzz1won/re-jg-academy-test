@@ -426,8 +426,8 @@ public class EduController {
 		//List<EduVO> eduVO = null;
 
 		paramMap.put("year", searchVO.getYear());
-		paramMap.put("groupCode", Constants.JUDGE_KIND); //심판 종목 표기를 위해
-		paramMap.put("judgeNo", judgeInfo.getJudgeNo()); //심판 고유번호 표기를 위해
+		paramMap.put("groupCode", Constants.JUDGE_KIND); //심판 종목 표기를 위해 _ 세션정보
+		paramMap.put("judgeNo", judgeInfo.getJudgeNo()); //심판 고유번호 표기를 위해 _ 세션정보
 		judgeKindList = commonService.selectCommonCode(paramMap); //심판종목 가져오기 위해
 		//eduVO = eduService.selectJudgeEduList(paramMap);
 		paramMap.put("groupCode", Constants.EDU_STATUS); // 교육과정 상태

@@ -100,8 +100,7 @@
           , code            = #{code}
           , display_order   = #{displayOrder}
           , etc_info        = #{etcInfo}
-        WHERE
-            common_code_no = #{commonCodeNo}
+        WHERE common_code_no = #{commonCodeNo}
         ]]>
     </update>
 
@@ -136,23 +135,39 @@
     <update id="updateCodeUseState" parameterType="CodeVO">
         UPDATE COMMON_CODE
         SET use_state =
-            CASE WHEN use_state = 'Y' then 'N'
-                 WHEN use_state = 'N' then 'Y' END
+        CASE WHEN use_state = 'Y' then 'N'
+        WHEN use_state = 'N' then 'Y' END
         WHERE
         common_code_no IN
         <foreach collection="codeNoArr" item="codeNo" open="(" close=")" separator=",">
-        #{codeNo}
+            #{codeNo}
         </foreach>
     </update>
 
-    <update id ="updateCodeUseStateY" parameterType="CodeVO">
+    <update id="updateCodeUseStateY" parameterType="CodeVO">
         UPDATE COMMON_CODE
         SET use_state = #{useState}
         WHERE
         common_code_no IN
         <foreach collection="codeNoArr" item="codeNo" open="(" close=")" separator=",">
-        #{codeNo}
+            #{codeNo}
         </foreach>
     </update>
+
+    <select id="selectCodeCnt" parameterType="Map" resultType="Integer">
+        SELECT COUNT(*)
+        FROM COMMON_CODE
+        WHERE
+        1=1
+        <if test="searchChkValue == '00'">
+            and group_code_name LIKE CONCAT('%',#{searchArea},'%') OR code_name LIKE CONCAT('%',#{searchArea},'%')
+        </if>
+        <if test="searchChkValue == '01'">
+            and group_code_name LIKE CONCAT('%',#{searchArea},'%')
+        </if>
+        <if test="searchChkValue == '02'">
+            and code_name LIKE CONCAT('%',#{searchArea},'%')
+        </if>
+    </select>
 </mapper>
 

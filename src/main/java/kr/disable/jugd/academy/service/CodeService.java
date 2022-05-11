@@ -54,9 +54,11 @@ public class CodeService {
     }
 
     /** code useState Y로 변경*/
-    public int updateCodeUseStateY(CodeVO codeVO) {
+    public Integer updateCodeUseStateY(CodeVO codeVO) {
         return codeMapper.updateCodeUseStateY(codeVO);
     }
+
+    public Integer selectCodeCnt(Map<String, Object> paramMap) { return codeMapper.selectCodeCnt(paramMap); }
 
 
     /*public Integer selectCodeListCnt(Map<String, Object> paramMap) {

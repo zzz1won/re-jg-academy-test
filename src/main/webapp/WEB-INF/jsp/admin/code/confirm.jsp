@@ -146,8 +146,8 @@
     <div id="container">
         <div class="sub-tit-wrap">
             <div class="sub-tit-container">
-                <%--menu: 3개--%>
-                <div class="tab-wrap tab5">
+                <!-- menu: 3개->6개 -->
+                <div class="tab-wrap tab6">
                     <a href="javascript:fn_scheduleList();" class="tablinks">교육 일정 관리</a>
                     <a href="javascript:fn_applyList();" class="tablinks">신청 관리</a>
                     <a href="javascript:fn_certList();" class="tablinks"> 수료 관리</a>
@@ -155,8 +155,11 @@
                     <a href="javascript:fn_codeList();" class="tablinks active"> 코드 관리</a>
                     <%-- 220408 5개로 추가--%>
                     <a href="javascript:fn_judgeList();" class="tablinks"> 심판 관리</a>
+                    <%-- 220510 6개로 추가--%>
+                    <%-- adminHeader.jsp 파일에 선언해두었기 때문에 파일마다 일일히 function~ 할 필요 없음.--%>
+                    <a href="javascript:fn_codingEx();" class="tablinks"> 지원 관리</a>
                 </div>
-                <%-- menu --%>
+                <!-- //menu -->
             </div>
         </div>
         <!-- search area -->
