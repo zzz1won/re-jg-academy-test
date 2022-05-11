@@ -264,6 +264,7 @@ public class CodeController {
     public String newCodeConfirm (HttpServletRequest request, Model model, SearchVO search) throws Exception {
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
+        model.addAttribute("adminInfo",adminInfo);
 
         Map<String,Object> paramMap = new HashMap<>();
         //검색을 위한

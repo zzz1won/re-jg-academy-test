@@ -80,7 +80,7 @@
         });
 
         // 체크박스 모두 선택 "Select all" control
-        $('#select-all').on('click', function () {
+        $('.select-all').on('click', function () {
             // Check/uncheck all checkboxes in the table
             var rows = table.rows({'search': 'applied'}).nodes();
             $('input[type="checkbox"]', rows).prop('checked', this.checked);
@@ -90,7 +90,7 @@
         $('#listTable tbody').on('change', 'input[type="checkbox"]', function () {
             // If checkbox is not checked
             if (!this.checked) {
-                var el = $('#select-all').get(0);
+                var el = $('.select-all').get(0);
                 // If "Select all" control is checked and has 'indeterminate' property
                 if (el && el.checked && ('indeterminate' in el)) {
                     // Set visual state of "Select all" control
@@ -102,25 +102,34 @@
 
         $('#btn_search').click(function () {
             console.log("조회버튼 클릭");
-            $('#listTable2').text('ㅎㅎ');
+            //$('#listTable2').text('ㅎㅎ');
             var param = {
                 "search1": "${search.searchChkValue}",
                 "search2": "${search.searchArea}"
             }
             console.log(param);
-            //ajax1CodeList(param);
+            ajax1CodeList(param);
 
         })
 
         $('#certbtn').click(function () {
             console.log("cert버튼누름");
+            $('#listTable').hide();
+            $('#listTable4').show();
             ajax2CertList();
+        })
+
+        $('#codebtn').click(function(){
+            console.log("code버튼누름");
+            $('#listTable4').hide();
+            $('#listTable').show();
+            ajax1CodeList();
         })
     })
 
 
     function ajax1CodeList() {
-    var param = {}; //흑흑 뭘 어떻게 넣어야 data를 가져올 수 있는걸까... 어디서부터 잘못된건지 비교해보고, 찾기
+        var param = {}; //흑흑 뭘 어떻게 넣어야 data를 가져올 수 있는걸까... 어디서부터 잘못된건지 비교해보고, 찾기
 
         $.ajax({
             type: "post",
@@ -145,8 +154,8 @@
                         output += '<td>' + list[i].displayOrder + '</td>';
                         output += '<td>' + list[i].groupCodeName + '</td>';
                         output += '<td>' + list[i].groupCode + '</td>';
-                        output += '<td>' + list[i].redDate + '</td>';
-                        /*output += '<td>' + list[i].regDate + '</td>';*/
+                        output += '<td>' + list[i].regDate + '</td>';
+                        output += '<td>' + '<fmt:formatDate value='${code.regDate}' pattern='yyyy/MM/dd'/>' + '</td>';
                         output += '<td>' + list[i].etcInfo + '</td>';
                         output += '<td>' + list[i].useState + '</td>';
                         output += '</tr>';
@@ -165,7 +174,7 @@
     }
 
     function ajax2CertList() {
-        var param={};
+        var param = {};
         alert('수료관리 페이지를 ajax로 불러오기');
         $.ajax({
             type: "post",
@@ -173,19 +182,16 @@
             data: JSON.stringify(param),
             dataType: "json",
             contentType: "application/json;charset=UTF-8",
-            success: function(data){
-                $('#listTable2').text('');
-                var list = data.codeList;
-                var output = '';
-                //console.log(codeList.length);
+            success: function (data) {
+                $('#listTable3').append('낄낄');
                 console.log("data::", JSON.stringify(param));
 
             },
-            error: function(){
+            error: function () {
 
             }
         })
-            alert("ajax 요청 끝");
+        alert("ajax 요청 끝");
 
     }
 
@@ -216,7 +222,8 @@
         <!-- search area -->
         <div class="search-wrap">
             <div class="search-container">
-                <form id="searchForm" name="searchForm">
+                <%-- searchForm1 --%>
+                <form id="searchForm1" name="searchForm">
                     <ul class="filter-row">
                         <li>
                             <label for="searchChkValue">분 류</label>
@@ -243,6 +250,45 @@
                         </li>
                     </ul>
                 </form>
+                <%-- searchForm1 --%>
+                <%--------------------------------------------------------------------%>
+                <%-- searchForm2 --%>
+                <form id="searchForm2" name="searchForm" style="display: none">
+                    <ul class="filter-row">
+                        <li>
+                            <label for="year">조회기간</label>
+                            <input type="text" id="year" name="year" value="<c:out value='${searchVO.year}'/>"
+                                   class="input-text year icon_calendar" style="width:100px" placeholder="년도"/>
+                        </li>
+                        <li>
+                            <label for="eduTitle">과정명</label>
+                            <input type="text" id="eduTitle" name="eduTitle" class="input-text" style="width:300px"
+                                   value="<c:out value="${search.eduTitle}"/>" placeholder="과정명 입력"/>
+                        </li>
+                        <li>
+                            <label for="applyState">수료확정</label>
+                            <select id="applyState" name="applyState" class="wd_140">
+                                <option value="">전체</option>
+                                <c:forEach var="applyState" items="${applyStateList}" varStatus="Status">
+                                    <option value="<c:out value="${applyState.code}"/>"
+                                            <c:if test="${applyState.code eq search.applyState}">selected="selected"</c:if>>
+                                        <c:out value="${applyState.codeName}"/></option>
+                                </c:forEach>
+                            </select>
+                        </li>
+                        <li>
+                            <label for="judgeNo">심판번호</label>
+                            <input type="text" id="judgeNo" name="judgeNo" class="input-text" style="width:140px"
+                                   value="<c:out value="${search.judgeNo}"/>"/>
+                        </li>
+                        <li>
+                            <button type="button" id="btn_search2" class="btn2 btn-search">
+                                <span>조회</span>
+                            </button>
+                        </li>
+                    </ul>
+                </form>
+                <%-- searchForm2 --%>
             </div>
         </div>
         <!-- //search area -->
@@ -250,10 +296,11 @@
 
     <div class="content-wrap">
         <div class="table-wrap">
-            <table id="listTable" class="cell-border hover dataTable" width="100%">
+            <%--코드관리--%>
+            <table id="listTable" class="cell-border hover dataTable" width="100%" >
                 <thead>
                 <tr>
-                    <th><input name="select_all" value="1" id="select-all" type="checkbox"/></th>
+                    <th><input name="select_all" value="1" class="select-all" type="checkbox"/></th>
                     <th>No</th>
                     <th style="width: 210px;">코드명</th>
                     <th>코드값</th>
@@ -268,14 +315,40 @@
                 <tbody id="listTable2">
                 </tbody>
             </table>
+            <%--코드관리--%>
+
+            <%--수료관리--%>
+            <table id="listTable4" class="cell-border hover dataTable" width="100%" style="display: none">
+                <thead>
+                <tr>
+                    <th><input name="select_all" value="1" class="select-all" type="checkbox"/></th>
+                    <th>No</th>
+                    <th style="width: 210px;">과정명</th>
+                    <th>종목</th>
+                    <th>심판번호</th>
+                    <th>이름</th>
+                    <th>수료기간</th>
+                    <th>수료확정</th>
+                    <th>수료증</th>
+                    <th>확정일시</th>
+                    <th>확정자</th>
+                    <th>등록일시</th>
+                    <th>등록자</th>
+                </tr>
+                </thead>
+                <tbody id="listTable3">
+                </tbody>
+            </table>
+            <%--수료관리--%>
         </div>
         <br>
         <div>
-            <input type="button" id="certbtn" name="certbtn" class="btn2 btn-search" value="수료 ajax"/>
         </div>
     </div>
 
 
+    <input type="button" id="codebtn" name="codebtn" class="btn2 btn-search" value="코드 ajax"/>
+    <input type="button" id="certbtn" name="certbtn" class="btn2 btn-search" value="수료 ajax"/>
 </div>
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp"/>
 </body>
