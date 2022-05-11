@@ -119,8 +119,8 @@
     })
 
 
-    var param = {}; //흑흑 뭘 어떻게 넣어야 data를 가져올 수 있는걸까... 어디서부터 잘못된건지 비교해보고, 찾기
     function ajax1CodeList() {
+    var param = {}; //흑흑 뭘 어떻게 넣어야 data를 가져올 수 있는걸까... 어디서부터 잘못된건지 비교해보고, 찾기
 
         $.ajax({
             type: "post",
@@ -165,14 +165,20 @@
     }
 
     function ajax2CertList() {
+        var param={};
         alert('수료관리 페이지를 ajax로 불러오기');
         $.ajax({
             type: "post",
-            url: "<c:out value="${pageContext.request.contextPath}/code/admin/codeEx4"/>",
+            url: "<c:out value="${pageContext.request.contextPath}/code/admin/codeEx3"/>",
             data: JSON.stringify(param),
             dataType: "json",
             contentType: "application/json;charset=UTF-8",
             success: function(data){
+                $('#listTable2').text('');
+                var list = data.codeList;
+                var output = '';
+                //console.log(codeList.length);
+                console.log("data::", JSON.stringify(param));
 
             },
             error: function(){
@@ -265,7 +271,7 @@
         </div>
         <br>
         <div>
-            <input type="button" id="certbtn" name="certbtn" value="수료 ajax"/>
+            <input type="button" id="certbtn" name="certbtn" class="btn2 btn-search" value="수료 ajax"/>
         </div>
     </div>
 

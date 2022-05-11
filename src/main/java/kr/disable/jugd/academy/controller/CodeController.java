@@ -271,7 +271,24 @@ public class CodeController {
         paramMap.put("searchArea",search.getSearchArea());
         paramMap.put("search",search);
 
-        //model.addAttribute("search",search);
+        //cert 내용도
+        // 검색용 자료
+        paramMap.put("year", search.getYear());
+        paramMap.put("eduTitle", search.getEduTitle());
+        paramMap.put("applyState", search.getApplyState());
+        paramMap.put("judgeNo", search.getJudgeNo());
+        //------------------------------------
+        if (search.getYear() == null || "".equals(search.getYear())) {
+            search.setYear(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()));
+        } // 연도 설정
+        // 수료 확정 select option 값 추가
+        List<CodeVO> applyStateList = null;
+        String[] codeList = {Constants.APPLY_STATE_APPLY_COMP, Constants.APPLY_STATE_CERT_COMP, Constants.APPLY_STATE_CERT_NOT};
+        paramMap.put("groupCode", APPLY_STATE); //수료확정 내용을 띄워줍니다.(어떤 원리지)
+        paramMap.put("codeList", codeList);
+        applyStateList = commonService.selectCommonCode(paramMap);
+        model.addAttribute("applyStateList", applyStateList);
+
 
         return "admin/code/codeEx2";
     }
@@ -305,9 +322,11 @@ public class CodeController {
      * @throws: Exception
      * @param: model, request, searchVO
      */
-    /*@RequestMapping("admin/codeEx")
+
+    @RequestMapping("admin/codeEx000")
     public String jCodeExPage(HttpServletRequest request, Model model, SearchVO search) throws Exception {
         // System.out.println("controller.codeEx");
+        System.out.println("jCodeExPage 호출");
         Map<String, Object> paramMap = new HashMap<>();
         HttpSession session = request.getSession();
         AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
@@ -333,13 +352,13 @@ public class CodeController {
         model.addAttribute("search",search);
 
         return "admin/code/codeEx";
-    }*/
+    }
 
-    /*@RequestMapping("admin/codeEx2")
+    @RequestMapping("admin/codeEx3")
     @ResponseBody
     public Map<String, Object> jCodeEx(@RequestBody SearchVO search,Model model) throws Exception {
         Map<String, Object> paramMap = new HashMap<>();
-        System.out.println("controller.codeEx2");
+        System.out.println("controller.codeEx3");
 
         // 검색용 자료
         paramMap.put("year", search.getYear());
@@ -373,7 +392,7 @@ public class CodeController {
         }
         model.addAttribute("search",search);
         return paramMap;
-    }*/
+    }
 
 }
 
