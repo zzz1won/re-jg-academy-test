@@ -94,9 +94,9 @@
             }
         });
 
-            $("button").click(function(){
+            /*$("button").click(function(){
                 $("*").hide();
-            });
+            });*/
     }
 
 
