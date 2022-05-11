@@ -60,6 +60,11 @@ public class CodeService {
 
     public Integer selectCodeCnt(Map<String, Object> paramMap) { return codeMapper.selectCodeCnt(paramMap); }
 
+    /** code List AJAX_날짜때문에 */
+    public List<CodeVO> selectCommonCode(Map<String, Object> paramMap) {
+        return codeMapper.selectCommonCode(paramMap);
+    }
+
 
     /*public Integer selectCodeListCnt(Map<String, Object> paramMap) {
         return codeMapper.selectCodeListCnt(paramMap);

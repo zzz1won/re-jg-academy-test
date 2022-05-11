@@ -113,21 +113,23 @@
         })
 
         $('#certbtn').click(function () {
-            console.log("cert버튼누름");
+            console.log("cert 😉");
+            alert("cert 😉");
             $('#listTable').hide();
             $('#listTable4').show();
             ajax2CertList();
         })
 
         $('#codebtn').click(function(){
-            console.log("code버튼누름");
+            console.log("code 😉");
+            alert("code 😉");
             $('#listTable4').hide();
             $('#listTable').show();
             ajax1CodeList();
         })
     })
 
-
+    /* 코드 ajax */
     function ajax1CodeList() {
         var param = {}; //흑흑 뭘 어떻게 넣어야 data를 가져올 수 있는걸까... 어디서부터 잘못된건지 비교해보고, 찾기
 
@@ -155,7 +157,7 @@
                         output += '<td>' + list[i].groupCodeName + '</td>';
                         output += '<td>' + list[i].groupCode + '</td>';
                         output += '<td>' + list[i].regDate + '</td>';
-                        output += '<td>' + '<fmt:formatDate value='${code.regDate}' pattern='yyyy/MM/dd'/>' + '</td>';
+                        //output += '<td>' + '<fmt:formatDate value='${code.regDate}' pattern='yyyy/MM/dd'/>' + '</td>'; jstl을 함부로 사용x
                         output += '<td>' + list[i].etcInfo + '</td>';
                         output += '<td>' + list[i].useState + '</td>';
                         output += '</tr>';
@@ -173,6 +175,7 @@
 
     }
 
+    /* 수료 ajax */
     function ajax2CertList() {
         var param = {};
         alert('수료관리 페이지를 ajax로 불러오기');
@@ -183,7 +186,7 @@
             dataType: "json",
             contentType: "application/json;charset=UTF-8",
             success: function (data) {
-                $('#listTable3').append('낄낄');
+                $('#listTable3').text('');
                 console.log("data::", JSON.stringify(param));
 
             },
@@ -198,6 +201,7 @@
 </script>
 <body>
 <%--이 위치는 상관없는건가?--%>
+<br>
 <div id="wrapper">
     <jsp:include page="/WEB-INF/jsp/include/adminHeader.jsp"/>
     <div id="container">
@@ -294,6 +298,8 @@
         <!-- //search area -->
     </div>
 
+    <input type="button" id="codebtn" name="codebtn" class="btn2 btn-search" value="코드 ajax"/>
+    <input type="button" id="certbtn" name="certbtn" class="btn2 btn-search" value="수료 ajax"/>
     <div class="content-wrap">
         <div class="table-wrap">
             <%--코드관리--%>
@@ -345,10 +351,6 @@
         <div>
         </div>
     </div>
-
-
-    <input type="button" id="codebtn" name="codebtn" class="btn2 btn-search" value="코드 ajax"/>
-    <input type="button" id="certbtn" name="certbtn" class="btn2 btn-search" value="수료 ajax"/>
 </div>
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp"/>
 </body>

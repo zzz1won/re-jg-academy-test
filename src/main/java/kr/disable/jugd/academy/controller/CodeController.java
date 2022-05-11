@@ -282,14 +282,16 @@ public class CodeController {
         if (search.getYear() == null || "".equals(search.getYear())) {
             search.setYear(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()));
         } // 연도 설정
+
         // 수료 확정 select option 값 추가
         List<CodeVO> applyStateList = null;
         String[] codeList = {Constants.APPLY_STATE_APPLY_COMP, Constants.APPLY_STATE_CERT_COMP, Constants.APPLY_STATE_CERT_NOT};
         paramMap.put("groupCode", APPLY_STATE); //수료확정 내용을 띄워줍니다.(어떤 원리지)
         paramMap.put("codeList", codeList);
         applyStateList = commonService.selectCommonCode(paramMap);
-        model.addAttribute("applyStateList", applyStateList);
-
+        paramMap.put("applyStateList",applyStateList);
+        //model.addAttribute("applyStateList", applyStateList);
+        //model.addAttribute("search",search);
 
         return "admin/code/codeEx2";
     }
@@ -302,7 +304,8 @@ public class CodeController {
         String[] codeStateList = {Constants.CODE_USE_STATE,Constants.CODE_USE_STATE_N};
 
         try{
-            codeList = codeService.selectCode(paramMap);
+            codeList = codeService.selectCommonCode(paramMap);
+            //codeList = codeService.selectCode(paramMap);
             paramMap.put("codeList",codeList);
             paramMap.put("codeStateList",codeStateList);
         }

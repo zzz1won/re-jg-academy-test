@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class SearchVO {
 
+	//private Date   regDate;		// 등록일시... 헐 변경하면 이것저것 바뀌는 건 아닌가
 	private Date   regDate;		// 등록일시
 	private String regId;		// 등록자
 	private Date   modDate;		// 수정일시

@@ -5,20 +5,21 @@
 <mapper namespace="kr.disable.jugd.academy.mapper.CodeMapper">
 
     <select id="selectCommonCode" parameterType="Map" resultType="CodeVO">
-        SELECT
-        common_code_no
+        SELECT common_code_no
+        , group_code_name
+        , group_code
         , code_name
         , code
         , display_order
-        , group_code_name
-        , group_code
-        , reg_date
+        , DATE_FORMAT(reg_date,'%Y-%m-%d')
         , etc_info
-        , use_status
+        , use_state
         FROM
         COMMON_CODE
         WHERE 1=1
-
+        <if test="groupCode != null and groupCode != ''">
+            and group_code = #{groupCode}
+        </if>
         <if test="searchChkValue == '00'">
             and group_code_name LIKE CONCAT('%',#{searchArea},'%') OR code_name LIKE CONCAT('%',#{searchArea},'%')
         </if>
@@ -29,7 +30,6 @@
             and code_name LIKE CONCAT('%',#{searchArea},'%')
         </if>
         ORDER BY common_code_no DESC, group_code DESC, display_order ASC
-
     </select>
 
     <delete id="deleteCode" parameterType="CodeVO">
