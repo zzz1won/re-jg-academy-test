@@ -19,11 +19,8 @@
 <script>
     $(function () {
         alert("지원관리 입장");
-        ajax1CodeList();
-
+        // listTable
         var table = $('#listTable').DataTable({
-            // "scrollY": "370px",
-            // "ordering": true,
             "pagingType": "full_numbers",
             "searching": false,
             "lengthChange": false,
@@ -40,32 +37,6 @@
                 }
             },
 
-            //정렬, 링크
-            "columnDefs": [
-                {className: "dt-body-left", "targets": [2]},
-                {className: "dt-body-right", "targets": [5, 6]},
-                {
-                    targets: [2],
-                    render: function (data, type, row, meta) {
-                        if (type === 'display') { //detail.jsp 열어야함.
-                            data = '<a href="javascript:fn_detailPage(' + row[10] + ');">' + data + '</a>';
-                        }
-                        return data;
-                    }
-                },
-                {
-                    targets: [0],
-                    orderable: false,
-                    searchable: false,
-                    className: 'dt-body-center',
-                },
-                {
-                    targets: [10],
-                    visible: false
-                }
-            ],
-            order: [1, 'asc'],
-
             // 페이징처리
             "fnDrawCallback": function () {
                 if (Math.ceil((this.fnSettings().fnRecordsDisplay()) / this.fnSettings()._iDisplayLength) > 1) {
@@ -75,30 +46,10 @@
                     $('.table-wrap+.btn-wrap').css("bottom", "-25px");
                 }
             }
+        })
 
 
-        });
-
-        // 체크박스 모두 선택 "Select all" control
-        $('.select-all').on('click', function () {
-            // Check/uncheck all checkboxes in the table
-            var rows = table.rows({'search': 'applied'}).nodes();
-            $('input[type="checkbox"]', rows).prop('checked', this.checked);
-        });
-
-        // Handle click on checkbox to set state of "Select all" control
-        $('#listTable tbody').on('change', 'input[type="checkbox"]', function () {
-            // If checkbox is not checked
-            if (!this.checked) {
-                var el = $('.select-all').get(0);
-                // If "Select all" control is checked and has 'indeterminate' property
-                if (el && el.checked && ('indeterminate' in el)) {
-                    // Set visual state of "Select all" control
-                    // as 'indeterminate'
-                    el.indeterminate = true;
-                }
-            }
-        });
+        ajax1CodeList();
 
         $('#btn_search').click(function () {
             console.log("조회버튼 클릭");
@@ -111,7 +62,7 @@
             ajax1CodeList(param);
 
         })
-
+        
         $('#certbtn').click(function () {
             console.log("cert 😉");
             alert("cert 😉");
@@ -120,7 +71,7 @@
             ajax2CertList();
         })
 
-        $('#codebtn').click(function(){
+        $('#codebtn').click(function () {
             console.log("code 😉");
             alert("code 😉");
             $('#listTable4').hide();
@@ -157,7 +108,6 @@
                         output += '<td>' + list[i].groupCodeName + '</td>';
                         output += '<td>' + list[i].groupCode + '</td>';
                         output += '<td>' + list[i].regDate + '</td>';
-                        //output += '<td>' + '<fmt:formatDate value='${code.regDate}' pattern='yyyy/MM/dd'/>' + '</td>'; jstl을 함부로 사용x
                         output += '<td>' + list[i].etcInfo + '</td>';
                         output += '<td>' + list[i].useState + '</td>';
                         output += '</tr>';
@@ -303,7 +253,7 @@
     <div class="content-wrap">
         <div class="table-wrap">
             <%--코드관리--%>
-            <table id="listTable" class="cell-border hover dataTable" width="100%" >
+            <table id="listTable" class="cell-border hover dataTable" width="100%">
                 <thead>
                 <tr>
                     <th><input name="select_all" value="1" class="select-all" type="checkbox"/></th>
