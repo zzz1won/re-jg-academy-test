@@ -111,7 +111,14 @@
                         output += '<td>' + list[i].displayOrder + '</td>';
                         output += '<td>' + list[i].groupCodeName + '</td>';
                         output += '<td>' + list[i].groupCode + '</td>';
-                        output += '<td>' + list[i].regDate + '</td>';
+
+                        var regDate2 = new Date(list[i].regDate);
+                        var year = regDate2.getFullYear();
+                        var month = ('0'+(regDate2.getMonth()+1)).slice(-2);
+                        var day = ('0'+regDate2.getDate()).slice(-2);
+                        var regDatePrint = year+"/"+month+"/"+day;
+
+                        output += '<td>' + regDatePrint + '</td>';
                         output += '<td>' + list[i].etcInfo + '</td>';
                         output += '<td>' + list[i].useState + '</td>';
                         output += '</tr>';
@@ -162,9 +169,29 @@
                         output+='<td>'+list1[i].judgeKind+'</td>';//종목
                         output+='<td>'+list1[i].judgeNo+'</td>';//심판번호
                         output+='<td>'+list1[i].judgeName+'</td>';//이름
-                        output+='<td>'+list1[i].acEduStartDate+'~'+list1[i].acEduEndDate+'</td>';//수료기간
-                    //state
+
                         var state = list1[i].state;
+
+                        //수료기간
+                        var applyDate = new Date(list1[i].applyConfirmDate);
+                        var certConfirmDate = new Date(list1[i].certConfirmDate);
+                        var year = applyDate.getFullYear();
+                        var month = ('0'+(applyDate.getMonth()+1)).slice(-2);
+                        var day = ('0'+applyDate.getDate()).slice(-2);
+                        var year2 = certConfirmDate.getFullYear();
+                        var month2 = ('0'+(certConfirmDate.getMonth()+1)).slice(-2);
+                        var day2 = ('0'+certConfirmDate.getDate()).slice(-2);
+                        var applyDate2 = year+"/"+month+"/"+day;
+                        var certConfirmDate2 = year2+"/"+month2+"/"+day2;
+
+                        if(state.match('02')){
+                            output += '<td>' + applyDate2 + '~' + '</td>';
+                        } else {
+                        output+='<td>'+applyDate2+'~'+certConfirmDate2+'</td>';
+                        }
+                        //output+='<td>'+list1[i].acEduStartDate+'~'+list1[i].acEduEndDate+'</td>';
+                        //수료기간
+                    //state
                         if(state.match('02')){
                             output+='<td>'+'신청확정'+'</td>';//수료확정
                         }   else if(state.match('03')){
@@ -172,15 +199,8 @@
                         }   else if(state.match('05')) {
                             output += '<td>' + '미수료' + '</td>';//수료확정
                         }
-                        /*else if($("list1[i].state:contains('03')")){
-                            output+='<td>'+'수료확정'+'</td>';//수료확정
-                        }  else if($("list1[i].state:contains('05')")) {
-                            output += '<td>' + '미수료' + '</td>';//수료확정
-                        }*/
                     //state
-                        //output+='<td>'+list1[i].state+'</td>';//수료확정
                     //수료증 상황
-                        //var certFile = list1[i].acEduCertFilePath;
                         if(state.match('03') && $("list1[i].acEduCertFilePath:empty")){ //03:수료확정
                             output+='<td>'+'등록전'+'</td>';//수료증
                         } else if(state.match('03') && $("list1[i].acEduCertFilePath:not empty")){ //03:수료확정
@@ -189,27 +209,20 @@
                         else {
                             output+='<td>'+'-'+'</td>';//수료증
                         }
-                        /*if($("list1[i].acEduCertFilePath:empty")){ //03:수료확정
-                        output+='<td>'+'등록전'+'</td>';//수료증
-                        } else {
-                        output+='<td>'+'등록완료'+'</td>';//수료증
-                        }*/
                     //수료증 상황
                     //확정일시 출력
-                        //var applyDate = list1[i].applyConfirmDate;
-                        //var applyDate = new Date($("list1[i].applyConfirmDate"));
-                        var applyDate = new Date(list1[i].applyConfirmDate);
-                        //var applyDate = new Date();
+                        /*var applyDate = new Date(list1[i].applyConfirmDate);
                         var year = applyDate.getFullYear();
                         var month = ('0'+(applyDate.getMonth()+1)).slice(-2);
                         var day = ('0'+applyDate.getDate()).slice(-2);
-                        var applyDate2 = year+"/"+month+"/"+day;
+                        var applyDate2 = year+"/"+month+"/"+day;*/
 
-                        output+='<td>'+applyDate2+'</td>';//확정일시
-
-                        //output+='<td>'+applyDate.getFullYear()+"/"+(applyDate.getMonth()+1)+"/"+applyDate.getDate()+'</td>';//3.확정일시
-                        //output+='<td>'+applyDate+'</td>';//2.확정일시
-                        //output+='<td>'+list1[i].applyConfirmDate+'</td>';//1.확정일시
+                        //수료중-수료확정일 경우에만 날짜 출력
+                        if(state.match('03')||state.match('05')) {
+                            output += '<td>' + applyDate2 + '</td>';//확정일시
+                        } else  {
+                            output += '<td>' + '🍊' + '</td>';//확정일시
+                        }
                     //확정자 출력
                        if(list1[i].certConfirmId ==null){
                             output+='<td>'+'-'+'</td>';

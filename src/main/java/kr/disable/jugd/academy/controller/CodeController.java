@@ -304,8 +304,8 @@ public class CodeController {
         String[] codeStateList = {Constants.CODE_USE_STATE,Constants.CODE_USE_STATE_N};
 
         try{
-            codeList = codeService.selectCommonCode(paramMap);
-            //codeList = codeService.selectCode(paramMap);
+            //codeList = codeService.selectCommonCode(paramMap);
+            codeList = codeService.selectCode(paramMap);
             paramMap.put("codeList",codeList);
             paramMap.put("codeStateList",codeStateList);
         }
