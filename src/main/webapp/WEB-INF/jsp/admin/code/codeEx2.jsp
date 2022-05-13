@@ -163,11 +163,56 @@
                         output+='<td>'+list1[i].judgeNo+'</td>';//심판번호
                         output+='<td>'+list1[i].judgeName+'</td>';//이름
                         output+='<td>'+list1[i].acEduStartDate+'~'+list1[i].acEduEndDate+'</td>';//수료기간
-                        output+='<td>'+list1[i].state+'</td>';//수료확정
-                        output+='<td>'+'수료증'+'</td>';//수료증
+                    //state
+                        var state = list1[i].state;
+                        if(state.match('02')){
+                            output+='<td>'+'신청확정'+'</td>';//수료확정
+                        }   else if(state.match('03')){
+                            output+='<td>'+'수료확정'+'</td>';//수료확정
+                        }   else if(state.match('05')) {
+                            output += '<td>' + '미수료' + '</td>';//수료확정
+                        }
+                        /*else if($("list1[i].state:contains('03')")){
+                            output+='<td>'+'수료확정'+'</td>';//수료확정
+                        }  else if($("list1[i].state:contains('05')")) {
+                            output += '<td>' + '미수료' + '</td>';//수료확정
+                        }*/
+                    //state
+                        //output+='<td>'+list1[i].state+'</td>';//수료확정
+                    //수료증 상황
+                        //var certFile = list1[i].acEduCertFilePath;
+                        if(state.match('03') && $("list1[i].acEduCertFilePath:empty")){ //03:수료확정
+                            output+='<td>'+'등록전'+'</td>';//수료증
+                        } else if(state.match('03') && $("list1[i].acEduCertFilePath:not empty")){ //03:수료확정
+                            output+='<td>'+'등록완료'+'</td>';//수료증
+                        }
+                        else {
+                            output+='<td>'+'-'+'</td>';//수료증
+                        }
+                        /*if($("list1[i].acEduCertFilePath:empty")){ //03:수료확정
+                        output+='<td>'+'등록전'+'</td>';//수료증
+                        } else {
+                        output+='<td>'+'등록완료'+'</td>';//수료증
+                        }*/
+                    //수료증 상황
+                    //확정일시 출력
+                        /*var applyDate = list1[i].applyConfirmDate;
+                        output+='<td>'+applyDate.getFullYear()+"/"+(applyDate.getMonth()+1)+"/"+applyDate.getDate()+'</td>';//확정일시*/
                         output+='<td>'+list1[i].applyConfirmDate+'</td>';//확정일시
-                        output+='<td>'+list1[i].certConfirmId+'</td>';//확정자
+                    //확정일시 출력
+                       if(list1[i].certConfirmId ==null){
+                            output+='<td>'+'-'+'</td>';
+                        } else {
+                            output+='<td>'+list1[i].certConfirmId+'</td>';//기존 확정자
+                        }
+                        //output+='<td>'+'<if(list1[i].certConfirmId ==null)>{" "}' +'<else>{list1[i].certConfirmId}</else>'+'</td>';//확정자
+                        //output+='<td>'+'<if(list1[i].certConfirmId ==null)>{" "}' +'<else>{list1[i].certConfirmId}</else>'+'</td>';//확정자
+                        //output+='<td>'+list1[i].certConfirmId+'</td>';//기존 확정자
+                        if(list1[i].certConfirmDate ==null){
+                            output+='<td>'+'-'+'</td>';
+                        } else {
                         output+='<td>'+list1[i].certConfirmDate+'</td>';//등록일시
+                        }
                         output+='<td>'+'등록자'+'</td>';//등록자
                         output+='</tr>';
                     }
