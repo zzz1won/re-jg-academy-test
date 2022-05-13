@@ -115,8 +115,12 @@
                         output += '<td>' + list[i].etcInfo + '</td>';
                         output += '<td>' + list[i].useState + '</td>';
                         output += '</tr>';
+
                     }
                     $('#listTable2').append(output);
+
+                    /*console.log("data::", JSON.stringify(param)); 뭐야 왜 공백이지*/
+                    /*console.log("data::", this.data); 뭐야 왜 공백이지*/
                 } else {
                     alert("통신은 성공했는데...2");
                 }
@@ -131,7 +135,7 @@
 
     /* 수료 ajax */
     function ajax2CertList() {
-        var param = {};
+        var param = {"year":$('#year').val()};
         alert('수료관리 페이지를 ajax로 불러오기');
         $.ajax({
             type: "post",
@@ -140,12 +144,41 @@
             dataType: "json",
             contentType: "application/json;charset=UTF-8",
             success: function (data) {
-                $('#listTable3').text('');
-                console.log("data::", JSON.stringify(param));
+                if(data.result > 0) {
+                    console.log("data.result:: ",data.result);
+                    $('#listTable3').text('');
+                    console.log("data::", JSON.stringify(param));
+                    console.log("data::", this.data);
+                    var list1 = data.certList;
+                    var list2 = data.adminList;
+                    var output = '';
+                    console.log(list1.length);
+                    for (let i = 0; i < list1.length; i++){
+                        output+='<tr>';
+                        output += '<td>' + '<input type="checkbox" id="chk${code.commonCodeNo}" name="chk" value="<c:out value="${code.commonCodeNo}"/>">' + '</td>';
+                        output+='<td>'+'번호'+'</td>';
+                        output+='<td>'+list1[i].acEduTitle+'</td>';//과정명
+                        output+='<td>'+list1[i].acEduTitle+'</td>';//종목
+                        output+='<td>'+list1[i].acJudgeKind+'</td>';//심판번호
+                        output+='<td>'+list1[i].acJudgeName+'</td>';//이름
+                        output+='<td>'+list1[i].acEduTitle+'</td>';//수료기간
+                        output+='<td>'+list1[i].acEduTitle+'</td>';//수료확정
+                        output+='<td>'+list1[i].acEduTitle+'</td>';//수료증
+                        output+='<td>'+list1[i].acEduTitle+'</td>';//확정일시
+                        output+='<td>'+list1[i].acEduTitle+'</td>';//확정자
+                        output+='<td>'+list1[i].acEduTitle+'</td>';//등록일시
+                        output+='<td>'+list1[i].acEduTitle+'</td>';//등록자
+                        output+='</tr>';
+                    }
+                    $('#listTable3').append(output);
+                }
+                else {
+                    console.log("data.result = 0");
+                }
 
             },
             error: function () {
-
+                console.log("ajax ajax 아작 아작 😫");
             }
         })
         alert("ajax 요청 끝");

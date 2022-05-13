@@ -360,26 +360,37 @@ public class CodeController {
 
     @RequestMapping("admin/codeEx3")
     @ResponseBody
-    public Map<String, Object> jCodeEx(@RequestBody SearchVO searchVO) throws Exception {
+    public Map<String, Object> certCodeEx(@RequestBody SearchVO searchVO) throws Exception {
         Map<String, Object> paramMap = new HashMap<>();
         System.out.println("controller.codeEx3");
         List<CertVO> certList = null; //수료정보 리스트
-        List<AdminVO> adminList = null; //수료확정자:관리자
-        List<CodeVO> judgeKindList = null; //종목이름을 한글로 표시하기 위해
+        int certListCnt =0;
+/*        List<AdminVO> adminList = null; //수료확정자:관리자
+        List<CodeVO> judgeKindList = null; //종목이름을 한글로 표시하기 위해*/
+        if(searchVO.getYear() == null || "".equals(searchVO.getYear())) { //Year값이 null이거나 ""일 때!
+            searchVO.setYear( new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()) ); //yyyy형식으로 Calendar.getInstance().getTime() 현재시간 구하기
+        }
+
+        // 02: 신청확정(수료대기), 03: 수료확정, 05: 미수료
+        String[] codeList = {Constants.APPLY_STATE_APPLY_COMP, Constants.APPLY_STATE_CERT_COMP, Constants.APPLY_STATE_CERT_NOT};
+        paramMap.put("year",searchVO.getYear());
+        paramMap.put("eduTitle", searchVO.getEduTitle());
+        paramMap.put("applyState",searchVO.getApplyState());
+        paramMap.put("judgeNo",searchVO.getJudgeNo());
 
         try {
+            paramMap.put("codeList",codeList);//오 codeList 추가했더니 뭐가 뜨긴한다!! +certListCnt
             certList = certService.selectCertList(paramMap);
             paramMap.put("certList",certList);
-            adminList = adminService.selectAdminList();
-            paramMap.put("adminList",adminList);
-            judgeKindList = codeService.selectCommonCode(paramMap);
-            paramMap.put("judgeKindList",judgeKindList);
+            certListCnt = certService.selectCertListCnt(paramMap);
+            paramMap.put("result",certListCnt); //오 codeList + certListCnt
         }
         catch (Exception e){
             logger.debug(e.getMessage());
         }
 
         paramMap.put("search",searchVO);
+        System.out.println("controller.codeEx3.ajax 요청2");
         return paramMap;
     }
 

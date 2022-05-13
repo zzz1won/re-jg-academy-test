@@ -65,8 +65,4 @@ public class CodeService {
         return codeMapper.selectCommonCode(paramMap);
     }
 
-
-    /*public Integer selectCodeListCnt(Map<String, Object> paramMap) {
-        return codeMapper.selectCodeListCnt(paramMap);
-    }*/
 }
