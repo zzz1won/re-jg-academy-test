@@ -196,10 +196,21 @@
                         }*/
                     //수료증 상황
                     //확정일시 출력
-                        /*var applyDate = list1[i].applyConfirmDate;
-                        output+='<td>'+applyDate.getFullYear()+"/"+(applyDate.getMonth()+1)+"/"+applyDate.getDate()+'</td>';//확정일시*/
-                        output+='<td>'+list1[i].applyConfirmDate+'</td>';//확정일시
-                    //확정일시 출력
+                        //var applyDate = list1[i].applyConfirmDate;
+                        //var applyDate = new Date($("list1[i].applyConfirmDate"));
+                        var applyDate = new Date(list1[i].applyConfirmDate);
+                        //var applyDate = new Date();
+                        var year = applyDate.getFullYear();
+                        var month = ('0'+(applyDate.getMonth()+1)).slice(-2);
+                        var day = ('0'+applyDate.getDate()).slice(-2);
+                        var applyDate2 = year+"/"+month+"/"+day;
+
+                        output+='<td>'+applyDate2+'</td>';//확정일시
+
+                        //output+='<td>'+applyDate.getFullYear()+"/"+(applyDate.getMonth()+1)+"/"+applyDate.getDate()+'</td>';//3.확정일시
+                        //output+='<td>'+applyDate+'</td>';//2.확정일시
+                        //output+='<td>'+list1[i].applyConfirmDate+'</td>';//1.확정일시
+                    //확정자 출력
                        if(list1[i].certConfirmId ==null){
                             output+='<td>'+'-'+'</td>';
                         } else {
@@ -207,12 +218,15 @@
                         }
                         //output+='<td>'+'<if(list1[i].certConfirmId ==null)>{" "}' +'<else>{list1[i].certConfirmId}</else>'+'</td>';//확정자
                         //output+='<td>'+'<if(list1[i].certConfirmId ==null)>{" "}' +'<else>{list1[i].certConfirmId}</else>'+'</td>';//확정자
-                        //output+='<td>'+list1[i].certConfirmId+'</td>';//기존 확정자
+                        //output+='<td>'+list1[i].certConfirmId+'</td>';
+                    // 기존 확정자
+                    // 등록일시
                         if(list1[i].certConfirmDate ==null){
                             output+='<td>'+'-'+'</td>';
                         } else {
-                        output+='<td>'+list1[i].certConfirmDate+'</td>';//등록일시
+                        output+='<td>'+list1[i].certConfirmDate+'</td>';
                         }
+                    // 등록일시
                         output+='<td>'+'등록자'+'</td>';//등록자
                         output+='</tr>';
                     }
