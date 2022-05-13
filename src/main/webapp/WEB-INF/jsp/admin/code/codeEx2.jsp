@@ -153,21 +153,22 @@
                     var list2 = data.adminList;
                     var output = '';
                     console.log(list1.length);
+                    console.log(list2);
                     for (let i = 0; i < list1.length; i++){
                         output+='<tr>';
-                        output += '<td>' + '<input type="checkbox" id="chk${code.commonCodeNo}" name="chk" value="<c:out value="${code.commonCodeNo}"/>">' + '</td>';
-                        output+='<td>'+'번호'+'</td>';
+                        output += '<td>' + '<input type="checkbox" id="chk${certList.eduApplyInfoNo}" name="chk" value="<c:out value="${certList.acEduCertInfoNo}"/>">' + '</td>';
+                        output+='<td>'+list1[i].acEduScheduleNo+'</td>';//번호 이게 아니야...
                         output+='<td>'+list1[i].acEduTitle+'</td>';//과정명
-                        output+='<td>'+list1[i].acEduTitle+'</td>';//종목
-                        output+='<td>'+list1[i].acJudgeKind+'</td>';//심판번호
-                        output+='<td>'+list1[i].acJudgeName+'</td>';//이름
-                        output+='<td>'+list1[i].acEduTitle+'</td>';//수료기간
-                        output+='<td>'+list1[i].acEduTitle+'</td>';//수료확정
-                        output+='<td>'+list1[i].acEduTitle+'</td>';//수료증
-                        output+='<td>'+list1[i].acEduTitle+'</td>';//확정일시
-                        output+='<td>'+list1[i].acEduTitle+'</td>';//확정자
-                        output+='<td>'+list1[i].acEduTitle+'</td>';//등록일시
-                        output+='<td>'+list1[i].acEduTitle+'</td>';//등록자
+                        output+='<td>'+list1[i].judgeKind+'</td>';//종목
+                        output+='<td>'+list1[i].judgeNo+'</td>';//심판번호
+                        output+='<td>'+list1[i].judgeName+'</td>';//이름
+                        output+='<td>'+list1[i].acEduStartDate+'~'+list1[i].acEduEndDate+'</td>';//수료기간
+                        output+='<td>'+list1[i].state+'</td>';//수료확정
+                        output+='<td>'+'수료증'+'</td>';//수료증
+                        output+='<td>'+list1[i].applyConfirmDate+'</td>';//확정일시
+                        output+='<td>'+list1[i].certConfirmId+'</td>';//확정자
+                        output+='<td>'+list1[i].certConfirmDate+'</td>';//등록일시
+                        output+='<td>'+'등록자'+'</td>';//등록자
                         output+='</tr>';
                     }
                     $('#listTable3').append(output);

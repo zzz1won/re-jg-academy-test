@@ -365,8 +365,8 @@ public class CodeController {
         System.out.println("controller.codeEx3");
         List<CertVO> certList = null; //수료정보 리스트
         int certListCnt =0;
-/*        List<AdminVO> adminList = null; //수료확정자:관리자
-        List<CodeVO> judgeKindList = null; //종목이름을 한글로 표시하기 위해*/
+        List<AdminVO> adminList = null; //수료확정자:관리자
+        List<CodeVO> judgeKindList = null; //종목이름을 한글로 표시하기 위해
         if(searchVO.getYear() == null || "".equals(searchVO.getYear())) { //Year값이 null이거나 ""일 때!
             searchVO.setYear( new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()) ); //yyyy형식으로 Calendar.getInstance().getTime() 현재시간 구하기
         }
@@ -384,6 +384,10 @@ public class CodeController {
             paramMap.put("certList",certList);
             certListCnt = certService.selectCertListCnt(paramMap);
             paramMap.put("result",certListCnt); //오 codeList + certListCnt
+            adminList = adminService.selectAdminList();
+            paramMap.put("adminList",adminList);
+            judgeKindList = commonService.selectCommonCode(paramMap);
+            paramMap.put("judgeKindList",judgeKindList);
         }
         catch (Exception e){
             logger.debug(e.getMessage());
