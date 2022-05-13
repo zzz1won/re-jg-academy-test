@@ -62,12 +62,14 @@
             ajax1CodeList(param);
 
         })
-        
+
         $('#certbtn').click(function () {
             console.log("cert 😉");
             alert("cert 😉");
             $('#listTable').hide();
             $('#listTable4').show();
+            $('#searchForm1').hide();
+            $('#searchForm2').show();
             ajax2CertList();
         })
 
@@ -76,6 +78,8 @@
             alert("code 😉");
             $('#listTable4').hide();
             $('#listTable').show();
+            $('#searchForm1').show();
+            $('#searchForm2').hide();
             ajax1CodeList();
         })
     })
@@ -248,10 +252,12 @@
         <!-- //search area -->
     </div>
 
-    <input type="button" id="codebtn" name="codebtn" class="btn2 btn-search" value="코드 ajax"/>
-    <input type="button" id="certbtn" name="certbtn" class="btn2 btn-search" value="수료 ajax"/>
     <div class="content-wrap">
-        <div class="table-wrap">
+        <div class="ajaxBtnArea" align="right">
+            <input type="button" id="codebtn" name="codebtn" class="btn2 btn-search" value="코드 ajax"/>
+            <input type="button" id="certbtn" name="certbtn" class="btn2 btn-search" value="수료 ajax"/>
+        </div>
+        <div class="table-wrap" style="margin-top: 30px">
             <%--코드관리--%>
             <table id="listTable" class="cell-border hover dataTable" width="100%">
                 <thead>

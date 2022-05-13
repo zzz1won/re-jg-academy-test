@@ -327,8 +327,8 @@ public class CodeController {
      * @param: model, request, searchVO
      */
 
-    @RequestMapping("admin/codeEx000")
-    public String jCodeExPage(HttpServletRequest request, Model model, SearchVO search) throws Exception {
+    //@RequestMapping("admin/codeEx000")
+    /*public String jCodeExPage(HttpServletRequest request, Model model, SearchVO search) throws Exception {
         // System.out.println("controller.codeEx");
         System.out.println("jCodeExPage 호출");
         Map<String, Object> paramMap = new HashMap<>();
@@ -356,45 +356,30 @@ public class CodeController {
         model.addAttribute("search",search);
 
         return "admin/code/codeEx";
-    }
+    }*/
 
     @RequestMapping("admin/codeEx3")
     @ResponseBody
-    public Map<String, Object> jCodeEx(@RequestBody SearchVO search,Model model) throws Exception {
+    public Map<String, Object> jCodeEx(@RequestBody SearchVO searchVO) throws Exception {
         Map<String, Object> paramMap = new HashMap<>();
         System.out.println("controller.codeEx3");
-
-        // 검색용 자료
-        paramMap.put("year", search.getYear());
-        paramMap.put("eduTitle", search.getEduTitle());
-        paramMap.put("applyState", search.getApplyState());
-        paramMap.put("judgeNo", search.getJudgeNo());
-        //-------------------------------------------------
-
-        List<CertVO> certList = null; //수료내용
-        int result = 0;    //수료내용의 개수를 카운트합니다.
-        List<EduVO> eduTitleList = null; // certList 는 eduTitle 내용이 나와있지 않으므로 함께 불러와줍니다.
-        List<CodeVO> applyStateList = null; // 수료상태, 기간등을 확인합니다.
-        List<AdminVO> adminList = null;// 확정자표시
-        List<CodeVO> judgeKindList = null;
+        List<CertVO> certList = null; //수료정보 리스트
+        List<AdminVO> adminList = null; //수료확정자:관리자
+        List<CodeVO> judgeKindList = null; //종목이름을 한글로 표시하기 위해
 
         try {
-            eduTitleList = eduService.selectEduTitleListByYear(paramMap);
-            paramMap.put("eduTitleList",eduTitleList);
-            applyStateList = commonService.selectCommonCode(paramMap);
-            paramMap.put("applyStateList",applyStateList);
-            adminList = adminService.selectAdminList();
-            paramMap.put("adminList",adminList);
-
-            result = certService.selectCertListCnt(paramMap);
-            paramMap.put("result",result);
             certList = certService.selectCertList(paramMap);
             paramMap.put("certList",certList);
-
-        } catch (Exception e) {
+            adminList = adminService.selectAdminList();
+            paramMap.put("adminList",adminList);
+            judgeKindList = codeService.selectCommonCode(paramMap);
+            paramMap.put("judgeKindList",judgeKindList);
+        }
+        catch (Exception e){
             logger.debug(e.getMessage());
         }
-        model.addAttribute("search",search);
+
+        paramMap.put("search",searchVO);
         return paramMap;
     }
 
