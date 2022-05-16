@@ -286,8 +286,8 @@ public class CodeController {
         // 수료 확정 select option 값 추가
         List<CodeVO> applyStateList = null;
         String[] codeList = {Constants.APPLY_STATE_APPLY_COMP, Constants.APPLY_STATE_CERT_COMP, Constants.APPLY_STATE_CERT_NOT};
-        paramMap.put("groupCode", APPLY_STATE); //수료확정 내용을 띄워줍니다.(어떤 원리지)
         paramMap.put("codeList", codeList);
+        paramMap.put("groupCode", APPLY_STATE); //수료확정 내용을 띄워줍니다.(어떤 원리지)
         applyStateList = commonService.selectCommonCode(paramMap);
         paramMap.put("applyStateList",applyStateList);
         return "admin/code/codeEx2";

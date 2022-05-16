@@ -240,7 +240,7 @@
                         if(list1[i].certConfirmDate ==null){
                             output+='<td>'+'-'+'</td>';
                         } else {
-                        output+='<td>'+list1[i].certConfirmDate+'</td>';
+                        output+='<td>'+certConfirmDate2+'</td>';
                         }
                     // 등록일시
                         output+='<td>'+'등록자'+'</td>';//등록자
@@ -340,7 +340,7 @@
                             <label for="applyState">수료확정</label>
                             <select id="applyState" name="applyState" class="wd_140">
                                 <option value="">전체</option>
-                                <c:forEach var="applyState" items="${applyStateList}" varStatus="Status">
+                                <c:forEach var="applyState" items="${applyStateList}" varStatus="status">
                                     <option value="<c:out value="${applyState.code}"/>"
                                             <c:if test="${applyState.code eq search.applyState}">selected="selected"</c:if>>
                                         <c:out value="${applyState.codeName}"/></option>
