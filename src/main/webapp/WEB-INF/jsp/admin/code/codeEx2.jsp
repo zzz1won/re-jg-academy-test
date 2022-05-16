@@ -18,7 +18,7 @@
 </head>
 <script>
     $(function () {
-        alert("지원관리 입장");
+        //alert("지원관리 입장");
         // listTable
         var table = $('#listTable').DataTable({
             "pagingType": "full_numbers",
@@ -65,22 +65,32 @@
 
         $('#certbtn').click(function () {
             console.log("cert 😉");
-            alert("cert 😉");
+            //alert("cert 😉");
             $('#listTable').hide();
             $('#listTable4').show();
             $('#searchForm1').hide();
             $('#searchForm2').show();
+            $('.btn-wrap#cert-btn').show();
+            $('.btn-wrap#code-btn').hide();
             ajax2CertList();
         })
 
         $('#codebtn').click(function () {
             console.log("code 😉");
-            alert("code 😉");
+            //alert("code 😉");
             $('#listTable4').hide();
             $('#listTable').show();
             $('#searchForm1').show();
             $('#searchForm2').hide();
+            $('.btn-wrap#cert-btn').hide();
+            $('.btn-wrap#code-btn').show();
             ajax1CodeList();
+        })
+
+        $('#btn_search2').click(function() {
+            console.log("searchForm2 버튼 클릭");
+            console.log($('#year').val(), $('#applyState').val(), $('#eduTitle').val(), $('#judgeNo').val());
+            ajax2CertList();
         })
     })
 
@@ -96,7 +106,7 @@
             contentType: "application/json;charset=UTF-8",
             success: function (data) {
                 if (data.result != 0) {
-                    alert("ajax성공했음");
+                    //alert("ajax성공했음");
                     $('#listTable2').text(""); //공백으로 두기
                     var list = data.codeList;
                     var output = '';
@@ -142,8 +152,11 @@
 
     /* 수료 ajax */
     function ajax2CertList() {
-        var param = {"year":$('#year').val()};
-        alert('수료관리 페이지를 ajax로 불러오기');
+        //var param = {"year":$('#year').val()}; //기존
+
+        var param = {"year":$('#year').val(), "eduTitle":$('#eduTitle').val(),"applyState":$('#applyState').val(), "judgeNo":$('#judgeNo').val()};
+        //검색 활성화를 위해 변수:데이터 를 추가해주었더니 검색이 잘 된다 ^^
+        //alert('수료관리 페이지를 ajax로 불러오기');
         $.ajax({
             type: "post",
             url: "<c:out value="${pageContext.request.contextPath}/code/admin/codeEx3"/>",
@@ -189,7 +202,6 @@
                         } else {
                         output+='<td>'+applyDate2+'~'+certConfirmDate2+'</td>';
                         }
-                        //output+='<td>'+list1[i].acEduStartDate+'~'+list1[i].acEduEndDate+'</td>';
                         //수료기간
                     //state
                         if(state.match('02')){
@@ -211,12 +223,6 @@
                         }
                     //수료증 상황
                     //확정일시 출력
-                        /*var applyDate = new Date(list1[i].applyConfirmDate);
-                        var year = applyDate.getFullYear();
-                        var month = ('0'+(applyDate.getMonth()+1)).slice(-2);
-                        var day = ('0'+applyDate.getDate()).slice(-2);
-                        var applyDate2 = year+"/"+month+"/"+day;*/
-
                         //수료중-수료확정일 경우에만 날짜 출력
                         if(state.match('03')||state.match('05')) {
                             output += '<td>' + applyDate2 + '</td>';//확정일시
@@ -229,9 +235,6 @@
                         } else {
                             output+='<td>'+list1[i].certConfirmId+'</td>';//기존 확정자
                         }
-                        //output+='<td>'+'<if(list1[i].certConfirmId ==null)>{" "}' +'<else>{list1[i].certConfirmId}</else>'+'</td>';//확정자
-                        //output+='<td>'+'<if(list1[i].certConfirmId ==null)>{" "}' +'<else>{list1[i].certConfirmId}</else>'+'</td>';//확정자
-                        //output+='<td>'+list1[i].certConfirmId+'</td>';
                     // 기존 확정자
                     // 등록일시
                         if(list1[i].certConfirmDate ==null){
@@ -247,11 +250,15 @@
                 }
                 else {
                     console.log("data.result = 0");
+                    $('#listTable3').text('');
+                    $('#listTable3').append('<td class="dataTables_empty" colspan="13">해당 조건에 부합하는 수료과정이 없습니다</td>');
+                    alert("해당 조건에 부합하는 수료과정이 없습니다");
                 }
 
             },
             error: function () {
                 console.log("ajax ajax 아작 아작 😫");
+
             }
         })
         alert("ajax 요청 끝");
@@ -409,7 +416,16 @@
             </table>
             <%--수료관리--%>
         </div>
-        <br>
+        <%--<br>--%>
+        <div class="btn-wrap" id="cert-btn" style="display:none" align="right">
+            <button type="button" id="btn_cert" class="btn2 btn-blue">수료확정</button>
+            <button type="button" id="btn_cancel_cert" class="btn2 btn-blue">확정취소</button>
+            <button type="button" id="btn_no_cert" class="btn2 btn-gray">미수료</button>
+            <button type="button" id="btn_excel" class="btn2">엑셀 저장</button>
+        </div>
+        <div class="btn-wrap" id="code-btn" align="right">
+        ㅂㅈㄷㅂㅈㄷㅂㅈㄷ
+        </div>
         <div>
         </div>
     </div>
@@ -417,6 +433,23 @@
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp"/>
 </body>
 <script>
-
+$('#btn_cert').click(function(){
+    /* 체크한 값이 있는지 확인 후 있다면 체크, 없다면 값이 없다고 알림 */
+    if($("input[name=chk]:checked").length<1){
+        alert("체크한 값이 없음");
+        return false;
+    } else {
+        var applyNoArr = "";
+        $("input[name=chk]:checked").each(function () {
+            var applyNo = $(this).attr("id");
+            applyNo = applyNo.split("chk")[1];
+            applyNoArr += applyNo + ",";
+        });
+        applyNoArr = {
+            "state": "03,05",
+            "applyNo": applyNoArr
+        }
+    }
+})
 </script>
 </html>

@@ -290,9 +290,6 @@ public class CodeController {
         paramMap.put("codeList", codeList);
         applyStateList = commonService.selectCommonCode(paramMap);
         paramMap.put("applyStateList",applyStateList);
-        //model.addAttribute("applyStateList", applyStateList);
-        //model.addAttribute("search",search);
-
         return "admin/code/codeEx2";
     }
 
@@ -326,37 +323,6 @@ public class CodeController {
      * @throws: Exception
      * @param: model, request, searchVO
      */
-
-    //@RequestMapping("admin/codeEx000")
-    /*public String jCodeExPage(HttpServletRequest request, Model model, SearchVO search) throws Exception {
-        // System.out.println("controller.codeEx");
-        System.out.println("jCodeExPage 호출");
-        Map<String, Object> paramMap = new HashMap<>();
-        HttpSession session = request.getSession();
-        AdminVO adminInfo = (AdminVO) session.getAttribute("ADMIN");
-        model.addAttribute("adminInfo", adminInfo); //로그인정보 담는 용도
-
-        // 검색용 자료
-        paramMap.put("year", search.getYear());
-        paramMap.put("eduTitle", search.getEduTitle());
-        paramMap.put("applyState", search.getApplyState());
-        paramMap.put("judgeNo", search.getJudgeNo());
-        //------------------------------------
-        if (search.getYear() == null || "".equals(search.getYear())) {
-            search.setYear(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()));
-        } // 연도 설정
-
-        // 수료 확정 select option 값 추가
-        List<CodeVO> applyStateList = null;
-        String[] codeList = {Constants.APPLY_STATE_APPLY_COMP, Constants.APPLY_STATE_CERT_COMP, Constants.APPLY_STATE_CERT_NOT};
-        paramMap.put("groupCode", APPLY_STATE); //수료확정 내용을 띄워줍니다.(어떤 원리지)
-        paramMap.put("codeList", codeList);
-        applyStateList = commonService.selectCommonCode(paramMap);
-        model.addAttribute("applyStateList", applyStateList);
-        model.addAttribute("search",search);
-
-        return "admin/code/codeEx";
-    }*/
 
     @RequestMapping("admin/codeEx3")
     @ResponseBody
