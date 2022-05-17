@@ -19,6 +19,39 @@
 <script>
     $(function () {
 
+        var table = $('#listTable').DataTable();
+        table.destroy();
+        ajax1CodeList();
+        //$('#listTable').DataTable.destroy();
+
+        /*var table = $('#listTable').DataTable({
+            "pagingType": "full_numbers",   //페이징타입..
+            "searching": false, //검색
+            "lengthChange": false, //표시건수
+            "ordering": false,  //정렬기능
+            "info": false,  //정보표시
+/!*            "ajax":{
+
+            },*!/
+            "language": {
+                "emptyTable": "우측 상단 버튼을 눌러주세요.",
+                "paginate": {
+                    "first": "<<",
+                    "last": ">>",
+                    "next": ">",
+                    "previous": "<",
+                }
+            },
+            // 페이징처리
+            "fnDrawCallback": function () {
+                if (Math.ceil((this.fnSettings().fnRecordsDisplay()) / this.fnSettings()._iDisplayLength) > 1) {
+                    $('.dataTables_paginate').css("display", "block");
+                } else {
+                    $('.dataTables_paginate').css("display", "none");
+                    $('.table-wrap+.btn-wrap').css("bottom", "-25px");
+                }
+            }
+        });*/
 
         // 체크박스 모두 선택 "Select all" control
         $('#select-all').on('click', function () {
@@ -127,9 +160,11 @@
                         output += '</tr>';
 
                     }
-                    //$('#listTable2').append(output);
+                    $('#listTable2').append(output);
 
-                    $("#listTable2").dataTable().fnAddData(list);
+
+                    /*var dataTable = $('#listTable2').DataTable();
+                    dataTable.destroy();*/
 
                     /*console.log("data::", JSON.stringify(param)); 뭐야 왜 공백이지*/
                     /*console.log("data::", this.data); 뭐야 왜 공백이지*/
@@ -143,7 +178,11 @@
 
         })
 
-    }
+
+
+    };
+
+
 
     /* 수료 ajax */
     function ajax2CertList() {
@@ -391,7 +430,7 @@
             <%--코드관리--%>
 
             <%--수료관리--%>
-            <table id="listTable4" class="cell-border hover dataTable" width="100%" style="display: none">
+            <%--<table id="listTable4" class="cell-border hover dataTable" width="100%" style="display: none">
                 <thead>
                 <tr>
                     <th><input name="select_all" value="1" class="select-all" type="checkbox"/></th>
@@ -411,7 +450,7 @@
                 </thead>
                 <tbody id="listTable3">
                 </tbody>
-            </table>
+            </table>--%>
             <%--수료관리--%>
         </div>
         <%--<br>--%>
@@ -433,7 +472,7 @@
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp"/>
 
 <script>
-    $(document).ready(function() {
+    /*$(document).ready(function() {
         //alert("지원관리 입장");
         // listTable
         var table = $('#listTable').DataTable({
@@ -491,7 +530,7 @@
                 }
             }
         });
-    });
+    });*/
 </script>
 </body>
 <script>
