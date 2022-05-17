@@ -231,16 +231,16 @@
                 </table>
                 <!-- //table -->
             </div>
+        </div>
+        <!-- //table-wrap -->
             <!-- btn area-->
-            <div class="btn-wrap">
+            <div class="btn-wrap" align="right">
                 <button type="button" id="btn_register" class="btn2 btn-blue">신규코드 등록</button>
                 <button type="button" id="btn_change_code_state" class="btn2 btn-blue">코드상태변경</button>
                 <button type="button" id="btn_delete" class="btn2 btn-gray">삭제</button>
                 <button type="button" id="btn_deepDive" class="btn2 btn-gray">deep Dive</button>
             </div>
             <!-- //btn area -->
-        </div>
-        <!-- //table-wrap -->
     </div>
     <!-- //container -->
 
@@ -331,13 +331,13 @@
     $(document).ready(function () {
         // listTable
         var table = $('#listTable').DataTable({
-            // "scrollY": "370px",
+             //"scrollY": "370px",    //표단을 스크롤처리
             // "ordering": true,
-            "pagingType": "full_numbers",
-            "searching": false,
-            "lengthChange": false,
-            "ordering": false,
-            "info": false,
+            "pagingType": "full_numbers",   //페이징타입..
+            "searching": false, //검색
+            "lengthChange": false, //표시건수
+            "ordering": false,  //정렬기능
+            "info": false,  //정보표시
 
             "language": {
                 "emptyTable": "수강 신청 대상이 없습니다.",

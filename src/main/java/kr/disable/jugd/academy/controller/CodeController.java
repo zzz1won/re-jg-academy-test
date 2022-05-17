@@ -301,6 +301,8 @@ public class CodeController {
         String[] codeStateList = {Constants.CODE_USE_STATE,Constants.CODE_USE_STATE_N};
 
         try{
+            paramMap.put("searchChkValue",searchVO.getSearchChkValue()); //0517 add
+            paramMap.put("searchArea",searchVO.getSearchArea()); //0517 add
             //codeList = codeService.selectCommonCode(paramMap);
             codeList = codeService.selectCode(paramMap);
             paramMap.put("codeList",codeList);
