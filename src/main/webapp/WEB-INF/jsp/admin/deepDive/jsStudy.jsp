@@ -168,6 +168,10 @@
         $("#jsToJquery3_2").click(function(){
             jsToJqueryEx3_2();
         });
+
+        $("#0517_1").click(function(){
+            test1_0517();
+        })
     })
 
     //일반함수는 도큐레디 밖에 써주는걸로.
@@ -193,7 +197,17 @@
     function jsToJqueryEx3_2(){
         $("#jjImage").attr("src","https://www.w3schools.com/js/pic_bulboff.gif");
     }
+    function test1_0517() {
+        alert("뭐꼬");
+        window.alert("73*88"); //같은거?? you can skip the window keyword
+        document.write(6111*1812891352132/44);
+        window.print(); //브라우저에 메소드를 이용해 프린트 가능 ㅋㅋㅋ 개신기
+        let x = 16 + 4 + "Volvo";
+        console.log(x); //20Volvo
+        let y = "Volvo" + 16 + 4;
+        console.log(y); //Volvo164
 
+    };
 
 </script>
 <%--<script type="text/javascript">
@@ -475,6 +489,7 @@
         <input type="button" class="jj3btn" id="jsToJquery3_1" src="https://www.w3schools.com/js/pic_bulbon.gif" value="똑">
         <img id="jjImage" src="https://www.w3schools.com/js/pic_bulboff.gif" style="width:100px">
         <input type="button" class="jj3btn" id="jsToJquery3_2" src="https://www.w3schools.com/js/pic_bulboff.gif" value="딱">
+        <div class="0517test1"> <input type="button" value="😉띠용 window.alert() 띠용😀" id="0517_1"/> asd</div>
     </div>
 </div>
 

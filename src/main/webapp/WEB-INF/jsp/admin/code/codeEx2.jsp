@@ -19,8 +19,8 @@
 <script>
     $(function () {
 
-        var table = $('#listTable').DataTable();
-        table.destroy();
+//        var table = $('#listTable').DataTable();
+  //      table.destroy();
         ajax1CodeList();
         //$('#listTable').DataTable.destroy();
 
