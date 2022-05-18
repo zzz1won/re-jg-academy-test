@@ -293,6 +293,30 @@ public class CodeController {
         return "admin/code/codeEx2";
     }
 
+    /*@RequestMapping("admin/codeEx2")
+    @ResponseBody
+    public Map<String, Object> newCodeConfirmAjax (@RequestBody SearchVO searchVO) throws Exception {
+        Map<String,Object> paramMap = new HashMap<>();
+        List<CodeVO> codeList = null;
+        String[] codeStateList = {Constants.CODE_USE_STATE,Constants.CODE_USE_STATE_N};
+
+        try{
+            paramMap.put("searchChkValue",searchVO.getSearchChkValue()); //0517 add
+            paramMap.put("searchArea",searchVO.getSearchArea()); //0517 add
+            //codeList = codeService.selectCommonCode(paramMap);
+            codeList = codeService.selectCode(paramMap);
+            paramMap.put("codeList",codeList);
+            paramMap.put("codeStateList",codeStateList);
+        }
+        catch (Exception e){
+            logger.debug(e.getMessage());
+        }
+        paramMap.put("search",searchVO);
+        System.out.println("controller.ajax 요청");
+        return paramMap;
+    }*/
+
+    //0518 dataTable을 위한 값...
     @RequestMapping("admin/codeEx2")
     @ResponseBody
     public Map<String, Object> newCodeConfirmAjax (@RequestBody SearchVO searchVO) throws Exception {
@@ -312,6 +336,7 @@ public class CodeController {
             logger.debug(e.getMessage());
         }
         paramMap.put("search",searchVO);
+        paramMap.put("data",paramMap);
         System.out.println("controller.ajax 요청");
         return paramMap;
     }

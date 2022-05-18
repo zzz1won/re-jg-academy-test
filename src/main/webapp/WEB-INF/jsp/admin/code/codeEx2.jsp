@@ -19,9 +19,8 @@
 <script>
     $(function () {
 
-        //var table = $('#listTable').DataTable();
-        //table.destroy();
         //ajax1CodeList();
+        
         var param = {"searchChkValue":$("#searchChkValue").val(),"searchArea": $("#searchArea").val()};
         var table = $('#listTable').DataTable({
             "pagingType": "full_numbers",   //페이징타입..
@@ -34,14 +33,19 @@
                 type: "post",
                 url: "<c:out value='${pageContext.request.contextPath}/code/admin/codeEx2'/>",
                 dataType: "json",
-                //data: JSON.stringify(param)
+                data: JSON.stringify(param)
             },
             "columns" : [
                 {data:"commonCodeNo"},
                 {data:"commonCodeNo"},
                 {data:"codeName"},
+                {data:"code"},
                 {data:"displayOrder"},
                 {data:"groupCodeName"},
+                {data:"groupCode"},
+                {data:"regDate"},
+                {data:"etcInfo"},
+                {data:"useState"},
             ],
             "language": {
                 "emptyTable": "우측 상단 버튼을 눌러주세요.",
@@ -123,15 +127,11 @@
             $('.btn-wrap#code-btn').show();
             ajax1CodeList();
         });
-
-        /*        MathCeilTest();
-                MathFloorTest();
-                MathRoundTest();
-                fnTest();*/
     });
 
-    /* 코드 ajax */
-    /*function ajax1CodeList() {
+/*
+    /!* 코드 ajax *!/
+    function ajax1CodeList() {
         var param = {"searchChkValue":$("#searchChkValue").val(),"searchArea": $("#searchArea").val()}; //흑흑 뭘 어떻게 넣어야 data를 가져올 수 있는걸까... 어디서부터 잘못된건지 비교해보고, 찾기
 
         $.ajax({
@@ -173,11 +173,9 @@
                     $('#listTable2').append(output);
 
 
-                    /!*var dataTable = $('#listTable2').DataTable();
-                    dataTable.destroy();*!/
+                    //var dataTable = $('#listTable2').DataTable();
+                    //dataTable.destroy();
 
-                    /!*console.log("data::", JSON.stringify(param)); 뭐야 왜 공백이지*!/
-                    /!*console.log("data::", this.data); 뭐야 왜 공백이지*!/
                 } else {
                     alert("통신은 성공했는데...2");
                 }
@@ -185,16 +183,10 @@
             error: function () {
                 alert("ajax ajax 아작 아작 😫");
             }
-
         })
+    };
 
-
-
-    };*/
-
-
-
-    /* 수료 ajax */
+    /!* 수료 ajax *!/
     function ajax2CertList() {
         //var param = {"year":$('#year').val()}; //기존
 
@@ -311,6 +303,7 @@
         alert("ajax 요청 끝");
 
     }
+*/
 
 </script>
 <body>
@@ -434,8 +427,8 @@
                     <th>사용여부</th>
                 </tr>
                 </thead>
-                <tbody id="listTable2">
-                </tbody>
+                <%--<tbody id="listTable2"> //0518 tbody를 만들지말라고해서 주석처리 해봄
+                </tbody>--%>
             </table>
             <%--코드관리--%>
 
