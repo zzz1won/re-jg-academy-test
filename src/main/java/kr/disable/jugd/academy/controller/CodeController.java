@@ -1,5 +1,6 @@
 package kr.disable.jugd.academy.controller;
 
+import com.sun.tools.javac.jvm.Code;
 import kr.disable.jugd.academy.domain.*;
 import kr.disable.jugd.academy.service.*;
 import kr.disable.jugd.academy.utils.Constants;
@@ -390,6 +391,32 @@ public class CodeController {
         System.out.println("controller.codeEx3.ajax 요청2");
         return paramMap;
     }
+
+    //0520에 하세요... dataTable을 위한 controller
+    //ajax용 controller 에 쓰려니 안되니까 흑흑 ㅠㅠ
+    @RequestMapping("/테스트용이니까 꼭 바꾸기")
+    @ResponseBody
+    public Map<String,Object> dataTableCodeConfirm (SearchVO searchVO){
+        Map<String, Object> data = new HashMap<>();
+        List<CodeVO> codeList = null;
+        String[] codeStateList = {Constants.CODE_USE_STATE,Constants.CODE_USE_STATE_N};
+
+        try{
+            data.put("searchChkValue",searchVO.getSearchChkValue()); //0517 add
+            data.put("searchArea",searchVO.getSearchArea()); //0517 add
+            //codeList = codeService.selectCommonCode(paramMap);
+            codeList = codeService.selectCode(data);
+            data.put("codeList",codeList);
+            data.put("codeStateList",codeStateList);
+        }
+        catch (Exception e){
+            logger.debug(e.getMessage());
+        }
+        data.put("search",searchVO);
+        System.out.println("controller.ajax 요청");
+        return data;
+    }
+
 
 }
 

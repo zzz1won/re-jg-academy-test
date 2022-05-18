@@ -18,6 +18,7 @@
 </head>
 <script>
     $(function () {
+
         ajax1CodeList();
         $('#btn_search').click(function () {
             var param = {"searchArea": $('#searchArea').val()};
