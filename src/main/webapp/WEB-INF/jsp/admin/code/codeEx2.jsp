@@ -18,94 +18,7 @@
 </head>
 <script>
     $(function () {
-
         ajax1CodeList();
-        //$('#listTable').DataTable(); //0518-재시도-1. //얘가 살아나면 404가 하나 더 뜸 흠?
-
-        /*var table = $('#listTable').DataTable(); //0518-재시도-2
-        table.destroy(); //0518-재시도-3
-*/
-        //var param = {"searchChkValue":$("#searchChkValue").val(),"searchArea": $("#searchArea").val()};
-
-        /*$.ajax({
-            type: "post",
-            url: "<c:out value='${pageContext.request.contextPath}/code/admin/codeEx2'/>",
-            dataType: "json",
-            //data: JSON.stringify(param),
-            contentType: "application/json;charset=UTF-8",
-            success: function(data){
-                $('#listTable').dataTable({
-                    data: data,
-                    columns : [
-                        {data:"commonCodeNo"},
-                        {data:"commonCodeNo"},
-                        {data:"codeName"},
-                        {data:"code"},
-                        {data:"displayOrder"},
-                        {data:"groupCodeName"},
-                        {data:"groupCode"},
-                        {data:"regDate"},
-                        {data:"etcInfo"},
-                        {data:"useState"},
-                    ]
-                })
-            },
-            error: function () {
-                alert("ajax ajax 아작 아작 😫");
-            }
-        });*/
-
-        var param = {"searchChkValue":$("#searchChkValue").val(),"searchArea": $("#searchArea").val()};
-        $('#listTable').DataTable({
-            "pagingType": "full_numbers",   //페이징타입..
-            "searching": false, //검색
-            "lengthChange": false, //표시건수
-            "ordering": false,  //정렬기능
-            "info": false,  //정보표시
-            "language": {
-                "emptyTable": "우측 상단 버튼을 눌러주세요.",
-                "paginate": {
-                    "first": "<<",
-                    "last": ">>",
-                    "next": ">",
-                    "previous": "<"
-                }
-            },
-            // 페이징처리
-            "fnDrawCallback": function () {
-                if (Math.ceil((this.fnSettings().fnRecordsDisplay()) / this.fnSettings()._iDisplayLength) > 1) {
-                    $('.dataTables_paginate').css("display", "block");
-                } else {
-                    $('.dataTables_paginate').css("display", "none");
-                    $('.table-wrap+.btn-wrap').css("bottom", "-25px");
-                }
-            }
-        });
-
-        // 체크박스 모두 선택 "Select all" control
-        $('#select-all').on('click', function () {
-            // Check/uncheck all checkboxes in the table
-            var rows = table.rows({'search': 'applied'}).nodes();
-            $('input[type="checkbox"]', rows).prop('checked', this.checked);
-        });
-
-        // Handle click on checkbox to set state of "Select all" control
-        $('#listTable2').on('change', 'input[type="checkbox"]', function () {
-            // If checkbox is not checked
-            if (!this.checked) {
-                var el = $('#select-all').get(0);
-                // If "Select all" control is checked and has 'indeterminate' property
-                if (el && el.checked && ('indeterminate' in el)) {
-                    // Set visual state of "Select all" control
-                    // as 'indeterminate'
-                    el.indeterminate = true;
-                }
-            }
-        });
-
-
-        //ajax1CodeList();
-
         $('#btn_search').click(function () {
             var param = {"searchArea": $('#searchArea').val()};
             console.log("코드AJAX에서 searchForm 버튼 클릭");
@@ -145,7 +58,7 @@
     });
 
 
-    /!* 코드 ajax *!/
+    /* 코드 ajax */
     function ajax1CodeList() {
         var param = {"searchChkValue":$("#searchChkValue").val(),"searchArea": $("#searchArea").val()}; //흑흑 뭘 어떻게 넣어야 data를 가져올 수 있는걸까... 어디서부터 잘못된건지 비교해보고, 찾기
 
@@ -201,7 +114,7 @@
         })
     };
 
-    /!* 수료 ajax *!/
+    /* 수료 ajax */
     function ajax2CertList() {
         //var param = {"year":$('#year').val()}; //기존
 
@@ -448,7 +361,7 @@
             <%--코드관리--%>
 
             <%--수료관리--%>
-            <%--<table id="listTable4" class="cell-border hover dataTable" width="100%" style="display: none">
+            <table id="listTable4" class="cell-border hover dataTable" width="100%" style="display: none">
                 <thead>
                 <tr>
                     <th><input name="select_all" value="1" class="select-all" type="checkbox"/></th>
@@ -468,15 +381,14 @@
                 </thead>
                 <tbody id="listTable3">
                 </tbody>
-            </table>--%>
+            </table>
             <%--수료관리--%>
         </div>
         <%--<br>--%>
         <div class="btn-wrap" id="cert-btn" style="display:none" align="right">
-            <button type="button" id="btn_cert" class="btn2 btn-blue">수료확정</button>
-            <button type="button" id="btn_cancel_cert" class="btn2 btn-blue">확정취소</button>
-            <button type="button" id="btn_no_cert" class="btn2 btn-gray">미수료</button>
-            <button type="button" id="btn_excel" class="btn2">엑셀 저장</button>
+            <button type="button" id="btn_register" class="btn2 btn-blue">신규코드 등록</button>
+            <button type="button" id="btn_change_code_state" class="btn2 btn-blue">코드상태변경</button>
+            <button type="button" id="btn_delete" class="btn2 btn-gray">삭제</button>
         </div>
         <div class="btn-wrap" id="code-btn" align="right">
             <button type="button" id="btn_code" class="btn2 btn-blue">수료확정</button>
@@ -490,65 +402,7 @@
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp"/>
 
 <script>
-    /*$(document).ready(function() {
-        //alert("지원관리 입장");
-        // listTable
-        var table = $('#listTable').DataTable({
-            //"scrollY": "370px",    //표단을 스크롤처리
-            // "ordering": true,
-            "pagingType": "full_numbers",   //페이징타입..
-            "searching": false, //검색
-            "lengthChange": false, //표시건수
-            "ordering": false,  //정렬기능
-            "info": false,  //정보표시
 
-            "language": {
-                "emptyTable": "우측 상단 버튼을 눌러주세요.",
-                "paginate": {
-                    "first": "<<",
-                    "last": ">>",
-                    "next": ">",
-                    "previous": "<",
-                }
-            },
-            //정렬, 링크
-            "columnDefs": [
-                {className: "dt-body-left", "targets": [2]},
-                {className: "dt-body-right", "targets": [5, 6]},
-                {
-                    targets: [2],
-                    render: function (data, type, row, meta) {
-                        if (type === 'display') { //detail.jsp 열어야함.
-                            data = '<a href="javascript:fn_detailPage(' + row[10] + ');">' + data + '</a>';
-                        }
-                        return data;
-                    }
-                },
-                {
-                    targets: [0],
-                    orderable: false,
-                    searchable: false,
-                    className: 'dt-body-center',
-                },
-                {
-                    targets: [10],
-                    visible: false
-                }
-            ],
-            order: [1, 'asc'],
-
-
-            // 페이징처리
-            "fnDrawCallback": function () {
-                if (Math.ceil((this.fnSettings().fnRecordsDisplay()) / this.fnSettings()._iDisplayLength) > 1) {
-                    $('.dataTables_paginate').css("display", "block");
-                } else {
-                    $('.dataTables_paginate').css("display", "none");
-                    $('.table-wrap+.btn-wrap').css("bottom", "-25px");
-                }
-            }
-        });
-    });*/
 </script>
 </body>
 <script>
@@ -570,6 +424,21 @@
             }
         }
     })
+
+    <%-- 코드상태변경 관련 --%>
+
+    <%-- 코드상태변경 관련 --%>
+
+
+
+    //체크박스 모두 선택
+    //체크박스 관련2
+
+
+
+
+
+
     /*function MathCeilTest() { //Math.ceil Test
         const ceilTest1 = Math.ceil(1);
         console.log("Math.ceil(1)",ceilTest1);
@@ -632,6 +501,5 @@
         const precision22 = 3.25.toPrecision(5);
         console.log("3.25.toPrecision(5): ",precision22);
     }*/
-
 </script>
 </html>
