@@ -20,9 +20,43 @@
     $(function () {
 
         //ajax1CodeList();
-        
+        $('#listTable').DataTable(); //0518-재시도-1.
+
+        var table = $('#listTable').DataTable(); //0518-재시도-2
+        table.destroy(); //0518-재시도-3
+
         var param = {"searchChkValue":$("#searchChkValue").val(),"searchArea": $("#searchArea").val()};
-        var table = $('#listTable').DataTable({
+
+        $.ajax({
+            type: "post",
+            url: "<c:out value='${pageContext.request.contextPath}/code/admin/codeEx2'/>",
+            dataType: "json",
+            data: JSON.stringify(param),
+            contentType: "application/json;charset=UTF-8",
+            success: function(data){
+                $('#listTable').dataTable({
+                    data: data,
+                    columns : [
+                        {data:"commonCodeNo"},
+                        {data:"commonCodeNo"},
+                        {data:"codeName"},
+                        {data:"code"},
+                        {data:"displayOrder"},
+                        {data:"groupCodeName"},
+                        {data:"groupCode"},
+                        {data:"regDate"},
+                        {data:"etcInfo"},
+                        {data:"useState"},
+                    ]
+                })
+            },
+            error: function () {
+                alert("ajax ajax 아작 아작 😫");
+            }
+        });
+
+
+        /*var table = $('#listTable').DataTable({
             "pagingType": "full_numbers",   //페이징타입..
             "searching": false, //검색
             "lengthChange": false, //표시건수
@@ -65,7 +99,7 @@
                     $('.table-wrap+.btn-wrap').css("bottom", "-25px");
                 }
             }
-        });
+        });*/
 
         // 체크박스 모두 선택 "Select all" control
         $('#select-all').on('click', function () {
