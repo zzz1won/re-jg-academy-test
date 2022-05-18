@@ -336,7 +336,7 @@ public class CodeController {
             logger.debug(e.getMessage());
         }
         paramMap.put("search",searchVO);
-        paramMap.put("data",paramMap);
+        //paramMap.put("data",paramMap);//dataTable을 위해 넣은건데 ㅜㅜ
         System.out.println("controller.ajax 요청");
         return paramMap;
     }

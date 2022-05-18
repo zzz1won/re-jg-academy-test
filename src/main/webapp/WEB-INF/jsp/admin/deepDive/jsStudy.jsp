@@ -216,6 +216,7 @@
     alert(person.name + "은 무려" + person.height + "cm");
 
 
+
 </script>
 <%--<script type="text/javascript">
 
