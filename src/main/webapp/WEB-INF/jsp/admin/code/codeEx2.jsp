@@ -19,20 +19,30 @@
 <script>
     $(function () {
 
-//        var table = $('#listTable').DataTable();
-  //      table.destroy();
-        ajax1CodeList();
-        //$('#listTable').DataTable.destroy();
-
-        /*var table = $('#listTable').DataTable({
+        //var table = $('#listTable').DataTable();
+        //table.destroy();
+        //ajax1CodeList();
+        var param = {"searchChkValue":$("#searchChkValue").val(),"searchArea": $("#searchArea").val()};
+        var table = $('#listTable').DataTable({
             "pagingType": "full_numbers",   //페이징타입..
             "searching": false, //검색
             "lengthChange": false, //표시건수
             "ordering": false,  //정렬기능
             "info": false,  //정보표시
-/!*            "ajax":{
 
-            },*!/
+            "ajax":{
+                type: "post",
+                url: "<c:out value='${pageContext.request.contextPath}/code/admin/codeEx2'/>",
+                dataType: "json",
+                //data: JSON.stringify(param)
+            },
+            "columns" : [
+                {data:"commonCodeNo"},
+                {data:"commonCodeNo"},
+                {data:"codeName"},
+                {data:"displayOrder"},
+                {data:"groupCodeName"},
+            ],
             "language": {
                 "emptyTable": "우측 상단 버튼을 눌러주세요.",
                 "paginate": {
@@ -51,7 +61,7 @@
                     $('.table-wrap+.btn-wrap').css("bottom", "-25px");
                 }
             }
-        });*/
+        });
 
         // 체크박스 모두 선택 "Select all" control
         $('#select-all').on('click', function () {
@@ -121,7 +131,7 @@
     });
 
     /* 코드 ajax */
-    function ajax1CodeList() {
+    /*function ajax1CodeList() {
         var param = {"searchChkValue":$("#searchChkValue").val(),"searchArea": $("#searchArea").val()}; //흑흑 뭘 어떻게 넣어야 data를 가져올 수 있는걸까... 어디서부터 잘못된건지 비교해보고, 찾기
 
         $.ajax({
@@ -163,11 +173,11 @@
                     $('#listTable2').append(output);
 
 
-                    /*var dataTable = $('#listTable2').DataTable();
-                    dataTable.destroy();*/
+                    /!*var dataTable = $('#listTable2').DataTable();
+                    dataTable.destroy();*!/
 
-                    /*console.log("data::", JSON.stringify(param)); 뭐야 왜 공백이지*/
-                    /*console.log("data::", this.data); 뭐야 왜 공백이지*/
+                    /!*console.log("data::", JSON.stringify(param)); 뭐야 왜 공백이지*!/
+                    /!*console.log("data::", this.data); 뭐야 왜 공백이지*!/
                 } else {
                     alert("통신은 성공했는데...2");
                 }
@@ -180,7 +190,7 @@
 
 
 
-    };
+    };*/
 
 
 

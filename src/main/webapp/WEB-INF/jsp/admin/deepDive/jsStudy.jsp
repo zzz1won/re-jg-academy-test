@@ -208,6 +208,13 @@
         console.log(y); //Volvo164
 
     };
+    // 0518 그냥 바로 출력된다.
+    const person = {
+        name: "지원짱",
+        height : 180
+    };
+    alert(person.name + "은 무려" + person.height + "cm");
+
 
 </script>
 <%--<script type="text/javascript">
