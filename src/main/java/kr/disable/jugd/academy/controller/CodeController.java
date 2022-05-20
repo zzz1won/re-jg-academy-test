@@ -294,7 +294,7 @@ public class CodeController {
         return "admin/code/codeEx2";
     }
 
-    /*@RequestMapping("admin/codeEx2")
+    @RequestMapping("admin/codeEx2")
     @ResponseBody
     public Map<String, Object> newCodeConfirmAjax (@RequestBody SearchVO searchVO) throws Exception {
         Map<String,Object> paramMap = new HashMap<>();
@@ -315,10 +315,10 @@ public class CodeController {
         paramMap.put("search",searchVO);
         System.out.println("controller.ajax 요청");
         return paramMap;
-    }*/
+    }
 
     //0518 dataTable을 위한 값...
-    @RequestMapping("admin/codeEx2")
+    /*@RequestMapping("admin/codeEx2")
     @ResponseBody
     public Map<String, Object> newCodeConfirmAjax (@RequestBody SearchVO searchVO) throws Exception {
         Map<String,Object> paramMap = new HashMap<>();
@@ -340,7 +340,7 @@ public class CodeController {
         //paramMap.put("data",paramMap);//dataTable을 위해 넣은건데 ㅜㅜ
         System.out.println("controller.ajax 요청");
         return paramMap;
-    }
+    }*/
 
 
     /**
@@ -394,7 +394,7 @@ public class CodeController {
 
     //0520에 하세요... dataTable을 위한 controller
     //ajax용 controller 에 쓰려니 안되니까 흑흑 ㅠㅠ
-    @RequestMapping("/테스트용이니까 꼭 바꾸기")
+    /*@RequestMapping("/테스트용이니까 꼭 바꾸기")
     @ResponseBody
     public Map<String,Object> dataTableCodeConfirm (SearchVO searchVO){
         Map<String, Object> data = new HashMap<>();
@@ -415,7 +415,7 @@ public class CodeController {
         data.put("search",searchVO);
         System.out.println("controller.ajax 요청");
         return data;
-    }
+    }*/
 
 
 }
