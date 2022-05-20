@@ -157,21 +157,31 @@
             jsToJqueryEx1();
         })
 
-        $("#jsToJquery2").click(function(){
+        $("#jsToJquery2").click(function () {
             jsToJqueryEx2();
         });
 
-        $("#jsToJquery3_1").click(function(){
+        $("#jsToJquery3_1").click(function () {
             jsToJqueryEx3_1();
         });
 
-        $("#jsToJquery3_2").click(function(){
+        $("#jsToJquery3_2").click(function () {
             jsToJqueryEx3_2();
         });
 
-        $("#0517_1").click(function(){
+        $("#0517_1").click(function () {
             test1_0517();
         })
+
+        $('#0520_2').click(function(){
+            console.log('replaceBtn1 누름');
+            padStartTest();
+            //myFunction();
+            //$('#replace1').replaceWith('<p>폴댄스는 멍멍쟁이가 된다.</p>');
+            //$('#replace1').replaceWith($('#replace2').show());
+            //$('#replace1').replaceAll('p');
+        })
+
     })
 
     //일반함수는 도큐레디 밖에 써주는걸로.
@@ -191,16 +201,18 @@
     };
 
     //이미지 다루기는 attr()로
-    function jsToJqueryEx3_1(){
-        $("#jjImage").attr("src","https://www.w3schools.com/js/pic_bulbon.gif");
+    function jsToJqueryEx3_1() {
+        $("#jjImage").attr("src", "https://www.w3schools.com/js/pic_bulbon.gif");
     }
-    function jsToJqueryEx3_2(){
-        $("#jjImage").attr("src","https://www.w3schools.com/js/pic_bulboff.gif");
+
+    function jsToJqueryEx3_2() {
+        $("#jjImage").attr("src", "https://www.w3schools.com/js/pic_bulboff.gif");
     }
+
     function test1_0517() {
         alert("뭐꼬");
         window.alert("73*88"); //같은거?? you can skip the window keyword
-        document.write(6111*1812891352132/44);
+        document.write(6111 * 1812891352132 / 44);
         window.print(); //브라우저에 메소드를 이용해 프린트 가능 ㅋㅋㅋ 개신기
         let x = 16 + 4 + "Volvo";
         console.log(x); //20Volvo
@@ -211,12 +223,52 @@
     // 0518 그냥 바로 출력된다.
     const person = {
         name: "지원짱",
-        height : 180
+        height: 180
     };
     alert(person.name + "은 무려" + person.height + "cm");
 
+    //220520 얌디저트 라는 단어를 핸드크림으로 바꿔보기
+    /*function myFunction0(){
+        let text = $('#replace1').innerHTML;
+        $('#replace1').text = text.replace("얌 디저트","핸드크림");
+         //이렇게 쓰는게 아니었나보다.
+    }*/
+
+    /*var re = $('#replace1');
+    re = re.replace("얌 디저트", "핸드크림");
+    console.log(re);
+    var re = '내가 쓰는 얌 디저트';
+    re = re.replace("얌 디저트", "핸드크림");
+    console.log(re);*/
+
+    //selector를 사용하면 안되나보다. 전부 문자열로 하시네... replaceAll예제 나왔다.
 
 
+    var re = "가나다라 마바사"
+    re = re.replace("다", "크"); // 이렇게 선언하면 "다"라는 문자를 "크"라는 문자로 변경 해줍니다.
+    console.log(re);
+
+    function myFunction(){
+        let text = document.getElementById("replace1").innerHTML;
+        document.getElementById('replace1').innerHTML = text.replace('얌 디저트','핸드크림');
+    }
+
+    let Text1 = "         과일나라        ";
+    let Text2 = '얌 디저트';
+    let Text3 = '핸드크림         ';
+    let Text4 = Text1.concat(" "+Text2 +" "+Text3);
+    console.log(Text4);
+
+    let Text5 = Text1.trim().concat(" "+Text2 +" ")+Text3.trim();
+    console.log(Text5);
+    console.log("Text5.length:",Text5.length);
+
+    function padStartTest (){
+    let Text6 = '사쿠라';
+    console.log(Text6);
+    document.getElementById('padded1').innerHTML = Text6.padStart(8,"꾸라");
+    //$('#padded1').innerHTML = Text6.padStart(8,"장꾸");
+    }
 </script>
 <%--<script type="text/javascript">
 
@@ -494,10 +546,19 @@
         <p id="jToj2"> 클릭버튼을 누르면 안돼! </p>
     </div>
     <div class="jj3">
-        <input type="button" class="jj3btn" id="jsToJquery3_1" src="https://www.w3schools.com/js/pic_bulbon.gif" value="똑">
+        <input type="button" class="jj3btn" id="jsToJquery3_1" src="https://www.w3schools.com/js/pic_bulbon.gif"
+               value="똑">
         <img id="jjImage" src="https://www.w3schools.com/js/pic_bulboff.gif" style="width:100px">
-        <input type="button" class="jj3btn" id="jsToJquery3_2" src="https://www.w3schools.com/js/pic_bulboff.gif" value="딱">
-        <div class="0517test1"> <input type="button" value="😉띠용 window.alert() 띠용😀" id="0517_1"/> asd</div>
+        <input type="button" class="jj3btn" id="jsToJquery3_2" src="https://www.w3schools.com/js/pic_bulboff.gif"
+               value="딱">
+        <div class="0517test1"><input type="button" value="😉띠용 window.alert() 띠용😀" id="0517_1"/> asd</div>
+        <div calss="0520test1"><input type="button" value="replace!" id="0520_2"/>
+            <p id="replace1">내가 쓰는 얌 디저트</p></div>
+        <p id="replace2" style="display: none"> 어유 왼쪽분들 정말... 친하구나... </p>
+        <p id="replace3"> 뚜두뚜두뚜두 </p>
+        <p id="ㅋㅋ"> 줄리엣 호우 </p>
+        <p id="ㅎㅎ"> 후루뚜루뚜 </p>
+        <p id="padded1"></p>
     </div>
 </div>
 
