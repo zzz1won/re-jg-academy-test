@@ -176,6 +176,7 @@
         $('#0520_2').click(function(){
             console.log('replaceBtn1 누름');
             padStartTest();
+            split1();
             //myFunction();
             //$('#replace1').replaceWith('<p>폴댄스는 멍멍쟁이가 된다.</p>');
             //$('#replace1').replaceWith($('#replace2').show());
@@ -268,6 +269,21 @@
     console.log(Text6);
     document.getElementById('padded1').innerHTML = Text6.padStart(8,"꾸라");
     //$('#padded1').innerHTML = Text6.padStart(8,"장꾸");
+    }
+
+    //220520 2 점심먹고 ^^
+    function split1(){
+    let text = '보라매아카데미타워 4층';
+    const testArray = text.split("");
+
+    text = "";
+    for(let i=0; i<testArray.length; i++){
+        text+= testArray[i] + "\t"
+    }
+    console.log(text);
+    alert(text);
+
+    $('#splitsTest').append(text);
     }
 </script>
 <%--<script type="text/javascript">
@@ -556,13 +572,14 @@
             <p id="replace1">내가 쓰는 얌 디저트</p></div>
         <p id="replace2" style="display: none"> 어유 왼쪽분들 정말... 친하구나... </p>
         <p id="replace3"> 뚜두뚜두뚜두 </p>
-        <p id="ㅋㅋ"> 줄리엣 호우 </p>
-        <p id="ㅎㅎ"> 후루뚜루뚜 </p>
+        <p id="575"> 줄리엣 호우 </p>
+        <p id="576"> 후루뚜루뚜 </p>
         <p id="padded1"></p>
+        <p id="splitsTest"></p>
     </div>
 </div>
 
-
+string.includes(searchvalue, start)
 <%--<div id = "tagArea">
 <input type="button" value="ㅎㅎㅎ" onclick="createH()">
 <input type="button" value="ㅋㅋㅋ" onclick="createK()">
