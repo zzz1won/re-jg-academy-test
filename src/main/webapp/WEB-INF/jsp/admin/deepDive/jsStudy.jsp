@@ -179,6 +179,7 @@
             split1();
             $('#substitute').text(may23Test);
             $('#htmlTemplate').text(html);
+            infTest();
             //console.log(html);
             //document.getElementById('htmlTemplate').innerHTML = html;
             //myFunction();
@@ -338,8 +339,66 @@
     console.log(typeof x4);
 
     //infinity
-    
+    function infTest(){
+    var inf = 2;
+    var txt = "";
+    while (inf != Infinity) {
+        inf = inf * inf;
+        txt = txt + inf + "<br>";
+    }
+    $('#infinity').append(txt);
+    }
 
+    //기본적으로 10진법을 사용하지만 다른 진법으로 사용도 가능하다.
+    var num1 = 32;
+    console.log("32진법",num1.toString(32));
+    console.log("16진법",num1.toString(16));
+    console.log("12진법",num1.toString(12));
+    console.log("10진법",num1.toString(10));
+    console.log("8진법",num1.toString(8));
+    console.log("2진법",num1.toString(2));
+
+    //number object
+    var nm = 123;
+    var ob = new Number(123);
+    console.log(typeof nm); //number
+    console.log(typeof ob); //object
+
+    //number methods
+    var no1 = 777;
+    console.log("no1.toString(): ", no1.toString()+"<br>");
+    console.log("(8405).toString(): ", ((8405).toString())+"<br>");
+    console.log("(732+11).toString(): ", ((732+11).toString()));
+
+    var no2 = 7.3881;
+    console.log("no2.toExponential(2):", no2.toExponential(2));
+    console.log("no2.toExponential(4):", no2.toExponential(4));
+    console.log("no2.toExponential(6):", no2.toExponential(6));
+    console.log("no2.toExponential():", no2.toExponential());
+
+    var no3 = 9.2745;
+    console.log("no3.toFixed(0): ",no3.toFixed(0));
+    console.log("no3.toFixed(2): ",no3.toFixed(2));
+    console.log("no3.toFixed(4): ",no3.toFixed(4));
+    console.log("no3.toFixed(6): ",no3.toFixed(6));
+
+    var no4 = 4.85122;
+    console.log("no4.toPrecision(): ", no4.toPrecision());
+    console.log("no4.toFixed(0): ",no4.toFixed(0));
+    console.log("no4.toPrecision(2): ", no4.toPrecision(2));
+    console.log("no4.toFixed(2): ",no4.toFixed(2));
+    console.log("no4.toPrecision(4): ", no4.toPrecision(4));
+    console.log("no4.toFixed(4): ",no4.toFixed(4));
+    console.log("no4.toPrecision(6): ", no4.toPrecision(6));
+    console.log("no4.toFixed(6): ",no4.toFixed(6));
+
+    (4300 + 23).valueOf(); //4323
+
+    console.log("parseFloat('32'): ", parseFloat("32"))+"\n";
+    console.log("parseFloat('32.888'): ", parseFloat("32.888"))+"\n";
+    console.log("parseFloat('32 8'): ", parseFloat("32 8"))+"\n";
+    console.log("parseFloat('32 hi'): ", parseFloat("32 hi"))+"\n";
+    console.log("parseFloat('hi 32'): ", parseFloat("hi 32"))+"\n";
 
 
 </script>
