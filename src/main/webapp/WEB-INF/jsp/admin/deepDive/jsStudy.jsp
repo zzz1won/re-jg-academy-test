@@ -323,8 +323,22 @@
     console.log("z result: "+z);
     console.log("x+y result: "+x+y);
 
+    //NaN
+    let x2 = 100 / "hello";
+    console.log(x2);
+    var x3 = 100 / "25";
+    console.log(x3);
+    console.log("x2 isNaN: ",(isNaN(x2)));
+    console.log("x3 isNaN: ",isNaN(x3));
+    x4 = NaN;
+    x5 = "8";
+    x6 = 8;
+    console.log("x4+x5:", x4+x5);
+    console.log("x4+x6:", x4+x6);
+    console.log(typeof x4);
 
-
+    //infinity
+    
 
 
 
@@ -624,6 +638,9 @@
         <div class="stringTemplate">
             <p id="substitute"> ㅎㅎ </p>
             <p id="htmlTemplate"> </p>
+            <p id="infinity"> Infinity is returned if you calculate a number outside the largest possible number:
+
+            </p>
         </div>
     </div>
 </div>
