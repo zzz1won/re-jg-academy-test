@@ -18,48 +18,7 @@
 </head>
 <script>
     $(function () {
-
-        //dataTable site example
-        /*var t = $('#example1').dataTable();
-        var counter = 1;
-
-        $('#addRow').on('click', function () {
-            t.row.add([counter + '.1', counter + '.2', counter + '.3', counter + '.4', counter + '.5']).draw(false);
-            counter++;
-        })
-        // Automatically add a first row of data
-        $('#addRow').click();*/
-
-        var t = $('#listTable').DataTable({
-            "pagingType": "full_numbers",   //페이징타입..
-            "searching": false, //검색
-            "lengthChange": false, //표시건수
-            "ordering": false,  //정렬기능
-            "info": false,  //정보표시
-
-            "language": {
-                "emptyTable": "수강 신청 대상이 없습니다.",
-                "paginate": {
-                    "first": "<<",
-                    "last": ">>",
-                    "next": ">",
-                    "previous": "<",
-                }
-            },
-
-            // 페이징처리
-            "fnDrawCallback": function () {
-                if (Math.ceil((this.fnSettings().fnRecordsDisplay()) / this.fnSettings()._iDisplayLength) > 1) {
-                    $('.dataTables_paginate').css("display", "block");
-                } else {
-                    $('.dataTables_paginate').css("display", "none");
-                    $('.table-wrap+.btn-wrap').css("bottom", "-25px");
-                }
-            }
-        });
-
-
-        //ajax1CodeList();
+        ajax2CertList(); //call function show all codeList
 
         $('#btn_search').click(function () {
             var param = {"searchArea": $('#searchArea').val()};
@@ -139,12 +98,10 @@
                         output += '<td>' + list[i].useState + '</td>';
                         output += '</tr>';
 
-                    }
                     $('#listTable2').append(output);
-                    var testA = $('#listTable2').dataTable().fnAddData();
-                    testA.destroy();
-                    //var dataTable = $('#listTable2').DataTable();
-                    //dataTable.destroy();
+                    //$('#listTable tbody').append(output); 로도 작동한다.
+                    }
+                    $('#listTable').dataTable();
 
                 } else {
                     alert("통신은 성공했는데...2");
@@ -397,9 +354,7 @@
                     <th>사용여부</th>
                 </tr>
                 </thead>
-                <tbody id="listTable2">
-                </tbody>
-                <%--//0518 tbody를 만들지말라고해서 주석처리 해봄--%>
+                <tbody id="listTable2"> </tbody>
             </table>
             <%--코드관리--%>
 

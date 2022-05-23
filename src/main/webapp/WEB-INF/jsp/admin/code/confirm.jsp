@@ -349,32 +349,6 @@
                 }
             },
 
-            //정렬, 링크
-            "columnDefs": [
-                {className: "dt-body-left", "targets": [2]},
-                {className: "dt-body-right", "targets": [5, 6]},
-                {
-                    targets: [2],
-                    render: function (data, type, row, meta) {
-                        if (type === 'display') { //detail.jsp 열어야함.
-                            data = '<a href="javascript:fn_detailPage(' + row[10] + ');">' + data + '</a>';
-                        }
-                        return data;
-                    }
-                },
-                {
-                    targets: [0],
-                    orderable: false,
-                    searchable: false,
-                    className: 'dt-body-center',
-                },
-                {
-                    targets: [10],
-                    visible: false
-                }
-            ],
-            order: [1, 'asc'],
-
             // 페이징처리
             "fnDrawCallback": function () {
                 if (Math.ceil((this.fnSettings().fnRecordsDisplay()) / this.fnSettings()._iDisplayLength) > 1) {

@@ -328,7 +328,6 @@ public class CodeController {
         try{
             paramMap.put("searchChkValue",searchVO.getSearchChkValue()); //0517 add
             paramMap.put("searchArea",searchVO.getSearchArea()); //0517 add
-            //codeList = codeService.selectCommonCode(paramMap);
             codeList = codeService.selectCode(paramMap);
             paramMap.put("codeList",codeList);
             paramMap.put("codeStateList",codeStateList);
@@ -337,7 +336,7 @@ public class CodeController {
             logger.debug(e.getMessage());
         }
         paramMap.put("search",searchVO);
-        //paramMap.put("data",paramMap);//dataTable을 위해 넣은건데 ㅜㅜ
+        paramMap.put("data",paramMap);//dataTable을 위해 넣은건데 ㅜㅜ
         System.out.println("controller.ajax 요청");
         return paramMap;
     }*/
