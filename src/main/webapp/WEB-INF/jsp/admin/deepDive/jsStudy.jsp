@@ -180,6 +180,7 @@
             $('#substitute').text(may23Test);
             $('#htmlTemplate').text(html);
             infTest();
+            arrPer();
             //console.log(html);
             //document.getElementById('htmlTemplate').innerHTML = html;
             //myFunction();
@@ -399,6 +400,62 @@
     console.log("parseFloat('32 8'): ", parseFloat("32 8"))+"\n";
     console.log("parseFloat('32 hi'): ", parseFloat("32 hi"))+"\n";
     console.log("parseFloat('hi 32'): ", parseFloat("hi 32"))+"\n";
+
+    //220523 오후공부 js Array
+    var vvg = ["Eunha","Sinbi","Eomji"];
+    console.log(vvg);
+    var bvg = [];
+    bvg[0]="메보";
+    bvg[1]="꼬북";
+    bvg[2]="왕눈";
+    bvg[3]="단발";
+    //alert(bvg); //alert : 메보,꼬북,왕눈,단발
+    //alert(bvg[3]); //alert : 단발
+    console.log(bvg);
+    console.log(bvg[2]);
+    bvg[1]="유정";
+    console.log(bvg); // 메보,유정,왕눈,단발
+    console.log(typeof bvg); //object
+    var rvt=["아이린","슬기","웬디",'조이','예리',5];
+    console.log(rvt[5]);
+    var gg={메보:"태연",메댄:"효연",센터:"윤아",개그:"수영"};
+    console.log(gg.개그);
+    const fruits = ["banana","apple","grape","waterMelon"];
+    //let fruit = fruits[3];
+    //console.log(fruit);
+    let fruit = fruits[fruits.length-1];
+    console.log(fruit);
+
+    let fLen = fruits.length;
+    let text = '\n';
+    for (let i=0; i<fLen; i++){
+        text+= fruits[i]+'\n';
+    }
+    console.log("text: ",text);
+    //이걸 forEach처럼 사용 할 수 있다.
+
+    let text1 ='<ul>';
+    fruits.forEach(myFunction1);
+    text1 += '</ul>';
+    $('#arrFruits').text=text1;
+
+    function myFunction1(value){
+      text1 += '<li>'+value+'</li>';
+    };
+
+    fruits[6] = "lemon";
+    console.log(fruits);
+
+    function arrPer() {
+        const person = [];
+        person[0] = "jane";
+        person[1] = 'Cat';
+        person[2] = '331';
+
+        $('#arrPerson').text(person[0] + " "+ person.length);
+    }
+
+
 
 
 </script>
@@ -698,7 +755,8 @@
             <p id="substitute"> ㅎㅎ </p>
             <p id="htmlTemplate"> </p>
             <p id="infinity"> Infinity is returned if you calculate a number outside the largest possible number:
-
+            <p id="arrFruits">과일배열</p>
+            <p id="arrPerson">사람배열</p>
             </p>
         </div>
     </div>

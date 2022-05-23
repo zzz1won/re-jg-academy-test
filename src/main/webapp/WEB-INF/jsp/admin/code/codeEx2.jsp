@@ -242,6 +242,7 @@
         "lengthChange": false,
         "ordering": false,
         "info": false,
+        "destroy": true,
 
         "language": {
             "emptyTable": "수강 신청 대상이 없습니다.",
