@@ -177,6 +177,7 @@
             console.log('replaceBtn1 누름');
             padStartTest();
             split1();
+            $('#substitute').text(may23Test);
             //myFunction();
             //$('#replace1').replaceWith('<p>폴댄스는 멍멍쟁이가 된다.</p>');
             //$('#replace1').replaceWith($('#replace2').show());
@@ -285,6 +286,16 @@
 
     $('#splitsTest').append(text);
     }
+
+    //220523 아침공부
+    let may23 = "오늘은 5/23";
+    let hello1 = "안녕하세'뇨리따";
+
+    let may23Test = `하이루 $(may23), $(hello1)`;
+    console.log(may23Test);
+    //안되는데? console에 찍으면 안되나보군...
+    //???? 안되는데???
+
 </script>
 <%--<script type="text/javascript">
 
@@ -577,9 +588,14 @@
         <p id="padded1"></p>
         <p id="splitsTest"></p>
     </div>
+    <div class="may23">
+        <div class="stringTemplate">
+            <p id="substitute"> ㅎㅎ </p>
+        </div>
+    </div>
 </div>
 
-string.includes(searchvalue, start)
+
 <%--<div id = "tagArea">
 <input type="button" value="ㅎㅎㅎ" onclick="createH()">
 <input type="button" value="ㅋㅋㅋ" onclick="createK()">
