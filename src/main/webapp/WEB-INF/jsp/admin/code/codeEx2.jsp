@@ -98,10 +98,11 @@
                         output += '<td>' + list[i].useState + '</td>';
                         output += '</tr>';
 
-                    $('#listTable2').append(output);
-                    //$('#listTable tbody').append(output); 로도 작동한다.
                     }
-                    $('#listTable').dataTable();
+                    //$('#listTable2').append(output);
+                    $('#listTable2').append(output); //로도 작동한다.
+                    Datatttable();
+                    //$('#listTable').DataTable();
 
                 } else {
                     alert("통신은 성공했는데...2");
@@ -229,6 +230,38 @@
         })
         alert("ajax 요청 끝");
 
+    }
+
+
+
+    /* 데이터테이블 내용 수정 */
+    function Datatttable(){
+    $('#listTable').DataTable({
+        "pagingType": "full_numbers",
+        "searching": false,
+        "lengthChange": false,
+        "ordering": false,
+        "info": false,
+
+        "language": {
+            "emptyTable": "수강 신청 대상이 없습니다.",
+            "paginate": {
+                "first": "<<",
+                "last": ">>",
+                "next": ">",
+                "previous": "<",
+            }
+        },
+        // 페이징처리
+        "fnDrawCallback": function () {
+            if (Math.ceil((this.fnSettings().fnRecordsDisplay()) / this.fnSettings()._iDisplayLength) > 1) {
+                $('.dataTables_paginate').css("display", "block");
+            } else {
+                $('.dataTables_paginate').css("display", "none");
+                $('.table-wrap+.btn-wrap').css("bottom", "-25px");
+            }
+        }
+    });
     }
 
 
