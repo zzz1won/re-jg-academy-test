@@ -178,6 +178,9 @@
             padStartTest();
             split1();
             $('#substitute').text(may23Test);
+            $('#htmlTemplate').text(html);
+            //console.log(html);
+            //document.getElementById('htmlTemplate').innerHTML = html;
             //myFunction();
             //$('#replace1').replaceWith('<p>폴댄스는 멍멍쟁이가 된다.</p>');
             //$('#replace1').replaceWith($('#replace2').show());
@@ -295,6 +298,35 @@
     console.log(may23Test);
     //안되는데? console에 찍으면 안되나보군...
     //???? 안되는데???
+    //expression subtitution도 안됨 ㄲㄲ;
+
+    //html template
+    let storeName = "오니기리와 버거";
+    let mainMenu = ['🍙','🍕','🌭'];
+    let html = `<h3>${storeName}</h3><ul>`;
+
+    for (let x of mainMenu){
+        console.log(mainMenu);
+    }
+
+    /*for(const x of mainMenu) {
+        html += `<li>${mainMenu}</li>`;
+    }
+    html+= `</ul>`;*/
+
+    //number
+    let x = 10;
+    let y = 20;
+    let q = "30";
+    let z = x + y;
+    console.log(x+y+q);
+    console.log("z result: "+z);
+    console.log("x+y result: "+x+y);
+
+
+
+
+
 
 </script>
 <%--<script type="text/javascript">
@@ -591,6 +623,7 @@
     <div class="may23">
         <div class="stringTemplate">
             <p id="substitute"> ㅎㅎ </p>
+            <p id="htmlTemplate"> </p>
         </div>
     </div>
 </div>
