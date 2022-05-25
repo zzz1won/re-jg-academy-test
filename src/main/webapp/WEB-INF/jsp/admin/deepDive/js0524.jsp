@@ -37,6 +37,8 @@
         //
         arrSort();
         arrSort2();
+        //
+        arrIteration();
     })
 
     function arrToString() {
@@ -174,6 +176,22 @@
         })
     }
 
+    function arrIteration(){
+            var iter=['달빛천사','천사소녀','카드캡터','웨딩피치','슈가슈가','베리베리'];
+            var output = "";
+
+        $('#arrayIterationBtn').click(function(){
+            console.log('arrayIterationBtn 누름');
+            iter.forEach(fn_iter);
+            $('#arrIterationArea').html(output);
+            //태그요소이기때문에 text가 아니라 html로 써줘야한다.
+            function fn_iter(value){
+                output += value + '<br>';
+            }
+            console.log(output);
+        })
+    }
+
 </script>
 <body>
 <div id="wrapper">
@@ -258,6 +276,13 @@
                 <p id="arrSortlower"></p>
             </div>
         </div>
+        <div class="arrayIteration">
+            <div class="array_forEach">
+                <input type="button" id="arrayIterationBtn" value="😉">
+                <span id="arrIterationArea"></span>
+            </div>
+        </div>
+
     </div>
     <jsp:include page="/WEB-INF/jsp/include/footer.jsp"/>
 </div>
