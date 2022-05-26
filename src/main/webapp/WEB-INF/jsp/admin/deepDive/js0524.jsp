@@ -39,6 +39,7 @@
         arrSort2();
         //
         arrIteration();
+        arrMap();
     })
 
     function arrToString() {
@@ -192,6 +193,22 @@
         })
     }
 
+    function arrMap(){
+        var mmm=['1212','162','6','98','1','0.5'];
+        $('#arrMapArea').text(mmm);
+
+        $('#arrayMapBtn').click(function(){
+        console.log("arrayMapBtn누름");
+        //var mmm=['달빛천사','천사소녀','카드캡터','웨딩피치','슈가슈가','베리베리'];
+        var mnm=mmm.map(fn_map);
+
+        function fn_map(value, index, array){
+            return value * 2;
+        }
+        $('#arrMapArea').text(mnm);
+        })
+    }
+
 </script>
 <body>
 <div id="wrapper">
@@ -279,7 +296,10 @@
         <div class="arrayIteration">
             <div class="array_forEach">
                 <input type="button" id="arrayIterationBtn" value="😉">
-                <span id="arrIterationArea"></span>
+                <p id="arrIterationArea"></p>
+                <input type="button" id="arrayMapBtn" value="😏"/>
+                <p id="arrMapArea"></p>
+
             </div>
         </div>
 
