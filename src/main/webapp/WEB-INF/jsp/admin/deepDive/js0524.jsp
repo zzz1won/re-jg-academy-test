@@ -40,6 +40,8 @@
         //
         arrIteration();
         arrMap();
+        arrFilter();
+        //
     })
 
     function arrToString() {
@@ -209,6 +211,22 @@
         })
     }
 
+    function arrFilter(){
+        var mmm2=[1,23,25,8,11,77,85,21,56,2];
+        var mmm3=mmm2.filter(over18Test)
+        $('#arrFilterArea').text(mmm2);
+
+        $('#arrayFilterBtn').click(function(){
+            console.log('arrayFilterBtn 누름!');
+            $('#arrFilterArea').text(mmm3);
+        })
+            console.log(mmm3);
+        function over18Test(value){
+            return value > 18;
+        }
+
+    }
+
 </script>
 <body>
 <div id="wrapper">
@@ -299,7 +317,10 @@
                 <p id="arrIterationArea"></p>
                 <input type="button" id="arrayMapBtn" value="😏"/>
                 <p id="arrMapArea"></p>
-
+            </div>
+            <div class="arrayFilter">
+                <input type="button" id="arrayFilterBtn" value="😂"/>
+                <p id="arrFilterArea"></p>
             </div>
         </div>
 
