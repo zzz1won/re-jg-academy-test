@@ -329,31 +329,6 @@ public class CodeController {
         return paramMap;
     }
 
-    //0518 dataTable을 위한 값...
-    /*@RequestMapping("admin/codeEx2")
-    @ResponseBody
-    public Map<String, Object> newCodeConfirmAjax (@RequestBody SearchVO searchVO) throws Exception {
-        Map<String,Object> paramMap = new HashMap<>();
-        List<CodeVO> codeList = null;
-        String[] codeStateList = {Constants.CODE_USE_STATE,Constants.CODE_USE_STATE_N};
-
-        try{
-            paramMap.put("searchChkValue",searchVO.getSearchChkValue()); //0517 add
-            paramMap.put("searchArea",searchVO.getSearchArea()); //0517 add
-            codeList = codeService.selectCode(paramMap);
-            paramMap.put("codeList",codeList);
-            paramMap.put("codeStateList",codeStateList);
-        }
-        catch (Exception e){
-            logger.debug(e.getMessage());
-        }
-        paramMap.put("search",searchVO);
-        paramMap.put("data",paramMap);//dataTable을 위해 넣은건데 ㅜㅜ
-        System.out.println("controller.ajax 요청");
-        return paramMap;
-    }*/
-
-
     /**
      * 하 어렵다 ㅋㅋㅋ 코드관리부터 해보자
      * 220510 js랑 jquery보다가 adminCertPage가 매우 복잡해보여 따라할건데, 이제 Ajax를 곁들인...

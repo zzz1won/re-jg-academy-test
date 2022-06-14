@@ -223,8 +223,6 @@
                             <td><fmt:formatDate value="${code.regDate}" pattern="yyyy/MM/dd"/></td>
                             <td><c:out value="${code.etcInfo}" default="-"/></td>
                             <td><c:out value="${code.useState}"/></td>
-                            <td><c:out value="${code.commonCodeNo}"/></td>
-
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -344,10 +342,41 @@
                 "paginate": {
                     "first": "<<",
                     "last": ">>",
+                    "last": ">>",
                     "next": ">",
                     "previous": "<",
                 }
             },
+
+            // 0614 추가 -----------------
+            //정렬, 링크
+            "columnDefs": [
+                {className: "dt-body-left", "targets": [2]},
+                /*{className: "dt-body-right", "targets": [5, 6]},*/
+                {
+                    targets: [2],
+                    render: function (data, type, row, meta) {
+                        if (type === 'display') { //detail.jsp 열어야함.
+                            data = '<a href="javascript:fn_detailPage(' + row[1] + ');">' + data + '</a>';
+                        }
+                        return data;
+                    }
+                },
+                {
+                    targets: [0],
+                    orderable: false,
+                    searchable: false,
+                    className: 'dt-body-center',
+                },
+                {
+                    targets: [9], //9번째 컬럼까지만
+                    visible: true, //보이게합니다
+                }
+            ],
+            order: [1, 'asc'],
+            // 0614 추가 -----------------
+
+
 
             // 페이징처리
             "fnDrawCallback": function () {

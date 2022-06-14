@@ -164,11 +164,17 @@
         <div class="sub-tit-wrap">
             <div class="sub-tit-container">
                 <!-- menu: 3개-->
-                <div class="tab-wrap tab4">
+                <div class="tab-wrap tab6">
                     <a href="javascript:fn_scheduleList();" class="tablinks">교육 일정 관리</a>
                     <a href="javascript:fn_applyList();" class="tablinks">신청 관리</a>
                     <a href="javascript:fn_certList();" class="tablinks"> 수료 관리</a>
+                    <%-- 220408 4개로 추가--%>
                     <a href="javascript:fn_codeList();" class="tablinks active"> 코드 관리</a>
+                    <%-- 220408 5개로 추가--%>
+                    <a href="javascript:fn_judgeList();" class="tablinks"> 심판 관리</a>
+                    <%-- 220510 6개로 추가--%>
+                    <%-- adminHeader.jsp 파일에 선언해두었기 때문에 파일마다 일일히 function~ 할 필요 없음.--%>
+                    <a href="javascript:fn_codingEx();" class="tablinks"> 지원 관리</a>
                 </div>
                 <!-- //menu -->
             </div>
@@ -190,11 +196,11 @@
                         <tr>
                             <th class="required_need">그룹코드명</th>
                             <td>
-                                <input type="text" id="groupCodeName" name="groupCodeName" class="input-text" style="width: 100%;" value="<c:out value="${codeVO.groupCodeName}"/>">
+                                <input type="text" id="groupCodeName" name="groupCodeName" class="input-text" style="width: 100%;" value="<c:out value="${codeVO.groupCodeName}"/>" readonly>
                             </td>
                             <th class="required_need">그룹코드값</th>
                             <td>
-                                <input type="text" id="groupCode" name="groupCode" class="input-text" style="width: 100%;" value="<c:out value="${codeVO.groupCode}"/>">
+                                <input type="text" id="groupCode" name="groupCode" class="input-text" style="width: 100%;" value="<c:out value="${codeVO.groupCode}"/>" readonly>
                             </td>
                         </tr>
                         <tr>
