@@ -61,7 +61,8 @@
 
     /* 코드 ajax */
     function ajax1CodeList() {
-        var param = {"searchChkValue": $("#searchChkValue").val(), "searchArea": $("#searchArea").val()}; //흑흑 뭘 어떻게 넣어야 data를 가져올 수 있는걸까... 어디서부터 잘못된건지 비교해보고, 찾기
+        var param = {"searchChkValue": $("#searchChkValue").val(), "searchArea": $("#searchArea").val()};
+        //흑흑 뭘 어떻게 넣어야 data를 가져올 수 있는걸까... 어디서부터 잘못된건지 비교해보고, 찾기
 
         $.ajax({
             type: "post",
@@ -393,7 +394,7 @@
             <%--코드관리--%>
 
             <%--수료관리--%>
-            <%--<table id="listTable4" class="cell-border hover dataTable" width="100%" style="display: none">
+            <table id="listTable4" class="cell-border hover dataTable" width="100%" style="display: none">
                 <thead>
                 <tr>
                     <th><input name="select_all" value="1" class="select-all" type="checkbox"/></th>
@@ -411,9 +412,8 @@
                     <th>등록자</th>
                 </tr>
                 </thead>
-                &lt;%&ndash;<tbody id="listTable3">
-                </tbody>&ndash;%&gt;
-            </table>--%>
+                <tbody id="listTable3"> </tbody>
+            </table>
             <%--수료관리--%>
         </div>
         <%--<br>--%>
@@ -426,8 +426,6 @@
             <button type="button" id="btn_code" class="btn2 btn-blue">수료확정</button>
             <button type="button" id="btn_cancel_code" class="btn2 btn-blue">확정취소</button>
             <button type="button" id="btn_no_code" class="btn2 btn-gray">미수료</button>
-        </div>
-        <div>
         </div>
     </div>
 </div>

@@ -129,9 +129,10 @@
         $("#btn_fail_login").click(function(){
             $('#pop_fail_login').bPopup().close();
         });
-        /*        $("#judgeKind").val('100001')*/
-        /*        $("#judgeNo").val('0033')*/
-        /*$("#judgeName").val('정예슬')*/
+        /* 간편 로그인 */
+        $("#judgeKind").val('100017')
+        $("#judgeNo").val('23')
+        $("#judgeName").val('이리아')
 
     });
 

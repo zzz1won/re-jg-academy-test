@@ -130,10 +130,8 @@
         });
     })
     /* edu Schedule Ajax */
-
     /* 상세화면 부르기 */
     <%-- 교육과정 상세 팝업 --%>
-
     function fn_detailAjax(eduNo) {
         var param = {
             "acEduScheduleNo": eduNo
