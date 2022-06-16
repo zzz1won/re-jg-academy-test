@@ -334,7 +334,7 @@
             </table>
         </div>
     </div>
-        <div class="test123">
+        <%--<div class="test123">
             <button> gg </button>
             <p id="ppp"></p>
             <p id="pppp"><span>ㅁㄴㅇㅁㄴㅇ</span></p>
@@ -357,7 +357,7 @@
                 <li id="add">Add to Queue</li>
             </ul>
             <div style="width:150px; height:150px; background:#ececec;"></div>
-        </div>
+        </div>--%>
     <jsp:include page="/WEB-INF/jsp/include/footer.jsp"/>
 
 
