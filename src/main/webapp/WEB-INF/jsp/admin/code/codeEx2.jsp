@@ -142,8 +142,8 @@
                     var list1 = data.certList;
                     var list2 = data.adminList;
                     var output = '';
-                    console.log(list1.length);
-                    console.log(list2);
+                    console.log("list1.length", list1.length);
+                    console.log("list2",list2);
                     for (let i = 0; i < list1.length; i++) {
                         output += '<tr>';
                         output += '<td>' + '<input type="checkbox" id="chk${certList.eduApplyInfoNo}" name="chk" value="<c:out value="${certList.acEduCertInfoNo}"/>">' + '</td>';

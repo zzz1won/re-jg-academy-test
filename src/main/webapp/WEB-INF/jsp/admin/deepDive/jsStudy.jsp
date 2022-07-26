@@ -30,6 +30,7 @@
         alert('jsStudy 입장');
         click53Btn();
         click54Btn();
+        click726Btn();
     })
 
     //버튼을 누르면 ~0523 js공부 페이지로 이동
@@ -49,6 +50,11 @@
         })
     }
 
+    function click726Btn(){
+        $('#after726').click(function(){
+          location.href= "<c:out value="${pageContext.request.contextPath}/code/admin/js0726"/>";
+        })
+    }
 </script>
 
 <style>
@@ -84,6 +90,8 @@
                                                   value="😎53btn"> <%--누르면 0523 이전 js 공부 페이지로 이동--%></div>
         <div class="jsStudy" id="after54" style="margin-bottom: 20px"><input type="button" class="btn2 btn-search" id="after54btn"
                                                  value="💕54btn"> <%--누르면 0524 이후 js 공부 페이지로 이동 --%></div>
+        <div class="jsStudy" id="after726" style="margin-bottom: 20px"><input type="button" class="btn2 btn-search" id="after54btn"
+                                                                             value="💕0726btn"> <%--누르면 0726 이후 js 공부 페이지로 이동 --%></div>
     </div>
 </div>
 </body>

@@ -272,6 +272,11 @@ public class CodeController {
         return "admin/deepDive/js0524";
     }
 
+    //0726 애큐온 가기 전에 한 번 더~
+    @RequestMapping("admin/js0726")
+    public String jsStudy0726(){
+        return "admin/deepDive/js0726";
+    }
 
     @RequestMapping("admin/codeEx")
     public String newCodeConfirm (HttpServletRequest request, Model model, SearchVO search) throws Exception {
