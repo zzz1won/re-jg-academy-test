@@ -27,8 +27,15 @@
 <script type="text/javascript">
     var check = false;//값을 먼저 설정
 
-    $(function () { //함수명만 집어넣기
+    /* document get ready 아이들 ! */
+    $(function () { //함수명만 간단하게 집어넣기!
         /* 교육내용 등록 */
+        rgBtnClick();
+        rgBtnCfrm();
+    })
+    /* document get ready 아이들 ! */
+
+    function rgBtnClick() {
         $("#Btn_register").click(function () {
             /* fn_checkForm() 필수 입력값 체크함수 */
             check = fn_checkForm(); //checkForm을 대상으로 false, true를 가려낸다.
@@ -40,8 +47,10 @@
                 //해당 과정을 등록하시겠습니까? 팝업
             }
         });
+    }
 
-        /* 등록 버튼 클릭 */
+    /* 등록 버튼 클릭 */
+    function rgBtnCfrm() {
         $("#btn_confirm_register").click(function () {
             $("#pop_confirm_register").bPopup().close();
 
@@ -80,131 +89,177 @@
                 alert('재확인요망');
             }
         });
+    }
 
-        /* 필수 입력값 체크함수 */
-        function fn_checkForm() {
-            var applyStartDate = fn_split($('#acApplyStartDate').val());
-            <%-- 신청 시작일 --%>
-            var applyEndDate = fn_split($('#acApplyEndDate').val());
-            <%-- 신청 종료일 --%>
-            var eduStartDate = fn_split($('#acEduStartDate').val());
-            <%-- 수강 시작일 --%>
-            var eduEndDate = fn_split($('#acEduEndDate').val());
-            <%-- 수강 종료일 --%>
+    /* 필수 입력값 체크함수 */
+    function fn_checkForm() {
+        var applyStartDate = fn_split($('#acApplyStartDate').val());
+        <%-- 신청 시작일 --%>
+        var applyEndDate = fn_split($('#acApplyEndDate').val());
+        <%-- 신청 종료일 --%>
+        var eduStartDate = fn_split($('#acEduStartDate').val());
+        <%-- 수강 시작일 --%>
+        var eduEndDate = fn_split($('#acEduEndDate').val());
+        <%-- 수강 종료일 --%>
 
-            //--------------------------------------------------------------------
-            // 왜 Number가 붙는걸까? NumberConstructor??
-            eduStartDate = Number(eduStartDate);
-            eduEndDate = Number(eduEndDate);
-            applyStartDate = Number(applyStartDate);
-            applyEndDate = Number(applyEndDate);
-            //--------------------------------------------------------------------
-            //불러들여온 값의 길이length가 1보다 적다면 팝업창 띄운 후 false로 진행
-            /* 과정명 */
-            if ($('#acEduTitle').val().length < 1) {
-                $('#pop_check_form_title').bPopup({
-                    speed: 300
-                });
-                return false;
-            }
-
-            /* 신청기간 */
-            <%-- 신청기간 시작일 --%>
-            if ($('#acApplyStartDate').val().length < 1) {
-                $('#pop_check_form_apply_start_date').bPopup({
-                    speed: 450,
-                    // transition: 'slideDown'
-                });
-                return false;
-            }
-
-            <%-- 신청기간 종료일 --%>
-            if ($('#acApplyEndDate').val().length < 1) {
-                $('#pop_check_form_apply_end_date').bPopup({
-                    speed: 450,
-                    // transition: 'slideDown'
-                });
-                return false;
-            }
-
-            <%-- 수강기간 시작일 --%>
-            if ($('#acEduStartDate').val().length < 1) {
-                $('#pop_check_form_edu_start_date').bPopup({
-                    speed: 450,
-                    // transition: 'slideDown'
-                });
-                return false;
-            }
-
-            <%-- 수강기간 종료일 --%>
-            if ($('#acEduEndDate').val().length < 1) {
-                $('#pop_check_form_edu_end_date').bPopup({
-                    speed: 450,
-                    // transition: 'slideDown'
-                });
-                return false;
-            }
-
-            /* 신청 시작일 유효성 검사 */
-            if (applyStartDate > applyEndDate) {
-                alert("신청일은 종료일보다 늦게 설정 불가");
-                $('#acApplyStartDate').val(""); //초기화시킴
-               return false;
-            }
-
-            <%-- 신청 종료일 유효성 검사 1 --%>
-            if (applyEndDate < applyStartDate){
-                alert("신청기간 종료일은 신청기간 시작일보다 빠르게 설정하실 수 없습니다.");
-                $('#acApplyEndDate').val("");
-                return false;
-            }
-
-            <%-- 신청 종료일 유효성 검사 2 --%>
-            if (applyEndDate >= eduStartDate){
-                alert("신청기간 종료일은 수강기간 시작일보다 같거나 늦게 설정하실 수 없습니다.");
-                $('#acApplyEndDate').val("");
-                return false;
-            }
-
-            <%-- 수강 시작일 유효성 검사 1 --%>
-            if (eduStartDate <= applyEndDate){
-                alert("수강기간 시작일은 신청기간 종료일보다 같거나 빠르게 설정하실 수 없습니다.");
-                $('#acEduStartDate').val("");
-                return false;
-            }
-
-            <%-- 수강 시작일 유효성 검사 2 --%>
-            if (eduStartDate > eduEndDate){
-                alert("수강기간 시작일은 수강기간 종료일보다 늦게 설정하실 수 없습니다.");
-                $('#acEduStartDate').val("");
-                return false;
-            }
-
-            <%-- 수강 종료일 유효성 검사 --%>
-            if (eduEndDate < eduStartDate){
-                alert("수강기간 종료일은 수강기간 시작일보다 빠르게 설정하실 수 없습니다.");
-                $('#acEduStartDate').val("");
-                return false;
-            }
-            // 뭔가 당연한 이야기를 풀고 있는 중...
-
-            /* 인원 제한 */
-            if($('#acApplyLimitCount').val() < 5 || $('#acApplyLimitCount') > 300 ||$('#acApplyLimitCount').val() == '' ){
-                //인원이 5명보다 적거나, 300명보다 많거나, 0과 같을 때
-                $('#pop_check_form_limit_count').bPopup({
-                    speed: 250
-                });
-                return false;
-            }
-
-            //이 모든것이 false에 걸리지 않았다면 true
-            return true;
+        //--------------------------------------------------------------------
+        // 왜 Number가 붙는걸까? NumberConstructor??
+        eduStartDate = Number(eduStartDate);
+        eduEndDate = Number(eduEndDate);
+        applyStartDate = Number(applyStartDate);
+        applyEndDate = Number(applyEndDate);
+        //--------------------------------------------------------------------
+        //불러들여온 값의 길이length가 1보다 적다면 팝업창 띄운 후 false로 진행
+        /* 과정명 */
+        if ($('#acEduTitle').val().length < 1) {
+            $('#pop_check_form_title').bPopup({
+                speed: 300
+            });
+            return false;
         }
 
-        /* 필수 입력값 체크함수 */
+        /* 신청기간 */
+        <%-- 신청기간 시작일 --%>
+        if ($('#acApplyStartDate').val().length < 1) {
+            $('#pop_check_form_apply_start_date').bPopup({
+                speed: 450,
+                // transition: 'slideDown'
+            });
+            return false;
+        }
 
+        <%-- 신청기간 종료일 --%>
+        if ($('#acApplyEndDate').val().length < 1) {
+            $('#pop_check_form_apply_end_date').bPopup({
+                speed: 450,
+                // transition: 'slideDown'
+            });
+            return false;
+        }
+
+        <%-- 수강기간 시작일 --%>
+        if ($('#acEduStartDate').val().length < 1) {
+            $('#pop_check_form_edu_start_date').bPopup({
+                speed: 450,
+                // transition: 'slideDown'
+            });
+            return false;
+        }
+
+        <%-- 수강기간 종료일 --%>
+        if ($('#acEduEndDate').val().length < 1) {
+            $('#pop_check_form_edu_end_date').bPopup({
+                speed: 450,
+                // transition: 'slideDown'
+            });
+            return false;
+        }
+
+        /* 신청 시작일 유효성 검사 */
+        if (applyStartDate > applyEndDate) {
+            alert("신청일은 종료일보다 늦게 설정 불가");
+            $('#acApplyStartDate').val(""); //초기화시킴
+            return false;
+        }
+
+        <%-- 신청 종료일 유효성 검사 1 --%>
+        if (applyEndDate < applyStartDate) {
+            alert("신청기간 종료일은 신청기간 시작일보다 빠르게 설정하실 수 없습니다.");
+            $('#acApplyEndDate').val("");
+            return false;
+        }
+
+        <%-- 신청 종료일 유효성 검사 2 --%>
+        if (applyEndDate >= eduStartDate) {
+            alert("신청기간 종료일은 수강기간 시작일보다 같거나 늦게 설정하실 수 없습니다.");
+            $('#acApplyEndDate').val("");
+            return false;
+        }
+
+        <%-- 수강 시작일 유효성 검사 1 --%>
+        if (eduStartDate <= applyEndDate) {
+            alert("수강기간 시작일은 신청기간 종료일보다 같거나 빠르게 설정하실 수 없습니다.");
+            $('#acEduStartDate').val("");
+            return false;
+        }
+
+        <%-- 수강 시작일 유효성 검사 2 --%>
+        if (eduStartDate > eduEndDate) {
+            alert("수강기간 시작일은 수강기간 종료일보다 늦게 설정하실 수 없습니다.");
+            $('#acEduStartDate').val("");
+            return false;
+        }
+
+        <%-- 수강 종료일 유효성 검사 --%>
+        if (eduEndDate < eduStartDate) {
+            alert("수강기간 종료일은 수강기간 시작일보다 빠르게 설정하실 수 없습니다.");
+            $('#acEduStartDate').val("");
+            return false;
+        }
+        // 뭔가 당연한 이야기를 풀고 있는 중...
+
+        /* 인원 제한 */
+        if ($('#acApplyLimitCount').val() < 5 || $('#acApplyLimitCount') > 300 || $('#acApplyLimitCount').val() == '') {
+            //인원이 5명보다 적거나, 300명보다 많거나, 0과 같을 때
+            $('#pop_check_form_limit_count').bPopup({
+                speed: 250
+            });
+            return false;
+        }
+
+        //이 모든것이 false에 걸리지 않았다면 true
+        return true;
+        /* 필수 입력값 체크함수 */
+        <%-- 목록 버튼 클릭--%>
+        $('#btn_schedule_list').click(function () {
+            location.href = "<c:out value='${pageContext.request.contextPath}/edu/admin/schedule'/>";
+        });
+
+        <%-- 등록 성공 --%>
+        $("#btn_success_register").click(function () {
+            $('#pop_success_register').bPopup().close();
+            location.href = "<c:out value='${pageContext.request.contextPath}/edu/admin/schedule'/>";
+        });
+        <%-- 등록 실패 --%>
+        $("#btn_fail_register").click(function () {
+            $('#pop_fail_register').bPopup().close();
+        });
+
+        <%-- 과졍명 포커스 --%>
+        $("#btn_check_form_title").click(function () {
+            $('#acEduTitle').focus();
+        });
+        <%-- 신청기간 시작일 포커스 --%>
+        $("#btn_check_form_apply_start_date").click(function () {
+            $('#acApplyStartDate').focus();
+        });
+        <%-- 신청기간 종료일 포커스 --%>
+        $("#btn_check_form_apply_end_date").click(function () {
+            $('#acApplyEndDate').focus();
+        });
+        <%-- 수강기간 시작일 포커스 --%>
+        $("#btn_check_form_edu_start_date").click(function () {
+            $('#acEduStartDate').focus();
+        });
+        <%-- 수강기간 종료일 포커스 --%>
+        $("#btn_check_form_edu_end_date").click(function () {
+            $('#acEduEndDate').focus();
+        });
+        <%-- 인원제한 포커스 --%>
+        $("#btn_check_form_limit_count").click(function () {
+            $('#acApplyLimitCount').focus();
+        });
+
+        <%-- 네이버 smartEditor2 사용 --%>
+        var oEditors = [];
+        nhn.husky.EZCreator.createInIFrame({
+            oAppRef: oEditors,
+            elPlaceHolder: "acEduContents",
+            sSkinURI: "${pageContext.request.contextPath}/resources/se2/SmartEditor2Skin.html",
+            fCreator: "createSEditor2"
+        });
         //hideNshow();
-    })
+    }
 
     function hideNshow() {
         $('#hideBtn').click(function () {
