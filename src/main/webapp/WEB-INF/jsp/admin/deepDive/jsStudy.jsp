@@ -31,6 +31,7 @@
         click53Btn();
         click54Btn();
         click726Btn();
+        click801Btn();
     })
 
     //버튼을 누르면 ~0523 js공부 페이지로 이동
@@ -51,8 +52,16 @@
     }
 
     function click726Btn(){
-        $('#after726').click(function(){
+        $('#after726btn').click(function(){
           location.href= "<c:out value="${pageContext.request.contextPath}/code/admin/js0726"/>";
+        })
+    }
+
+    function click801Btn(){
+        $('#after801btn').click(function(){
+            //console.log("801버튼 눌렀는디"); //이름을 잘못 적었음 ㅠ
+            alert("801버튼 눌렀는디");
+            location.href= "<c:out value="${pageContext.request.contextPath}/code/admin/js0801"/>";
         })
     }
 </script>
@@ -90,8 +99,10 @@
                                                   value="😎53btn"> <%--누르면 0523 이전 js 공부 페이지로 이동--%></div>
         <div class="jsStudy" id="after54" style="margin-bottom: 20px"><input type="button" class="btn2 btn-search" id="after54btn"
                                                  value="💕54btn"> <%--누르면 0524 이후 js 공부 페이지로 이동 --%></div>
-        <div class="jsStudy" id="after726" style="margin-bottom: 20px"><input type="button" class="btn2 btn-search" id="after54btn"
+        <div class="jsStudy" id="after726" style="margin-bottom: 20px"><input type="button" class="btn2 btn-search" id="after726btn"
                                                                              value="💕0726btn"> <%--누르면 0726 이후 js 공부 페이지로 이동 --%></div>
+        <div class="jsStudy" id="after801" style="margin-bottom: 20px"><input type="button" class="btn2 btn-search" id="after801btn"
+                                                                              value="💕0801btn"> <%--누르면 0801 이후 js 공부 페이지로 이동 --%></div>
     </div>
 </div>
 </body>

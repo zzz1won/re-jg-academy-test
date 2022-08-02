@@ -278,6 +278,12 @@ public class CodeController {
         return "admin/deepDive/js0726";
     }
 
+    //0801 새로 연습파일
+    @RequestMapping("admin/js0801")
+    public String jsStudy0801(){
+        return "admin/deepDive/js0801";
+    }
+
     @RequestMapping("admin/codeEx")
     public String newCodeConfirm (HttpServletRequest request, Model model, SearchVO search) throws Exception {
         HttpSession session = request.getSession();
