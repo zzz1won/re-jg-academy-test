@@ -18,7 +18,10 @@
 
     $(function () {
         fn_btnClick(); //버튼 클릭시 show hide
+        sortTest();
+        hillsQuestion();
     })
+
 
     function fn_btnClick() {
         $('#catBtn').click(function () {
@@ -66,6 +69,7 @@
         };
 
         $('#bloodTest [type=radio]').bind('click', bldTest);
+
         function bldTest() {
             var txt = "";
             /*$('#bloodTest [type=radio]:checked').each(function(){
@@ -76,6 +80,53 @@
             console.log(txt);
             $('#bloodTest textarea').val(txt + '형');
         }
+    }
+
+    //var dtdt = [3,4,580,676,71]
+    /*let x = a.toUpperCase(),
+            y = b.toUpperCase();
+        x == y ? 0 : x > y ? -1 : 1 ;*/
+
+    function sortTest() {
+        //https://developer-talk.tistory.com/73 참고
+        //sort를 이용한 날짜 정렬 js test
+        $('#date_btn').click(function () {
+            var dateArray = ['April 1, 2013', 'August 10, 1994', 'May 11 2002', 'july 28, 1994'];
+
+            dateArray.sort(function compare(a, b) {
+                let x = new Date(a),
+                    y = new Date(b); //date 아니고 Date
+                return x - y;
+
+            });
+            console.log(dateArray);
+            $('.date1').text(dateArray);
+        })
+    }
+
+    var num = 20;
+    var answer = '리리카SOS';
+    let asw = $('#answerIpt').val();
+
+    function hillsQuestion() {
+        $('#hill_btn').click(function () {
+            console.log(asw);
+            //도전 횟수
+            if (num >= 1) {
+                num--;
+                $('#chanceInt').text(num);
+            } else {
+                $('#chanceArea').text("모든 기회를 사용해버리셨네용 ㅋㅋ");
+            }
+
+            //정답 확인
+            if(asw == ""){
+                alert("빈칸!");
+            } else {
+                console.log("땡");
+            }
+        })
+
     }
 
 
@@ -89,6 +140,12 @@
     #chkBoxTest textarea {
         width: 100%;
         height: 170px;
+    }
+
+    .test220804 {
+        width: 500px;
+        margin: auto;
+        padding-top: 10px;
     }
 </style>
 <body>
@@ -128,6 +185,29 @@
     </div>
     <div id="foodTest" style="display: none">
         😀
+    </div>
+</div>
+
+<div class="test220804">
+    <span>날짜순 정렬을 보기위해 </span>
+    <input type="button" value="날짜순 정렬 버튼" id="date_btn">
+    <p class="date1">날짜1</p>
+    <%--<p class="date1">날짜2</p>--%>
+
+    <h4>몇살인가요?</h4>
+    <input type="number" name="testNumber" min="1" max="110">
+    <h4> 오늘의 기분은? </h4>
+    <p> 저조할 수록 1, 좋을 수록 10에 가까이 놔주세요.</p>
+    <span>    1 <input type="range" name="testNumber" min="1" max="25"> 10 </span> <%--오 신기하잖아; --%>
+    <h4> 좋아하는 색은? </h4>
+    <p><input type="color" name="testIptColor"></p> <%-- 헐퀴헐퀴 신퀴방퀴 --%>
+
+    <div class="hills20">
+        <h3>🍙🐱💕 여긴 스무고개 존 💕🐱🍙</h3>
+        <h5> 정답이 뭘까요?</h5>
+        <input type="text" id="answerIpt"> <input type="button" value="제출" id="hill_btn">
+        <div id="chanceArea"> 잔여횟수 : <span id="chanceInt"> 20 </span> / <span> 20 </span>
+        </div>
     </div>
 </div>
 </body>
