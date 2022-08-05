@@ -22,6 +22,9 @@
         hillsQuestion();
         toggle220804();
         strBtnClick();
+        toggleTestJiwon();
+        //todoSample();
+        todoList();
     })
 
 
@@ -137,109 +140,444 @@
             $('.test220804').toggle('slow');
         })
     }
-    function strBtnClick(){
-    $('#testStrt').click(function (){
-        alert("진단시작 누름");
-        crtPrb();
-        test0805();
 
-        /* 자가진단 테스트 */
-        var problem = 1; //몇 번 문제인지 판단하는 용
-        var numOfTest = 20; // 문제의 총 개수 파악용
-        var total = 0; //점수 저장용
+    function toggleTestJiwon() {
+        $('#toggleTJ').click(function () {
+            $('.testJiwon').toggle('300');
+        })
+    }
 
-        var testCheck = null; //문제 체크 여부 확인, * 문제의 개수만큼 배열로 동적 할당 *
-        var prbCrt = false; //문제가 모두 만들어져쓴가
-        /* 자가진단 테스트 */
+    function strBtnClick() {
+        $('#testStrt').click(function () {
+            alert("진단시작 누름");
+            crtPrb();
+            test0805();
 
-        //뭐여 왜 안되는디
-        function test0805() {
-             var prbText = [ //인덱스 관리 1부터 20까지 하려고 0번 비움
-                [""],
-                ["1."],
-                ["2."],
-                ["3."],
-                ["4."],
-                ["5."],
-                ["6."],
-                ["7."],
-                ["8."],
-                ["9."],
-                ["10."],
-                ["11."],
-                ["12."],
-                ["13."],
-                ["14."],
-                ["15."],
-                ["16."],
-                ["17."],
-                ["18."],
-                ["19."],
-                ["20."] //헐 여기 콤마들어가있었음.
-            ];
+            /* 자가진단 테스트 */
+            var problem = 1; //몇 번 문제인지 판단하는 용
+            var numOfTest = 20; // 문제의 총 개수 파악용
+            var total = 0; //점수 저장용
+
+            var testCheck = null; //문제 체크 여부 확인, * 문제의 개수만큼 배열로 동적 할당 *
+            var prbCrt = false; //문제가 모두 만들어져쓴가
+            /* 자가진단 테스트 */
+
+            //뭐여 왜 안되는디
+            function test0805() {
+                var prbText = [ //인덱스 관리 1부터 20까지 하려고 0번 비움
+                    [""],
+                    ["1."],
+                    ["2."],
+                    ["3."],
+                    ["4."],
+                    ["5."],
+                    ["6."],
+                    ["7."],
+                    ["8."],
+                    ["9."],
+                    ["10."],
+                    ["11."],
+                    ["12."],
+                    ["13."],
+                    ["14."],
+                    ["15."],
+                    ["16."],
+                    ["17."],
+                    ["18."],
+                    ["19."],
+                    ["20."] //헐 여기 콤마들어가있었음.
+                ];
+            }
+
+            // 문제 개수만큼 배열을 할당하기 위해, 이 배열은 각 문제가 체크 되었는지 확인용으로 사용
+            function chkArray() {
+                testCheck = new Array();
+
+                for (var i = 1; i <= numOfTest + 1; i++) { //1부터 데이터가 들어있으므로 최대 숫자 + 1 까지...!
+                    testCheck.push(false); //배열 추가
+                }
+            }
+
+            //문제 생성 함수
+            function crtPrb() {
+                if (prbCrt == false) { // false 값 그대로라면 초기값 = 즉 문제가 만들어지지 않은 상태이므로 문제를 만들어준다.
+                    chkArray(); // 배열생성
+                    prbCrt = true; // false -> true 문제가 생성되었다.
+
+                    $('#testStrt').slideDown(); //설문지 펼침
+                    $('#testEnd').show(); //종료버튼 표시, 원래 안보였나?
+
+                    for (var i = 0; i < numOfTest; i++) {
+                        var newText = document.createTextNode(prbText[problem]); //질문 텍스트를 가져와 저장
+
+                        for (var j = 0; j <= 3; j++) {
+                            //각 질문마다 라디오버튼 생성 (0점~3점 총4개)
+                            var radioInput = document.createElement("input");
+
+                            //각 속성 지정
+                            radioInput.setAttribute("type", "radio");
+                            radioInput.setAttribute("name", "problem" + problem);
+                            radioInput.setAttribute("value", "answer" + j); //answer anser라고 침
+
+                            $('#btnArea').appendChild(radioInput); //속성을 추가한 input(라디오버튼)을 출력
+                        }
+                        problem++; //출력이 끝난 후 다음 문제로 넘어 감
+
+                        // 문제 출력이 끝나고 나면 줄바꿈
+                        // 텍스트와 라디오 버튼에 각각 따로 지정해야 레이아웃 오류가 발생하지 않음
+                        var hr1 = document.createElement("hr");
+                        $('textArea').appendChild(hr1);
+
+                        var hr2 = document.createElement("hr");
+                        $('btnArea').appendChild(hr2);
+                    }
+                } else { //문제가 만들어져있다면 - 생성X
+                    alert("이미있음")
+                }
+            }
+
+            function checkGloomy() {
+                //total =0;
+                for (var i = 1; i <= problem; i++) {
+                    var radioBtn = document.getElementsByName("problem" + i);
+                    for (var j = 0; j < radioBtn.length; j++) {
+                        if (radioBtn[j].checked) {
+                            total += j;
+
+                            //배열에 표시
+                            testCheck[i] = true; //해당 문제 체크여부 저장
+                        }
+                    }
+                }
+                if (all_problem_check() == true) { // test_check 배열을 통해 모든 문제가 체크되었는지 확인함
+                    alert("총점 : " + total); // 총점 표시
+
+                    // 각 점수의 구간에 따라 우울증의 정도를 출력
+                    if (total >= 0 && total <= 20) {
+                        alert("정상적인 우울감.");
+                    } else if (total >= 21 && total <= 40) {
+                        alert("주의가 필요한 우울감.");
+                    } else if (total >= 41 && total <= 60) {
+                        alert("심각한 우울증.");
+                    }
+                } else { // 체크되지 않은 문제가 있으면 오류 출력
+                    alert("확인하지 않은 문항이 있습니다.");
+                }
+                //if - else 가 function을 벗어나있었음.
+            }
+
+
+            // test_check 배열을 통해 모든 문제가 체크되었는지 확인함
+            function all_problem_check() {
+                for (var i = 1; i < numOfTest + 1; i++) {
+                    if (testCheck[i] == false) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+
+        });
+    }
+
+    function todoSample() {
+        document.getElementById("btnAdd").addEventListener("click", addList);
+// html에서 id가 btnAdd인 요소를 찾고 클릭 시 동작할 addList 함수 연결
+
+        document.getElementById("btnDelAll").addEventListener("click", delAllElement);
+// html에서 id가 btnDelAll인 요소를 찾고 클릭 시 동작할 addList 함수 연결
+
+        document.getElementById("btnDelLast").addEventListener("click", delLastElement);
+// html에서 id가 btnDelLast인 요소를 찾고 클릭 시 동작할 addList 함수 연결
+
+        document.getElementById("DeleteSel").addEventListener("click", delSelected);
+
+// html에서 id가 DeleteSel인 요소를 찾고 클릭 시 동작할 addList 함수 연결
+
+        function addList() {
+            var contents = document.querySelector(".text-basic");
+            // 입력창에 접근
+
+            if (!contents.value) // 입력창에 값이 없으면
+            {
+                alert("데이터를 입력해주세요."); // 경고창 출력
+
+                contents.focus();
+                // 입력창에 포커스 (활성화)
+
+                return false;
+                // 함수 종료
+            }
+
+            // ***** 데이터 추가 *****
+            var tr = document.createElement("tr"); // 추가할 테이블 <tr> 생성
+            var input = document.createElement("input"); // 테이블 <tr> 안에 들어갈 체크박스의 <input> 생성
+
+            // 여기서 생성된 <tr> 안에는
+            // <td>체크박스</td>
+            // <td>텍스트<td>
+            // 이렇게 두 가지의 요소가 들어가야 함
+
+            // 체크박스 만들기
+            input.setAttribute("type", "checkbox"); // <input type="checkbox">
+            input.setAttribute("class", "btn-chk"); // <input type="checkbox" class="btn-chk">
+
+            var td01 = document.createElement("td"); // 첫 번째 <td> 생성 (체크박스를 담음)
+            td01.appendChild(input); // 첫 번째 <td> 안에 <input> 추가
+
+            var td02 = document.createElement("td"); // 두 번째 <td> 생성 (텍스트를 담음)
+            td02.innerHTML = contents.value; // 두 번째 <td> 안에 입력창의 텍스트를 저장
+
+            tr.appendChild(td01);
+            tr.appendChild(td02); // 생성된 <tr> 안에 체크박스 td와 텍스트 td를 넣음
+
+            document.getElementById("listBody").appendChild(tr); // tbody의 #listBody에 접근하여 tr을 자식요소로 추가
+
+            contents.value = ""; // 입력창의 내용이 추가되었으므로 입력창 지우기
+
+            contents.focus(); // 입력창 포커스 (활성화)
         }
 
-        // 문제 개수만큼 배열을 할당하기 위해, 이 배열은 각 문제가 체크 되었는지 확인용으로 사용
-        function chkArray() {
-            testCheck = new Array();
+// 전체 삭제
+        function delAllElement() {
+            var list = document.getElementById("listBody"); // listBody에 접근
 
-            for (var i = 1; i <= numOfTest + 1; i++) { //1부터 데이터가 들어있으므로 최대 숫자 + 1 까지...!
-                testCheck.push(false); //배열 추가
+            var listChild = list.children; // listBody의 자식요소 정보가 들어옴
+
+            for (var i = 0; i < listChild.length; i++) // 자식요소 개수만큼 반복하며 제거
+            {
+                list.removeChild(listChild[i]); // list의 자식요소 0번째, 1번째, 2번째 ... 제거
+
+                i--;
+            }
+
+            /*
+                [i-- 없을 때]
+
+                0 HTML
+                1 JS
+                2 헬스
+
+                0 JS
+                1 헬스
+
+                0 JS (완전히 삭제되지 않음)
+
+                ------------------------------
+
+                [i-- 있을 때]
+
+                0 HTML
+                1 JS
+                2 헬스
+
+                0 JS
+                1 헬스
+
+                0 헬스
+
+                X (완전히 삭제됨)
+            */
+        }
+
+// 마지막 항목 삭제
+        function delLastElement() {
+            var list = document.getElementById("listBody"); // listBody에 접근
+
+            var listChild = list.children;
+
+            if (listChild.length > 0) {
+                var lastIdx = listChild.length - 1; // listBody의 자식요소 정보가 들어옴
+
+                list.removeChild(listChild[lastIdx]);
+            } else {
+                alert("삭제할 항목이 없습니다.");
+            }
+
+        }
+
+// 선택 항목 삭제
+        function delSelected() {
+            var list = document.getElementById("listBody"); // listBody에 접근
+
+            var chkbox = document.querySelectorAll("#listBody .btn-chk"); // listBody 하위의 체크박스 모두 선택
+
+            for (var i in chkbox) // i에 체크박스 인덱스 들어옴
+            {
+                if (chkbox[i].checked) // 체크박스가 체크되었으면
+                {
+                    list.removeChild(chkbox[i].parentNode.parentNode); //체크박스 i번째의 부모(<td>)의 부모(<tr>) 제거
+                }
+
+            }
+        }
+    }
+
+    function todoList() {
+        //btnAdd 추가 버튼 누르면 addList 리스트 추가되는 함수 실행 할 것것
+        $('#btnAdd').click(function () {
+            addList();
+        });
+        $('#delSel').click(function () {
+            delSelectList();
+        });
+        $('#delLast').click(function () {
+            delLastList();
+        });
+        $('#delAll').click(function () {
+            delAllList();
+        });
+
+        function addList() {
+            alert("addList()");
+            var contents = $('#textBasic'); //입력창 접근
+            if (!contents.val()) { //입력창에 값이 없으면 뜬다.
+                // value() 말고 val()로 하니까 추가 됨
+                alert("내용을 입력해주세요. 입력하신 값: ",contents);
+                contents.focus(); //포커스 활성화
+                return false;
+            }
+            console.log(contents);
+            console.log(contents.val());
+            /* 기존 js 방식 구현 방법을 일단 따르자 */
+            var tr = document.createElement("tr"); // 추가할 테이블 <tr> 생성
+            var input = document.createElement("input"); // 테이블 <tr> 안에 들어갈 체크박스의 <input> 생성
+
+            // 체크박스 만들기
+            input.setAttribute("type", "checkbox"); // <input type="checkbox">
+            input.setAttribute("class", "btn-chk"); // <input type="checkbox" class="btn-chk">
+
+            var td01 = document.createElement("td"); // 첫 번째 <td> 생성 (체크박스를 담음)
+            td01.appendChild(input); // 첫 번째 <td> 안에 <input> 추가
+
+            var td02 = document.createElement("td"); // 두 번째 <td> 생성 (텍스트를 담음)
+            //td02.innerHTML = contents.value; // 두 번째 <td> 안에 입력창의 텍스트를 저장
+            td02.innerHTML = contents.val(); // 두 번째 <td> 안에 입력창의 텍스트를 저장
+
+            tr.appendChild(td01);
+            tr.appendChild(td02); // 생성된 <tr> 안에 체크박스 td와 텍스트 td를 넣음
+
+            document.getElementById("listBody").appendChild(tr); // tbody의 #listBody에 접근하여 tr을 자식요소로 추가
+
+            contents.value = "";
+            //contents.clean // 입력창의 내용이 추가되었으므로 입력창 지우기
+
+            contents.focus(); // 입력창 포커스 (활성화)
+        }
+
+        function delSelectList() {
+            alert("delSelctList()");
+        }
+
+        function delLastList() {
+            alert("delLastList()");
+        }
+
+        function delAllList() {
+            alert("delAllList()");
+        }
+    }
+
+    /*    var problem = 1; // 몇 번 문제인지를 설정하는 인덱스 변수
+        var total = 0; // 점수를 저장하는 변수
+
+        var test_check = null; // 문제가 모두 체크되었는지 확인하는 변수 (문제의 개수만큼 배열로 동적할당됨)
+        var num_of_test = 20; // 문제의 총 개수를 저장하는 변수
+
+        var all_problem_created = false; // 문제가 모두 만들어졌는지 여부를 확인하는 boolean 변수
+
+        // 문자열 배열을 선언하여 각 문항들을 저장함
+        // 첫 번째 데이터가 공백인 이유는 배열 인덱스 관리를 1부터 20까지 직관적으로 하기 위함
+        var test_text = [
+            [" "],
+            ["1.평소에는 아무렇지도 않던 일들이 귀찮았다."],
+            ["2.입맛도 없었고, 먹고 싶지도 않았다."],
+            ["3.가족이나 친구가 도와줘도 우울한 기분이 나아지지 않았다."],
+            ["4.나도 다른 사람들만큼 능력 있다고 느꼈다."],
+            ["5.어떤 일을 하든 집중하기 힘들었다."],
+            ["6.우울했다."],
+            ["7.하는 일마다 힘들다고 느껴졌다."],
+            ["8.앞일이 암담하게 느껴졌다."],
+            ["9.내 인생은 실패작이라고 느꼈다."],
+            ["10.두려웠다."],
+            ["11.잠을 설쳤다, 잠이 안 왔다."],
+            ["12.비교적 잘 지냈다."],
+            ["13.평소보다 말을 적게 했다, 말수가 줄었다."],
+            ["14.세상에 홀로 있는 것처럼 외로웠다."],
+            ["15.사람들이 나를 차갑게 대하는 것 같았다."],
+            ["16.생활에 큰 불만이 있었다."],
+            ["17.갑자기 울음이 나왔다."],
+            ["18.슬펐다."],
+            ["19.사람들이 나를 싫어하는 것 같았다."],
+            ["20.도무지 뭘 시작할 기운이 안 났다."]
+        ];
+
+        // 문제의 개수만큼 배열을 동적할당
+        // 이 배열은 각 문제가 체크되었는지를 확인하는 용도
+        function create_check_array() {
+            test_check = new Array();
+
+            for (var i = 1; i <= num_of_test + 1; i++) {
+                test_check.push(false);
             }
         }
 
-        //문제 생성 함수
-        function crtPrb() {
-            if(prbCrt == false) { // false 값 그대로라면 초기값 = 즉 문제가 만들어지지 않은 상태이므로 문제를 만들어준다.
-                chkArray(); // 배열생성
-                prbCrt = true; // false -> true 문제가 생성되었다.
+        function create_radio_button() {
+            if (all_problem_created == false) { // 문제가 만들어져있지 않다면 -> 문제 생성
+                create_check_array();
+                all_problem_created = true;
 
-                $('#testStrt').slideDown(); //설문지 펼침
-                $('#testEnd').show(); //종료버튼 표시, 원래 안보였나?
+                $("#radio_area").slideDown(); // 설문지를 펼침
+                $("#end_btn").show(); // 종료 버튼을 표시함
 
-                for(var i=0; i < numOfTest; i++) {
-                    var newText = document.createTextNode(prbText[problem]); //질문 텍스트를 가져와 저장
+                for (var i = 0; i < num_of_test; i++) { // 문제의 개수만큼 반복
+                    var newText = document.createTextNode(test_text[problem]); // 질문 텍스트를 가져와서 저장함
+                    document.getElementById("text_area").appendChild(newText); // 질문을 출력
 
-                    for(var j=0; j<=3; j++){
-                        //각 질문마다 라디오버튼 생성 (0점~3점 총4개)
-                        var radioInput = document.createElement("input");
+                    for (var j = 0; j <= 3; j++) {
+                        // 각 질문마다 라디오 버튼 생성 (0점 ~ 3점 총 4개)
 
-                        //각 속성 지정
-                        radioInput.setAttribute("type", "radio");
+                        var radioInput = document.createElement("input"); // <input>을 만들고 변수에 지정함
+
+                        // 각 속성들을 지정함
+                        radioInput.setAttribute("type", "radio"); // = radioInput.type = "radio";
                         radioInput.setAttribute("name", "problem" + problem);
-                        radioInput.setAttribute("value","answer"+j); //answer anser라고 침
+                        radioInput.setAttribute("value", "answer" + j);
 
-                        $('#btnArea').appendChild(radioInput); //속성을 추가한 input(라디오버튼)을 출력
+                        document.getElementById("btn_area").appendChild(radioInput); // 속성을 지정한 <input>을 출력 (라디오 버튼 출력)
                     }
-                    problem++; //출력이 끝난 후 다음 문제로 넘어 감
+                    problem++; // 각 문제의 출력이 끝나면 다음 문제로 넘어감
 
                     // 문제 출력이 끝나고 나면 줄바꿈
                     // 텍스트와 라디오 버튼에 각각 따로 지정해야 레이아웃 오류가 발생하지 않음
                     var hr1 = document.createElement("hr");
-                    $('textArea').appendChild(hr1);
+                    document.getElementById("text_area").appendChild(hr1);
 
-                    var hr2= document.createElement("hr");
-                    $('btnArea').appendChild(hr2);
+                    var hr2 = document.createElement("hr");
+                    document.getElementById("btn_area").appendChild(hr2);
                 }
-            }
-            else { //문제가 만들어져있다면 - 생성X
-                alert("이미있음")
+            } else { // 문제가 만들어져 있다면 -> 생성하지 않음
+                alert("진행 중인 진단이 있습니다.");
             }
         }
 
-        function checkGloomy() {
-            //total =0;
-            for (var i = 1; i <= problem; i++) {
-                var radioBtn = document.getElementsByName("problem" + i);
-                for (var j = 0; j < radioBtn.length; j++) {
-                    if (radioBtn[j].checked) {
+        function check_gloomy() { // 총점 체크
+            total = 0;
+
+            for (var i = 1; i <= problem; i++) { // 문제의 개수만큼 반복
+                var radio_btn = document.getElementsByName("problem" + i); // 문제의 개수만큼 라디오 버튼을 저장함
+
+                for (var j = 0; j < radio_btn.length; j++) { // 저장된 라디오 버튼의 체크 여부 확인
+                    if (radio_btn[j].checked) { // 버튼이 체크되었다면 해당 점수만큼을 총점에 더함
                         total += j;
 
-                        //배열에 표시
-                        testCheck[i] = true; //해당 문제 체크여부 저장
+                        // 배열에 표시
+                        test_check[i] = true; // 해당 문제 체크 여부를 저장함
                     }
                 }
             }
+
             if (all_problem_check() == true) { // test_check 배열을 통해 모든 문제가 체크되었는지 확인함
                 alert("총점 : " + total); // 총점 표시
 
@@ -254,150 +592,17 @@
             } else { // 체크되지 않은 문제가 있으면 오류 출력
                 alert("확인하지 않은 문항이 있습니다.");
             }
-            //if - else 가 function을 벗어나있었음.
         }
-
-
 
         // test_check 배열을 통해 모든 문제가 체크되었는지 확인함
         function all_problem_check() {
-            for (var i = 1; i < numOfTest + 1; i++) {
-                if (testCheck[i] == false) {
+            for (var i = 1; i < num_of_test + 1; i++) {
+                if (test_check[i] == false) {
                     return false;
                 }
             }
             return true;
-        }
-
-
-    });
-    }
-
-
-    var problem = 1; // 몇 번 문제인지를 설정하는 인덱스 변수
-    var total = 0; // 점수를 저장하는 변수
-
-    var test_check = null; // 문제가 모두 체크되었는지 확인하는 변수 (문제의 개수만큼 배열로 동적할당됨)
-    var num_of_test = 20; // 문제의 총 개수를 저장하는 변수
-
-    var all_problem_created = false; // 문제가 모두 만들어졌는지 여부를 확인하는 boolean 변수
-
-    // 문자열 배열을 선언하여 각 문항들을 저장함
-    // 첫 번째 데이터가 공백인 이유는 배열 인덱스 관리를 1부터 20까지 직관적으로 하기 위함
-    var test_text = [
-        [" "],
-        ["1.평소에는 아무렇지도 않던 일들이 귀찮았다."],
-        ["2.입맛도 없었고, 먹고 싶지도 않았다."],
-        ["3.가족이나 친구가 도와줘도 우울한 기분이 나아지지 않았다."],
-        ["4.나도 다른 사람들만큼 능력 있다고 느꼈다."],
-        ["5.어떤 일을 하든 집중하기 힘들었다."],
-        ["6.우울했다."],
-        ["7.하는 일마다 힘들다고 느껴졌다."],
-        ["8.앞일이 암담하게 느껴졌다."],
-        ["9.내 인생은 실패작이라고 느꼈다."],
-        ["10.두려웠다."],
-        ["11.잠을 설쳤다, 잠이 안 왔다."],
-        ["12.비교적 잘 지냈다."],
-        ["13.평소보다 말을 적게 했다, 말수가 줄었다."],
-        ["14.세상에 홀로 있는 것처럼 외로웠다."],
-        ["15.사람들이 나를 차갑게 대하는 것 같았다."],
-        ["16.생활에 큰 불만이 있었다."],
-        ["17.갑자기 울음이 나왔다."],
-        ["18.슬펐다."],
-        ["19.사람들이 나를 싫어하는 것 같았다."],
-        ["20.도무지 뭘 시작할 기운이 안 났다."]
-    ];
-
-    // 문제의 개수만큼 배열을 동적할당
-    // 이 배열은 각 문제가 체크되었는지를 확인하는 용도
-    function create_check_array() {
-        test_check = new Array();
-
-        for (var i = 1; i <= num_of_test + 1; i++) {
-            test_check.push(false);
-        }
-    }
-
-    function create_radio_button() {
-        if (all_problem_created == false) { // 문제가 만들어져있지 않다면 -> 문제 생성
-            create_check_array();
-            all_problem_created = true;
-
-            $("#radio_area").slideDown(); // 설문지를 펼침
-            $("#end_btn").show(); // 종료 버튼을 표시함
-
-            for (var i = 0; i < num_of_test; i++) { // 문제의 개수만큼 반복
-                var newText = document.createTextNode(test_text[problem]); // 질문 텍스트를 가져와서 저장함
-                document.getElementById("text_area").appendChild(newText); // 질문을 출력
-
-                for (var j = 0; j <= 3; j++) {
-                    // 각 질문마다 라디오 버튼 생성 (0점 ~ 3점 총 4개)
-
-                    var radioInput = document.createElement("input"); // <input>을 만들고 변수에 지정함
-
-                    // 각 속성들을 지정함
-                    radioInput.setAttribute("type", "radio"); // = radioInput.type = "radio";
-                    radioInput.setAttribute("name", "problem" + problem);
-                    radioInput.setAttribute("value", "answer" + j);
-
-                    document.getElementById("btn_area").appendChild(radioInput); // 속성을 지정한 <input>을 출력 (라디오 버튼 출력)
-                }
-                problem++; // 각 문제의 출력이 끝나면 다음 문제로 넘어감
-
-                // 문제 출력이 끝나고 나면 줄바꿈
-                // 텍스트와 라디오 버튼에 각각 따로 지정해야 레이아웃 오류가 발생하지 않음
-                var hr1 = document.createElement("hr");
-                document.getElementById("text_area").appendChild(hr1);
-
-                var hr2 = document.createElement("hr");
-                document.getElementById("btn_area").appendChild(hr2);
-            }
-        } else { // 문제가 만들어져 있다면 -> 생성하지 않음
-            alert("진행 중인 진단이 있습니다.");
-        }
-    }
-
-    function check_gloomy() { // 총점 체크
-        total = 0;
-
-        for (var i = 1; i <= problem; i++) { // 문제의 개수만큼 반복
-            var radio_btn = document.getElementsByName("problem" + i); // 문제의 개수만큼 라디오 버튼을 저장함
-
-            for (var j = 0; j < radio_btn.length; j++) { // 저장된 라디오 버튼의 체크 여부 확인
-                if (radio_btn[j].checked) { // 버튼이 체크되었다면 해당 점수만큼을 총점에 더함
-                    total += j;
-
-                    // 배열에 표시
-                    test_check[i] = true; // 해당 문제 체크 여부를 저장함
-                }
-            }
-        }
-
-        if (all_problem_check() == true) { // test_check 배열을 통해 모든 문제가 체크되었는지 확인함
-            alert("총점 : " + total); // 총점 표시
-
-            // 각 점수의 구간에 따라 우울증의 정도를 출력
-            if (total >= 0 && total <= 20) {
-                alert("정상적인 우울감.");
-            } else if (total >= 21 && total <= 40) {
-                alert("주의가 필요한 우울감.");
-            } else if (total >= 41 && total <= 60) {
-                alert("심각한 우울증.");
-            }
-        } else { // 체크되지 않은 문제가 있으면 오류 출력
-            alert("확인하지 않은 문항이 있습니다.");
-        }
-    }
-
-    // test_check 배열을 통해 모든 문제가 체크되었는지 확인함
-    function all_problem_check() {
-        for (var i = 1; i < num_of_test + 1; i++) {
-            if (test_check[i] == false) {
-                return false;
-            }
-        }
-        return true;
-    }
+        }*/
 
 </script>
 <style>
@@ -450,7 +655,98 @@
     #end_btn {
         display: none;
     }
+
     /* 우울증 자가진단 테스트 style */
+
+    /**/
+    /*!* to do list *!
+    html, body, input {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box; !* 박스의 크기를 박스의 테두리까지 포함시킴 *!
+        font-family: 'Gamja Flower', 'cursive'; !* 설정해놓은 웹 폰트 지정, cursive는 필기체 *!
+    }
+
+    button {
+        font-family: 'Gamja Flower', 'cursive';
+        background: cornflowerblue;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    .list-box {
+        width: 500px;
+        margin: 100px auto; !* 위, 아래는 100px / 좌, 우는 중앙으로 정렬 *!
+        border: 1px solid white;
+        padding: 20px 30px 50px; !* 위 20 오른쪽, 왼쪽 30 아래 50 *!
+        background: #999;
+    }
+
+    .list-box h1 {
+        text-align: center;
+        color: royalblue;
+        border-bottom: 1px solid gray;
+        padding-bottom: 10px;
+    }
+
+    .write-box {
+        width: 100%;
+        height: 35px;
+    }
+
+    !* 입력창 *!
+    .write-box input {
+        width: 300px;
+        font-size: 20px;
+        border: none;
+        padding: 0 10px;
+        height: 100%;
+    }
+
+    .write-box button {
+        width: 20%;
+        border: none;
+        height: 100%;
+    }
+
+    .list-table {
+        border-spacing: 0px; !* 셀 테두리 간격 없음 *!
+        border-collapse: collapse; !* 셀 테두리 선 겹쳐서 표현 *!
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    th, td {
+        font-size: 20px;
+        border: 1px solid lightgray;
+        padding: 10px 20px;
+    }
+
+    th {
+        background: lightblue;
+    }
+
+    td {
+        background: white;
+    }
+
+    tbody td:first-child {
+        text-align: center;
+    }
+
+    .btn-area {
+        text-align: center;
+    }
+
+    .btn-area button {
+        height: 35px;
+        padding: 0 10px;
+        border: none;
+    }
+
+    !* to do list *!*/
+
 </style>
 <body>
 <%-- 220802 --%>
@@ -460,6 +756,7 @@
     <input type="button" value="mbti" id="mbtiBtn"/>
     <input type="button" value="점심뭐먹지" id="foodBtn"/>
     <input type="button" value="내가누구게" id="whoRU"/>
+    <input type="button" value="테스트 안보임" id="toggleTJ"/>
 </div>
 
 <div class="testArea">
@@ -519,9 +816,9 @@
 <div class="testJiwon">
     <h4> 테슷흐 </h4>
     <div id="radioArea">
-    <%--<input type="button" value="진단시작" id="testStrt">--%>
+        <%--<input type="button" value="진단시작" id="testStrt">--%>
         <button id="testStrt" onclick="crtPrb()">진단 시작</button>
-    <br>
+        <br>
         <div class="displayScore">
             * 답변 방법<br>
             전혀 아니다(0) / 아니다(1) / 그렇다(2) / 매우 그렇다(3)
@@ -537,19 +834,121 @@
     </div>
 
 
-        <button id="start_btn" onclick="create_radio_button()">진단 시작</button>
-        <br><br>
-        <div id="radio_area">
-            <div class="display_score">
-                * 답변 방법<br>
-                전혀 아니다(0) / 아니다(1) / 그렇다(2) / 매우 그렇다(3)
-            </div>
-            <br><br>
-            <div id="text_area"></div> <!-- 문제 출력 div -->
-            <div id="btn_area"></div> <!-- 라디오 버튼 출력 div -->
+    <button id="start_btn" onclick="create_radio_button()">진단 시작</button>
+    <br><br>
+    <div id="radio_area">
+        <div class="display_score">
+            * 답변 방법<br>
+            전혀 아니다(0) / 아니다(1) / 그렇다(2) / 매우 그렇다(3)
         </div>
-        <br>
-        <button id="end_btn" onclick="check_gloomy()">결과 보기</button>
+        <br><br>
+        <div id="text_area"></div> <!-- 문제 출력 div -->
+        <div id="btn_area"></div> <!-- 라디오 버튼 출력 div -->
+    </div>
+    <br>
+    <button id="end_btn" onclick="check_gloomy()">결과 보기</button>
 
 </div>
+
+<%--<div class="list-box">
+    <h1>To Do List</h1>
+
+    <div class="write-box">
+        <input type="text" class="text-basic">
+        <button type="button" id="btnAdd1">추가</button>
+    </div>
+
+    <table class="list-table">
+        <!--
+            위에서 추가한 To Do 내용이
+            동적으로 추가되는 테이블
+        -->
+
+        <colgroup>
+            <!-- column을 1:9로 나눔 -->
+            <col width="15%">
+            <col width="85%">
+        </colgroup>
+
+        <thead>
+        <tr>
+            <!-- table row -->
+            <!-- 제목 줄 -->
+            <th>확인</th>
+            <th>목록</th>
+        </tr>
+        </thead>
+
+        <tbody id="listBody1">
+        <!-- 테이블 몸체 -->
+        <!-- td 태그 포함 -->
+        <tr>
+            <td><input type="checkbox" class="btn-chk"></td>
+            <td>HTML+CSS 공부하기</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" class="btn-chk"></td>
+            <td>장보기</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" class="btn-chk"></td>
+            <td>운동하기</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="btn-area">
+        <!-- 삭제 기능 -->
+        <button type="buton" id="DeleteSel">선택 삭제</button>
+        <button type="buton" id="btnDelLast">마지막 항목 삭제</button>
+        <button type="buton" id="btnDelAll">전체 삭제</button>
+    </div>
+</div>--%>
+<%-- to do list 예시 --%>
+
+<%-- 직접 해보는 to do list --%>
+<div class="tdlBox">
+    <h1>To Do List</h1>
+    <div class="writeBox"> <%--텍스트 입력창과 버튼 영역--%>
+        <input type="text" id="textBasic">
+        <input type="button" value="추가" id="btnAdd">
+    </div>
+    <table class="listTable">
+        <%-- 위에서 추가한 to do 내용이 동적으로 추가되는 테이블 --%>
+        <colgroup>
+            <col width="15%">
+            <col width="85%">
+        </colgroup>
+
+        <thead>
+        <tr>
+            <th>확인</th>
+            <th>목록</th>
+        </tr>
+        </thead>
+        <tbody id="listBody">
+        <tr>
+            <td><input type="checkbox" class="btn-chk"></td>
+            <td> 김밥+소고기 해치우기</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" class="btn-chk"></td>
+            <td> 치킨 살 발라 볶음밥 해먹기</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" class="btn-chk"></td>
+            <td> 고구마 희경언니네 가져가서 구워먹기</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="tdlBtnArea">
+        <%--삭제기능--%>
+        <input type="button" value="선택삭제" id="delSel">
+        <input type="button" value="마지막 항목삭제" id="delLast">
+        <input type="button" value="전체 삭제" id="delAll">
+    </div>
+</div>
+<%-- 직접 해보는 to do list --%>
+
 </body>
