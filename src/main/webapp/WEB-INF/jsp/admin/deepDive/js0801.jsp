@@ -476,6 +476,14 @@
 
         function delAllList() {
             alert("delAllList()");
+            var list = $('#listBody');
+            //console.log(list.val());
+            var listChild = list.children; //listBody의 자식 정보 요소 in
+
+            for(var i=0; i<listChild.length; i++){ //자식요소 개수만큼 반복하며 제거
+                list.removeChild(listChild[i]);
+                i--;
+            }
         }
     }
 
