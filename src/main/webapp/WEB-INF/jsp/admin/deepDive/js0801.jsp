@@ -23,7 +23,7 @@
         toggle220804();
         strBtnClick();
         toggleTestJiwon();
-        //todoSample();
+        todoSample();
         todoList();
     })
 
@@ -282,7 +282,7 @@
     }
 
     function todoSample() {
-        document.getElementById("btnAdd").addEventListener("click", addList);
+        document.getElementById("btnAdd1").addEventListener("click", addList);
 // html에서 id가 btnAdd인 요소를 찾고 클릭 시 동작할 addList 함수 연결
 
         document.getElementById("btnDelAll").addEventListener("click", delAllElement);
@@ -332,7 +332,7 @@
             tr.appendChild(td01);
             tr.appendChild(td02); // 생성된 <tr> 안에 체크박스 td와 텍스트 td를 넣음
 
-            document.getElementById("listBody").appendChild(tr); // tbody의 #listBody에 접근하여 tr을 자식요소로 추가
+            document.getElementById("listBody1").appendChild(tr); // tbody의 #listBody에 접근하여 tr을 자식요소로 추가
 
             contents.value = ""; // 입력창의 내용이 추가되었으므로 입력창 지우기
 
@@ -341,7 +341,7 @@
 
 // 전체 삭제
         function delAllElement() {
-            var list = document.getElementById("listBody"); // listBody에 접근
+            var list = document.getElementById("listBody1"); // listBody에 접근
 
             var listChild = list.children; // listBody의 자식요소 정보가 들어옴
 
@@ -352,38 +352,11 @@
                 i--;
             }
 
-            /*
-                [i-- 없을 때]
-
-                0 HTML
-                1 JS
-                2 헬스
-
-                0 JS
-                1 헬스
-
-                0 JS (완전히 삭제되지 않음)
-
-                ------------------------------
-
-                [i-- 있을 때]
-
-                0 HTML
-                1 JS
-                2 헬스
-
-                0 JS
-                1 헬스
-
-                0 헬스
-
-                X (완전히 삭제됨)
-            */
         }
 
 // 마지막 항목 삭제
         function delLastElement() {
-            var list = document.getElementById("listBody"); // listBody에 접근
+            var list = document.getElementById("listBody1"); // listBody에 접근
 
             var listChild = list.children;
 
@@ -399,7 +372,7 @@
 
 // 선택 항목 삭제
         function delSelected() {
-            var list = document.getElementById("listBody"); // listBody에 접근
+            var list = document.getElementById("listBody1"); // listBody에 접근
 
             var chkbox = document.querySelectorAll("#listBody .btn-chk"); // listBody 하위의 체크박스 모두 선택
 
@@ -413,6 +386,9 @@
             }
         }
     }
+
+
+
 
     function todoList() {
         //btnAdd 추가 버튼 누르면 addList 리스트 추가되는 함수 실행 할 것것
@@ -468,6 +444,18 @@
 
         function delSelectList() {
             alert("delSelctList()");
+
+            var list = $('#listBody'); //list에 접근
+            console.log("list: ", list);
+            //console.log("list.val(): ", list.val());
+
+            var chkBox = $('#listBody .btn-chk'); //체크박스 선택
+            for (var i in chkBox) { //i에 체크박스 인덱스 들어옴
+                if (chkBox[i].checked) { //체크박스 체크되었을 시
+                    //list.removeChild(chkBox[i].parentNode.parentNode);
+                    list.remove(chkBox[i].parentNode.removeChild(list[i]));
+                }
+            }
         }
 
         function delLastList() {
@@ -475,13 +463,12 @@
         }
 
         function delAllList() {
-            alert("delAllList()");
-            var list = $('#listBody');
-            //console.log(list.val());
+            var list = $('#listBody'); //listody 접근
             var listChild = list.children; //listBody의 자식 정보 요소 in
 
             for(var i=0; i<listChild.length; i++){ //자식요소 개수만큼 반복하며 제거
-                list.removeChild(listChild[i]);
+                //list.removeChild(listChild[i]);
+                list.removeChild(listChild[i]); //왜 안되는디
                 i--;
             }
         }
@@ -858,7 +845,7 @@
 
 </div>
 
-<%--<div class="list-box">
+<div class="list-box">
     <h1>To Do List</h1>
 
     <div class="write-box">
@@ -911,7 +898,7 @@
         <button type="buton" id="btnDelLast">마지막 항목 삭제</button>
         <button type="buton" id="btnDelAll">전체 삭제</button>
     </div>
-</div>--%>
+</div>
 <%-- to do list 예시 --%>
 
 <%-- 직접 해보는 to do list --%>
