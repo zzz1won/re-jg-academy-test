@@ -464,34 +464,13 @@
         }
 
         function delSelectList() {
-            alert("delSelctList()");
+            alert("선택 항목 삭제");
 
-            var chkBox = $("#listBody .btn-chk");
-            console.log(chkBox);
-
-            for (var i in chkBox) {
-                if (chkBox[i].checked) {
-                    console.log("chkBox[i].checked", chkBox[i].checked);
-                    $("#listBody").remove(chkBox[i].checked);
-
-                }
-            }
-
-
-            /*var list1 = $('#listBody'); //list에 접근
-            console.log("list: ", list1);
-            //console.log("list.val(): ", list.val());
-
-            var chkBox = $('#listBody .btn-chk'); //체크박스 선택
-            for (var i in chkBox) { //i에 체크박스 인덱스 들어옴
-                if (chkBox[i].checked) { //체크박스 체크되었을 시
-                    //list.removeChild(chkBox[i].parentNode.parentNode);
-                    list1.remove(chkBox[i].parentNode.removeChild(list1[i]));
-                }
-            }*/
+            var chkBox = $("#listBody .btn-chk:checked");
+            var selList = chkBox.parent().parent();
+            console.log("selList: ",selList);
+            selList.remove();
         }
-
-
     }
 
     /*    var problem = 1; // 몇 번 문제인지를 설정하는 인덱스 변수
