@@ -114,6 +114,7 @@
     let asw = $('#answerIpt').text(); //val() 이었다가 text()로 변경!
 
     function hillsQuestion() {
+        //input에서 값 안넘어오는거 val() 써서 도전 해보기...!!
         $('#hill_btn').click(function () {
             console.log(asw);
             //도전 횟수
@@ -388,8 +389,6 @@
     }
 
 
-
-
     function todoList() {
         //btnAdd 추가 버튼 누르면 addList 리스트 추가되는 함수 실행 할 것것
         $('#btnAdd').click(function () {
@@ -410,12 +409,10 @@
             var contents = $('#textBasic'); //입력창 접근
             if (!contents.val()) { //입력창에 값이 없으면 뜬다.
                 // value() 말고 val()로 하니까 추가 됨
-                alert("내용을 입력해주세요. 입력하신 값: ",contents);
+                alert("내용을 입력해주세요. 입력하신 값: ", contents);
                 contents.focus(); //포커스 활성화
                 return false;
             }
-            console.log(contents);
-            console.log(contents.val());
             /* 기존 js 방식 구현 방법을 일단 따르자 */
             var tr = document.createElement("tr"); // 추가할 테이블 <tr> 생성
             var input = document.createElement("input"); // 테이블 <tr> 안에 들어갈 체크박스의 <input> 생성
@@ -442,36 +439,61 @@
             contents.focus(); // 입력창 포커스 (활성화)
         }
 
+        //전체삭제
+        function delAllList() {
+            $("#listBody").remove(); //이야 드뎌 됐다 ㅠ 근데 되게 바보같구나... 이리 단순한 것을...
+            //단 한 줄이면 되는걸;
+
+            //var list1 = $('#listBody'); //listBody 접근
+            //var listChild = list1.children; //listBody의 자식 정보 요소 in
+
+            alert("전체삭제 누름");
+            /*for (var i = 0; i < listChild.length; i++) { //자식요소 개수만큼 반복하며 제거
+                //list.removeChild(listChild[i]);
+                //list1.detach(listChild2[i]); //왜 안되는디 //ㅋㅋㅋㅋㅋ 안됨 ㅠ
+                $(listChild).eq(i).remove();
+                i--;
+            }*/
+        }
+
+        /* 220808 마지막항목 삭제 */
+        function delLastList() {
+            alert("delLastList()");
+
+            //var listLast = $("#listBody");
+
+            if($('#listBody').children().length > 0 ){
+
+                console.log($('#listBody.btn-chk').length);
+                console.log($('#listBody'));
+
+            } else {
+                alert("삭제할 항목 없음");
+                console.log($('#listBody.btn-chk').length);
+                console.log($('#listBody'));
+            }
+
+        }
+
         function delSelectList() {
             alert("delSelctList()");
 
-            var list = $('#listBody'); //list에 접근
-            console.log("list: ", list);
+            var list1 = $('#listBody'); //list에 접근
+            console.log("list: ", list1);
             //console.log("list.val(): ", list.val());
 
             var chkBox = $('#listBody .btn-chk'); //체크박스 선택
             for (var i in chkBox) { //i에 체크박스 인덱스 들어옴
                 if (chkBox[i].checked) { //체크박스 체크되었을 시
                     //list.removeChild(chkBox[i].parentNode.parentNode);
-                    list.remove(chkBox[i].parentNode.removeChild(list[i]));
+                    list1.remove(chkBox[i].parentNode.removeChild(list1[i]));
                 }
             }
         }
 
-        function delLastList() {
-            alert("delLastList()");
-        }
 
-        function delAllList() {
-            var list = $('#listBody'); //listody 접근
-            var listChild = list.children; //listBody의 자식 정보 요소 in
 
-            for(var i=0; i<listChild.length; i++){ //자식요소 개수만큼 반복하며 제거
-                //list.removeChild(listChild[i]);
-                list.removeChild(listChild[i]); //왜 안되는디
-                i--;
-            }
-        }
+
     }
 
     /*    var problem = 1; // 몇 번 문제인지를 설정하는 인덱스 변수
@@ -653,9 +675,9 @@
 
     /* 우울증 자가진단 테스트 style */
 
-    /**/
-    /*!* to do list *!
-    html, body, input {
+
+    /* to do list */
+    /*html, body, input {
         margin: 0;
         padding: 0;
         box-sizing: border-box; !* 박스의 크기를 박스의 테두리까지 포함시킴 *!
@@ -738,9 +760,9 @@
         height: 35px;
         padding: 0 10px;
         border: none;
-    }
+    }*/
 
-    !* to do list *!*/
+    /* to do list */
 
 </style>
 <body>
