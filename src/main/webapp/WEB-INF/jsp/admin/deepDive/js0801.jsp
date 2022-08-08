@@ -441,44 +441,44 @@
 
         //전체삭제
         function delAllList() {
-            $("#listBody").remove(); //이야 드뎌 됐다 ㅠ 근데 되게 바보같구나... 이리 단순한 것을...
-            //단 한 줄이면 되는걸;
-
-            //var list1 = $('#listBody'); //listBody 접근
-            //var listChild = list1.children; //listBody의 자식 정보 요소 in
-
             alert("전체삭제 누름");
-            /*for (var i = 0; i < listChild.length; i++) { //자식요소 개수만큼 반복하며 제거
-                //list.removeChild(listChild[i]);
-                //list1.detach(listChild2[i]); //왜 안되는디 //ㅋㅋㅋㅋㅋ 안됨 ㅠ
-                $(listChild).eq(i).remove();
-                i--;
-            }*/
+            $("#listBody").remove(); //이야 드뎌 됐다 ㅠ 근데 되게 바보같구나... 이리 단순한 것을..
         }
 
         /* 220808 마지막항목 삭제 */
         function delLastList() {
-            alert("delLastList()");
+            alert("마지막 항목을 삭제합니다.");
 
-            //var listLast = $("#listBody");
+            var list = $("#listBody").children();
+            console.log(list);
 
-            if($('#listBody').children().length > 0 ){
-
-                console.log($('#listBody.btn-chk').length);
-                console.log($('#listBody'));
+            if (list.length > 0) {
+                var listLast = list.length - 1;
+                var delLa = list[listLast];
+                console.log("list.listLast: ", delLa); /* <tr> <td><input type="checkbox" class="btn-chk"></td> <td> 고구마 희경언니네 가져가서 구워먹기</td> </tr> */
+                delLa.remove();
 
             } else {
-                alert("삭제할 항목 없음");
-                console.log($('#listBody.btn-chk').length);
-                console.log($('#listBody'));
+                alert("L(");
             }
-
         }
 
         function delSelectList() {
             alert("delSelctList()");
 
-            var list1 = $('#listBody'); //list에 접근
+            var chkBox = $("#listBody .btn-chk");
+            console.log(chkBox);
+
+            for (var i in chkBox) {
+                if (chkBox[i].checked) {
+                    console.log("chkBox[i].checked", chkBox[i].checked);
+                    $("#listBody").remove(chkBox[i].checked);
+
+                }
+            }
+
+
+            /*var list1 = $('#listBody'); //list에 접근
             console.log("list: ", list1);
             //console.log("list.val(): ", list.val());
 
@@ -488,10 +488,8 @@
                     //list.removeChild(chkBox[i].parentNode.parentNode);
                     list1.remove(chkBox[i].parentNode.removeChild(list1[i]));
                 }
-            }
+            }*/
         }
-
-
 
 
     }
