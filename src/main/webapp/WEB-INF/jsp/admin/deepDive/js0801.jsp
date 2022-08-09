@@ -25,6 +25,7 @@
         toggleTestJiwon();
         todoSample();
         todoList();
+        ccPlay();
     })
 
 
@@ -388,7 +389,6 @@
         }
     }
 
-
     function todoList() {
         //btnAdd 추가 버튼 누르면 addList 리스트 추가되는 함수 실행 할 것것
         $('#btnAdd').click(function () {
@@ -471,6 +471,65 @@
             console.log("selList: ",selList);
             selList.remove();
         }
+    }
+
+    function ccPlay(){
+
+        var sign = $("#calSign");
+
+        $(".calSign#sum").click(function(){
+           alert("+누름");
+           $("input[type=text][name=calSign]").val("+"); //input 부분에 + 출력
+            sign.text("-"); //sign 값을 + 로 저장,변경
+
+            //$("#calSign").value("안녕");
+        });
+        $(".calSign#subt").click(function(){
+            alert("-누름");
+            $("input[type=text][name=calSign]").val("-"); //input 부분에 - 출력
+            sign.text("-"); //sign 값을 - 로 저장,변경
+        });
+        $(".calSign#mult").click(function(){
+            alert("X누름");
+            $("input[type=text][name=calSign]").val("x"); //input 부분에 x 출력
+            sign.text("x"); //sign 값을 x 로 저장,변경
+        });
+        $(".calSign#divi").click(function(){
+            alert("÷누름");
+            $("input[type=text][name=calSign]").val("/"); //input 부분에 / 출력
+            sign.text("/"); //sign 값을 ÷ 로 저장,변경
+        });
+
+
+        var vv = null;
+
+        $(".calBtn").click(function(){
+
+            switch (sign.val()) {
+                case '+':
+                    vv = parseInt($("#num1").val())+parseInt($("#num2").val());
+                    $("#calVal").val(vv);
+                    break;
+                case '-':
+                    alert("빼기");
+                    vv = parseInt($("#num1").val())-parseInt($("#num2").val());
+                    $("#calVal").val(vv);
+                    break;
+                case 'x':
+                    alert("곱하기");
+                    vv = parseInt($("#num1").val())*parseInt($("#num2").val());
+                    $("#calVal").val(vv);
+                    break;
+                case '/':
+                    alert("나누기");
+                    vv = parseInt($("#num1").val())/parseInt($("#num2").val());
+                    $("#calVal").val(vv);
+                    break;
+                default:
+                    alert("한입약과");
+                    break;
+            }
+        });
     }
 
     /*    var problem = 1; // 몇 번 문제인지를 설정하는 인덱스 변수
@@ -649,6 +708,29 @@
     #end_btn {
         display: none;
     }
+
+    /* 계산기 */
+    .calculator {
+        width: 500px;
+        margin: 0 auto;
+    }
+
+    .ccSignPack {
+        padding: 10px;
+    }
+
+    .calSign {
+        height: 30px;
+        width: 30px;
+        background-color: #d0d0d0;
+        border-radius: 6px;
+    }
+
+    .iptArea {
+        width: 50px;
+        height: 30px;
+    }
+    /* 계산기 */
 
     /* 우울증 자가진단 테스트 style */
 
@@ -942,6 +1024,22 @@
         <input type="button" value="마지막 항목삭제" id="delLast">
         <input type="button" value="전체 삭제" id="delAll">
     </div>
+
+    <div class="calculator">
+        <div class="ccSignPack">
+            <input type="button" class="calSign" id="sum" value="+">
+            <input type="button" class="calSign" id="subt" value="-">
+            <input type="button" class="calSign" id="mult" value="x">
+            <input type="button" class="calSign" id="divi" value="/">
+        </div>
+        <input type="text" class="iptArea" id="num1" value="">
+        <%--<p id="calSign"> 히히 </p>--%>
+        <input type="text" id="calSign" name="calSign" value="" style="width:20px; height: 30px; color: #1b7ccc;"> <%-- 기호 --%>
+        <input type="text" class="iptArea" id="num2" value="">
+    <input type="button" class="calBtn" value="계산하기" style="background-color: hotpink">
+    <input type="text" id="calVal" style="width:80px; height: 30px;">
+    </div>
+
 </div>
 <%-- 직접 해보는 to do list --%>
 
